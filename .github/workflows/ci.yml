@@ -72,9 +72,15 @@ jobs:
 
       - name: No remote URL is baked into the shell bundle
         run: |
-          if docker compose exec -T shell sh -c \
-            'grep -rl "remotes/people" /usr/share/nginx/html --include="*.js"'; then
-            echo "A remote URL was found in a bundled .js file"; exit 1
+          set -uo pipefail
+          # BusyBox grep (nginx:alpine) has no --include, and a failing grep inside `if` would
+          # make this check silently pass. List every match, then filter on the host.
+          matches=$(docker compose exec -T shell \
+            sh -c 'grep -rl "remotes/people" /usr/share/nginx/html' | tr -d '\r')
+          echo "files carrying a remote URL:"; echo "$matches"
+          offenders=$(echo "$matches" | grep '\.js$' || true)
+          if [ -n "$offenders" ]; then
+            echo "A remote URL is baked into a bundled .js file:"; echo "$offenders"; exit 1
           fi
           echo "clean: the only file carrying one is config.json"
 
