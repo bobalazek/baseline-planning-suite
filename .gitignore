@@ -3,6 +3,10 @@ dist/
 .turbo/
 coverage/
 *.tsbuildinfo
+
+# Emitted by the Module Federation DTS plugin during a build, from the remotes' exposes.
+@mf-types/
+*.d.ts.map
 .DS_Store
 
 # Local API stores. Seeded from fixtures/ on first boot; never committed.

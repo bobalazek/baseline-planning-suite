@@ -11,7 +11,15 @@ import { describe, expect, it } from 'vitest';
 const REPO_ROOT = fileURLToPath(new URL('../../../..', import.meta.url)).replace(/\/$/, '');
 
 const SOURCE_ROOTS = ['apps', 'packages'];
-const IGNORED_DIRECTORIES = new Set(['node_modules', 'dist', '.turbo', 'coverage']);
+// `@mf-types` is emitted by the Module Federation DTS plugin from the remotes' exposes. It is a
+// build artefact, not authored source, and it is generated with `any` in its fallback branches.
+const IGNORED_DIRECTORIES = new Set([
+  'node_modules',
+  'dist',
+  '.turbo',
+  'coverage',
+  '@mf-types',
+]);
 
 interface SourceFile {
   readonly path: string;
