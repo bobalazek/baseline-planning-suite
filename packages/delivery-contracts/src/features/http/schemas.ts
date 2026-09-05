@@ -1,31 +1,55 @@
+import type {
+  Allocation,
+  AllocationId,
+  BreakdownItem,
+  BreakdownItemId,
+  EmployeeId,
+  IsoDate,
+  MonthKey,
+  Project,
+  ProjectId,
+} from '@repo/shared-common';
 import { z } from 'zod';
 
-/** The wire contract of `delivery-api`. See the People equivalent for why the client parses too. */
-export const monthKeySchema = z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'expected YYYY-MM');
+/**
+ * The wire contract of `delivery-api`. Like People's, it produces the domain types directly, so
+ * parsing is where a `string` becomes a `BreakdownItemId` and nowhere else.
+ */
+const projectIdSchema = z.string().min(1).transform((value) => value as ProjectId);
+const breakdownItemIdSchema = z.string().min(1).transform((value) => value as BreakdownItemId);
+const allocationIdSchema = z.string().min(1).transform((value) => value as AllocationId);
+const employeeIdSchema = z.string().min(1).transform((value) => value as EmployeeId);
+
+export const monthKeySchema = z
+  .string()
+  .regex(/^\d{4}-(0[1-9]|1[0-2])$/, 'expected YYYY-MM')
+  .transform((value) => value as MonthKey);
 
 export const isoDateSchema = z
   .string()
-  .regex(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/, 'expected YYYY-MM-DD');
+  .regex(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/, 'expected YYYY-MM-DD')
+  .transform((value) => value as IsoDate);
 
-export const projectSchema = z.object({
-  id: z.string().min(1),
+export const projectSchema: z.ZodType<Project, unknown> = z.object({
+  id: projectIdSchema,
   name: z.string().min(1),
   startDate: isoDateSchema,
   endDate: isoDateSchema,
 });
 
-export const breakdownItemSchema = z.object({
-  id: z.string().min(1),
-  projectId: z.string().min(1),
-  parentId: z.string().min(1).nullable(),
+export const breakdownItemSchema: z.ZodType<BreakdownItem, unknown> = z.object({
+  id: breakdownItemIdSchema,
+  projectId: projectIdSchema,
+  parentId: breakdownItemIdSchema.nullable(),
   name: z.string().min(1),
 });
 
-export const allocationSchema = z.object({
-  id: z.string().min(1),
-  breakdownItemId: z.string().min(1),
-  employeeId: z.string().min(1),
+export const allocationSchema: z.ZodType<Allocation, unknown> = z.object({
+  id: allocationIdSchema,
+  breakdownItemId: breakdownItemIdSchema,
+  employeeId: employeeIdSchema,
   month: monthKeySchema,
+  /** Person-months — the canonical unit. Never hours, never euro. */
   amount: z.number().nonnegative(),
   updatedAt: z.string().min(1),
   updatedBy: z.string().min(1),
@@ -38,29 +62,26 @@ export const deliverySnapshotSchema = z.object({
 });
 
 export const upsertAllocationSchema = z.object({
-  breakdownItemId: z.string().min(1),
-  employeeId: z.string().min(1),
+  breakdownItemId: breakdownItemIdSchema,
+  employeeId: employeeIdSchema,
   month: monthKeySchema,
-  /** Person-months. Zero deletes the cell rather than storing an empty allocation. */
+  /** Zero clears the cell rather than storing an empty allocation. */
   amount: z.number().nonnegative(),
   updatedBy: z.string().min(1),
 });
 
 export const createBreakdownItemSchema = z.object({
-  projectId: z.string().min(1),
-  parentId: z.string().min(1).nullable(),
+  projectId: projectIdSchema,
+  parentId: breakdownItemIdSchema.nullable(),
   name: z.string().min(1),
 });
 
 export const updateBreakdownItemSchema = z.object({
   name: z.string().min(1).optional(),
-  parentId: z.string().min(1).nullable().optional(),
+  parentId: breakdownItemIdSchema.nullable().optional(),
 });
 
-export type ProjectDto = z.infer<typeof projectSchema>;
-export type BreakdownItemDto = z.infer<typeof breakdownItemSchema>;
-export type AllocationDto = z.infer<typeof allocationSchema>;
-export type DeliverySnapshotDto = z.infer<typeof deliverySnapshotSchema>;
-export type UpsertAllocationDto = z.infer<typeof upsertAllocationSchema>;
-export type CreateBreakdownItemDto = z.infer<typeof createBreakdownItemSchema>;
-export type UpdateBreakdownItemDto = z.infer<typeof updateBreakdownItemSchema>;
+export type DeliverySnapshot = z.infer<typeof deliverySnapshotSchema>;
+export type UpsertAllocationInput = z.infer<typeof upsertAllocationSchema>;
+export type CreateBreakdownItemInput = z.infer<typeof createBreakdownItemSchema>;
+export type UpdateBreakdownItemInput = z.infer<typeof updateBreakdownItemSchema>;

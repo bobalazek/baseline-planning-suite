@@ -80,23 +80,10 @@ describe('validateMove (F5)', () => {
     ]);
   });
 
-  it('refuses a move that would push a leaf past three levels', () => {
-    // wbs-7 is already the third level, so anything hung beneath it lands on a fourth.
-    const problems = validateMove(TREE, 'wbs-4' as BreakdownItemId, 'wbs-7' as BreakdownItemId);
-
-    expect(problems).toEqual([{ kind: 'too-deep', depth: 4 }]);
-    expect(describeBreakdownProblem(problems[0]!)).toContain('4');
-  });
-
-  it('measures depth from the deepest descendant, not the node being dragged', () => {
-    // wbs-2 is only one level down, but it carries children, so moving it under a level-2 item
-    // would put its leaves on level 4.
-    expect(validateMove(TREE, 'wbs-2' as BreakdownItemId, 'wbs-6' as BreakdownItemId)).toEqual([
-      { kind: 'too-deep', depth: 4 },
-    ]);
-
-    // The same item moves happily one level higher.
-    expect(validateMove(TREE, 'wbs-2' as BreakdownItemId, 'wbs-5' as BreakdownItemId)).toEqual([]);
+  it('does not cap depth — R4 requires inserting beneath a leaf, and every fixture leaf is level three', () => {
+    // wbs-7 is already the third level. Moving a leaf under it makes a fourth, which is allowed:
+    // a hard cap of three would make R4 unreachable for every allocation in the shipped fixture.
+    expect(validateMove(TREE, 'wbs-4' as BreakdownItemId, 'wbs-7' as BreakdownItemId)).toEqual([]);
   });
 
   it('reports an unknown item on both sides of the move', () => {
@@ -106,6 +93,15 @@ describe('validateMove (F5)', () => {
     expect(validateMove(TREE, 'wbs-3' as BreakdownItemId, 'nope' as BreakdownItemId)).toEqual([
       { kind: 'unknown-item', itemId: 'nope' },
     ]);
+  });
+
+  it('explains each refusal in words a planner can act on', () => {
+    expect(
+      describeBreakdownProblem({ kind: 'cycle', itemId: 'wbs-1' as BreakdownItemId })
+    ).toContain('inside itself');
+    expect(
+      describeBreakdownProblem({ kind: 'unknown-item', itemId: 'wbs-9' as BreakdownItemId })
+    ).toContain('wbs-9');
   });
 
   it('answers descendant questions used by drag targets', () => {

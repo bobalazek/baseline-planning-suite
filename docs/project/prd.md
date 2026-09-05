@@ -113,6 +113,12 @@ beneath a leaf that carries its own allocations, the leaf's allocations are **mo
 child** (chosen resolution; the alternative — refusing the insertion with a message — is equally
 acceptable, silent loss is not).
 
+**On "three levels deep".** The fixture's tree is exactly three levels, and every one of its 53
+leaves sits at the third — 51 of them carrying allocations. Treating three as a hard cap would make
+R4 unreachable for every cell in the dataset, so depth is read as a description of the shipped plan
+rather than an invariant, and inserting beneath a level-three leaf is allowed. The only illegal move
+is one that would put a work package inside its own subtree.
+
 ### R5 — Capacity is cross-project
 
 Capacity for a month is 100 % of that person's person-month. Allocation is summed across **every**

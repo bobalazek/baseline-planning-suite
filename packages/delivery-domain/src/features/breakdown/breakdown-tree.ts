@@ -81,36 +81,39 @@ export function isDescendantOf(
   return node ? walk(node).some((descendant) => descendant.item.id === candidateParentId) : false;
 }
 
-export const MAX_BREAKDOWN_DEPTH = 3;
-
+/**
+ * The shipped fixture is three levels deep, and the brief describes it that way — but depth is
+ * **not** capped here, deliberately.
+ *
+ * R4 is about inserting a child beneath a leaf that already carries allocations. Every one of the
+ * fixture's 53 leaves sits at the third level, and 51 of them carry allocations. A hard cap of
+ * three would therefore make R4 unreachable for every cell in the dataset, which cannot be what a
+ * rule the brief spells out is meant to do. Depth is a property of the plan, not an invariant.
+ *
+ * A cap would be one comparison in `validateMove` if a client ever wanted one.
+ */
 export type BreakdownEditProblem =
   | { readonly kind: 'unknown-item'; readonly itemId: BreakdownItemId }
-  | { readonly kind: 'cycle'; readonly itemId: BreakdownItemId }
-  | { readonly kind: 'too-deep'; readonly depth: number }
-  | { readonly kind: 'empty-name' };
+  | { readonly kind: 'cycle'; readonly itemId: BreakdownItemId };
 
 /**
- * Whether a move is legal. Depth is checked against the *deepest* descendant, not the moved node
- * itself: dragging a two-level subtree under a level-two item would push its leaves to level four.
+ * Whether a move is legal. The only illegal move is one that would put a work package inside its
+ * own subtree, because that detaches the subtree from the tree entirely.
  */
 export function validateMove(
   tree: BreakdownTree,
   itemId: BreakdownItemId,
   nextParentId: BreakdownItemId | null
 ): BreakdownEditProblem[] {
-  const node = tree.byId.get(itemId);
-
-  if (!node) {
+  if (!tree.byId.has(itemId)) {
     return [{ kind: 'unknown-item', itemId }];
   }
 
   if (nextParentId === null) {
-    return depthProblems(node, 0);
+    return [];
   }
 
-  const nextParent = tree.byId.get(nextParentId);
-
-  if (!nextParent) {
+  if (!tree.byId.has(nextParentId)) {
     return [{ kind: 'unknown-item', itemId: nextParentId }];
   }
 
@@ -118,7 +121,7 @@ export function validateMove(
     return [{ kind: 'cycle', itemId }];
   }
 
-  return depthProblems(node, nextParent.depth + 1);
+  return [];
 }
 
 export function describeBreakdownProblem(problem: BreakdownEditProblem): string {
@@ -127,10 +130,6 @@ export function describeBreakdownProblem(problem: BreakdownEditProblem): string 
       return `Work package ${problem.itemId} no longer exists.`;
     case 'cycle':
       return 'A work package cannot be moved inside itself.';
-    case 'too-deep':
-      return `The breakdown is ${MAX_BREAKDOWN_DEPTH} levels deep; this move would make it ${problem.depth}.`;
-    case 'empty-name':
-      return 'A work package needs a name.';
   }
 }
 
@@ -140,7 +139,7 @@ export function describeBreakdownProblem(problem: BreakdownEditProblem): string 
  * The brief offers two acceptable resolutions and forbids a third: move the allocations onto the
  * new child, or refuse the insertion with a message. Silent loss is not allowed. This repo moves
  * them, so that adding structure to a plan never costs the planner numbers they already entered —
- * and `reparentAllocations` is the whole of that behaviour, in one testable function.
+ * and this function is the whole of that behaviour, in one testable place.
  */
 export function reparentAllocations(
   allocations: readonly Allocation[],
@@ -150,11 +149,4 @@ export function reparentAllocations(
   return allocations
     .filter((allocation) => allocation.breakdownItemId === fromItemId)
     .map((allocation) => ({ ...allocation, breakdownItemId: toItemId }));
-}
-
-function depthProblems(node: BreakdownNode, nextDepth: number): BreakdownEditProblem[] {
-  const subtreeHeight = Math.max(...walk(node).map((descendant) => descendant.depth)) - node.depth;
-  const deepestLevel = nextDepth + subtreeHeight + 1;
-
-  return deepestLevel > MAX_BREAKDOWN_DEPTH ? [{ kind: 'too-deep', depth: deepestLevel }] : [];
 }
