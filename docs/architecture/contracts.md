@@ -21,7 +21,7 @@ interface MonthQuote {
 ```
 
 **What does not cross.** `RateRecord`, `hourlyCost`, `validFrom`. A quote's segments carry _how many
-working days_ and _whether they were priced at all_ — never at what. Delivery can render "this month
+working days_ and _whether they were priced at all_, never at what. Delivery can render "this month
 is split across two rate periods" and mark unpriced cells without ever learning what anybody earns.
 `boundaries.test.ts` greps Delivery's source for those three identifiers and fails if any appears.
 
@@ -50,11 +50,11 @@ how loaded somebody is, not what they are loaded with.
 Both channels carry **ids, never values**. A consumer re-reads through the contract, so the two apps
 can never hold divergent copies of each other's state.
 
-| Channel                        | Payload                   | Consumed by                                           |
-| ------------------------------ | ------------------------- | ----------------------------------------------------- |
-| `people/rates-changed`         | `{ employeeIds }`         | Delivery — drops its memoised quotes and recosts (F7) |
-| `people/employees-changed`     | `{ employeeIds }`         | Delivery — names and contracted hours                 |
-| `delivery/allocations-changed` | `{ employeeIds, months }` | People — re-reads utilisation (F8)                    |
+| Channel                        | Payload                   | Consumed by                                          |
+| ------------------------------ | ------------------------- | ---------------------------------------------------- |
+| `people/rates-changed`         | `{ employeeIds }`         | Delivery, drops its memoised quotes and recosts (F7) |
+| `people/employees-changed`     | `{ employeeIds }`         | Delivery, names and contracted hours                 |
+| `delivery/allocations-changed` | `{ employeeIds, months }` | People, re-reads utilisation (F8)                    |
 
 ## Absence is a normal state
 
@@ -70,5 +70,5 @@ every consumer to say what it renders instead:
 ## Versioning
 
 Each contract carries `version: 'major.minor'`. The registry warns when a consumer reads across a
-major boundary — the minimum honest gesture toward two teams releasing independently, and the hook a
+major boundary, the minimum honest gesture toward two teams releasing independently, and the hook a
 real deployment would hang a compatibility policy on.

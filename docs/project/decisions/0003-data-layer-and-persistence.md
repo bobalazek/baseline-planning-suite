@@ -1,4 +1,4 @@
-# ADR-0003 — Two domain APIs, each owning its own file-backed store
+# ADR-0003, Two domain APIs, each owning its own file-backed store
 
 **Status:** accepted · **Relates to:** "The data layer", "The persistence mechanism"
 
@@ -23,8 +23,8 @@ one adapter, and the port needs only a `parse` function, so `zod` does not leak 
 
 **The services own transactions, not rules.** Every rule of §3.3 lives in framework-free TypeScript
 in `packages/*-domain`, where the brief says it will be read ("calculation logic that runs without
-mounting React"). Where an operation has to be atomic — R4's allocation reparenting when a child is
-inserted beneath a leaf, and deleting a subtree — the service calls the _same_ pure function the
+mounting React"). Where an operation has to be atomic, R4's allocation reparenting when a child is
+inserted beneath a leaf, and deleting a subtree, the service calls the _same_ pure function the
 frontend would (`reparentAllocations`, `validateMove`) inside one store update. That is the
 distinction worth holding: the service owns the write boundary, not a second copy of the rule.
 
@@ -33,7 +33,7 @@ distinction worth holding: the service owns the write boundary, not a second cop
 1. **Ownership becomes physical, not just conventional.** Two teams, two services, two volumes.
    There is no schema either team could reach into, because there is no shared schema. A reviewer
    can `docker compose stop people-api` and watch exactly the degradation the contract predicts.
-2. **Reload survival is not the interesting part — shared truth is.** IndexedDB would satisfy the
+2. **Reload survival is not the interesting part, shared truth is.** IndexedDB would satisfy the
    letter of "edits must survive a reload", but a planning suite where two planners cannot see the
    same plan is not the product described in §1. Two browsers hitting the same compose stack see
    the same plan.

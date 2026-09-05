@@ -8,7 +8,7 @@ rates those people are paid.
 
 Two facts make that awkward, and they are the whole exercise:
 
-1. **A person's cost rate changes over time**, so one month can be priced at two rates — or three.
+1. **A person's cost rate changes over time**, so one month can be priced at two rates, or three.
 2. **The same people are shared across projects**, so capacity only means something when every
    project is counted together.
 
@@ -58,7 +58,7 @@ cost = Σ segmentDays × (hours ÷ monthDays) × segmentRate
 ```
 
 A month therefore has **one number** that fully describes its price, and that number is a pure
-function of the rate timeline and the calendar — both of which People owns, and neither of which
+function of the rate timeline and the calendar; both of which People owns, and neither of which
 depends on anything Delivery owns.
 
 That is why People publishes a _quote_ rather than answering a cost request per cell, and it is the
@@ -68,9 +68,9 @@ reason the boundary between the two teams sits exactly where it does. Everything
 
 Almost all of it is in `packages/`, as pure functions with no React, no DOM and no I/O:
 
-- `people-domain` — effective-dated rates, mid-month splitting, the blended rate, capacity in hours
-- `delivery-domain` — the four units, the breakdown tree, roll-ups, cross-project capacity
-- `shared-common` — working-day arithmetic and the rounding that makes totals add up
+- `people-domain`, effective-dated rates, mid-month splitting, the blended rate, capacity in hours
+- `delivery-domain`, the four units, the breakdown tree, roll-ups, cross-project capacity
+- `shared-common`, working-day arithmetic and the rounding that makes totals add up
 
 The three frontends choose a project, wire an input and paint a table. The two services are stores
 with a REST surface; they own transactions, not rules.

@@ -1,4 +1,4 @@
-# ADR-0006 — Leaf cells are the only rounded values; every aggregate is derived
+# ADR-0006, Leaf cells are the only rounded values; every aggregate is derived
 
 **Status:** accepted · **Relates to:** R3, R4
 
@@ -12,7 +12,7 @@ R3 asks for two things at once:
 
 The staffing grid aggregates in **two** directions. A leaf cell is summed rightwards into its row's
 TOTAL column, and downwards into the derived work-package row above it (R4). Largest-remainder
-apportionment adjusts _cells_ to match a _total_ — but each leaf cell belongs to one row group and
+apportionment adjusts _cells_ to match a _total_, but each leaf cell belongs to one row group and
 one column group, and in general no single rounding of the cells satisfies both. This is the
 controlled-rounding (matrix apportionment) problem; it has no exact solution for arbitrary inputs.
 
@@ -30,8 +30,8 @@ prints 1.52 and differs from its own rounded exact value by a cent.
 
 ## Decision
 
-**Leaf (per-person) cells are the only values rounded from exact numbers. Every aggregate — derived
-work-package rows, row totals, column totals, the grand total — is the sum of values already on
+**Leaf (per-person) cells are the only values rounded from exact numbers. Every aggregate, derived
+work-package rows, row totals, column totals, the grand total, is the sum of values already on
 screen.**
 
 Concretely:
@@ -52,15 +52,15 @@ Concretely:
 - the grand total equals both the sum of the column totals and the sum of the root rows.
 
 Every relationship a reader can check with their eyes is exact. This is the reading of R3 the
-product is judged on, and it is also the literal reading of R4 — "effort and cost on a parent come
+product is judged on, and it is also the literal reading of R4, "effort and cost on a parent come
 from its children".
 
 **What is given up:** a derived value can differ from `roundTo(exact)` by up to one unit in the last
 place per contributing child. In the example above the work-package row prints 1.52 where its own
 exact value rounds to 1.51.
 
-**Why this axis and not the other.** Apportioning down the tree instead — parent from exact,
-children adjusted to match — would make derived cells exact and let the TOTAL column drift instead.
+**Why this axis and not the other.** Apportioning down the tree instead, parent from exact,
+children adjusted to match, would make derived cells exact and let the TOTAL column drift instead.
 That is the worse trade: a row total accumulates across twelve months rather than across two or
 three children, so its worst-case drift is several times larger, and the TOTAL column is the number
 a planner reads most often.

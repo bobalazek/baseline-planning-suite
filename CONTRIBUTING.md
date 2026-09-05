@@ -30,7 +30,7 @@ docker compose up   # http://localhost:8080
 
 ## Commits
 
-Conventional commits (`feat(scope): …`). The body says _why_ — the tests already say what.
+Conventional commits (`feat(scope): …`). The body says _why_, the tests already say what.
 
 ## Decisions
 

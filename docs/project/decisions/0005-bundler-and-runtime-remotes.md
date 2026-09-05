@@ -1,4 +1,4 @@
-# ADR-0005 — Rspack + Module Federation 2, remotes registered from `/config.json`
+# ADR-0005, Rspack + Module Federation 2, remotes registered from `/config.json`
 
 **Status:** accepted · **Relates to:** "Three federated builds", "Remote URLs resolve at runtime",
 "Standalone and hosted", "The bundler"
@@ -29,7 +29,7 @@ Putting `remotes: { people: 'people@http://…/remoteEntry.js' }` in the shell's
 deployment topology into a bundle. `registerRemotes` takes the same descriptor as data, so:
 
 - the identical shell image runs in compose, staging and production;
-- the fault-injection switch (F9) works by pointing an entry at a URL that 404s — a real load
+- the fault-injection switch (F9) works by pointing an entry at a URL that 404s, a real load
   failure, not a mocked one.
 
 ## Standalone and hosted from one build
@@ -42,7 +42,7 @@ Each remote's Rspack config declares two entry points into the same compiled cod
 | `standalone`                  | `standalone.js` + `index.html` | direct browsing of the remote's own origin |
 
 The standalone entry constructs a `PlatformHost` (ADR-0004), calls the same `register`, and mounts
-the same `App`. There is no `if (standalone)` anywhere in application code — hosting is a
+the same `App`. There is no `if (standalone)` anywhere in application code, hosting is a
 parameter, so both paths are exercised by one build artefact.
 
 ## Shared modules
@@ -52,7 +52,7 @@ with `requiredVersion` read from the installed package, and they are the **only*
 React is the one thing that genuinely breaks when duplicated: two copies mean two dispatchers, and
 hooks throw.
 
-Everything else — including `@repo/platform` and both contract packages — is compiled into each
+Everything else, including `@repo/platform` and both contract packages, is compiled into each
 build. That is deliberate, not an oversight. Sharing is only worth its risk for modules that must be
 _the same instance_, and by construction none of these are: the contracts are types plus frozen key
 constants, and the one stateful object on the page is the `PlatformHost`, which is constructed once

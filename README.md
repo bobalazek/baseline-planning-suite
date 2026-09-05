@@ -7,7 +7,7 @@ other's source: a **shell** that hosts, a **People** remote that owns the employ
 cost-rate history, and a **Delivery** remote that owns the work breakdown and the month-by-month
 staffing grid.
 
-> Case study for innoscripta SE — Senior Frontend Engineer. The brief is
+> Senior Frontend Engineer case study for innoscripta SE. The brief is
 > [`docs/innoscripta-task.pdf`](docs/innoscripta-task.pdf); every requirement in it is restated as a
 > testable item in [`docs/project/prd.md`](docs/project/prd.md), and the six decisions it leaves
 > open are recorded in [`docs/project/decisions/`](docs/project/decisions/).
@@ -18,21 +18,21 @@ staffing grid.
 docker compose up
 ```
 
-Then open **<http://localhost:8080>**. Nothing else is needed — no Node on the host, no seeding
+Then open **<http://localhost:8080>**. Nothing else is needed, no Node on the host, no seeding
 step, no environment file. The first build takes a few minutes; after that it is seconds.
 
-| URL                                           | What it is                                         |
-| --------------------------------------------- | -------------------------------------------------- |
-| <http://localhost:8080>                       | The shell: overview, status, and the fault switch  |
-| <http://localhost:8080/people>                | People, hosted in the shell                        |
-| <http://localhost:8080/delivery>              | Delivery, hosted in the shell                      |
-| <http://localhost:8080/side-by-side>          | Both at once — where a live rate change is visible |
-| <http://localhost:8080/remotes/people/>       | People **standalone**, from the same build         |
-| <http://localhost:8080/remotes/delivery/>     | Delivery **standalone**, from the same build       |
-| <http://localhost:8080/api/people/snapshot>   | What People's service owns                         |
-| <http://localhost:8080/api/delivery/snapshot> | What Delivery's service owns                       |
+| URL                                           | What it is                                        |
+| --------------------------------------------- | ------------------------------------------------- |
+| <http://localhost:8080>                       | The shell: overview, status, and the fault switch |
+| <http://localhost:8080/people>                | People, hosted in the shell                       |
+| <http://localhost:8080/delivery>              | Delivery, hosted in the shell                     |
+| <http://localhost:8080/side-by-side>          | Both at once, where a live rate change is visible |
+| <http://localhost:8080/remotes/people/>       | People **standalone**, from the same build        |
+| <http://localhost:8080/remotes/delivery/>     | Delivery **standalone**, from the same build      |
+| <http://localhost:8080/api/people/snapshot>   | What People's service owns                        |
+| <http://localhost:8080/api/delivery/snapshot> | What Delivery's service owns                      |
 
-Edits are written through to the services and survive a reload — and a `docker compose restart`.
+Edits are written through to the services and survive a reload, and a `docker compose restart`.
 `docker compose down -v` drops the two volumes and re-seeds from the fixture.
 
 ### Without Docker
@@ -74,7 +74,7 @@ toggle; the four readings of that one cell are the four rows above.
 ## How to break a remote on purpose
 
 The shell's **Overview** page has a switch per remote: _Point at a URL that 404s_. It does not mock
-a failure — it re-registers that remote with an entry URL that does not exist, so Module
+a failure; it re-registers that remote with an entry URL that does not exist, so Module
 Federation's real loader really fails and the shell's real recovery path is what you see. The same
 thing is a query parameter:
 
@@ -99,19 +99,19 @@ same way.
 
 ## What to try
 
-1. **A rate change reaches an open cost view with no reload.** Open **Side by side** — both
+1. **A rate change reaches an open cost view with no reload.** Open **Side by side**; both
    applications mounted at once. Put Delivery on _Ledger Consolidation_ in **€**, then change Adaeze
    Okafor's 2026-03-12 rate from 95 to 150 in People above it. Her March 2026 cell goes from
    €7,880.00 to €10,960.00 as you tab out of the field, along with every total above it, and the
-   page never reloads. (Propagation is in-page, over the shell's bus — a second browser tab is a
+   page never reloads. (Propagation is in-page, over the shell's bus, a second browser tab is a
    second shell and would need a refresh.)
 2. **A month split by a rate change.** March 2026 for A. Okafor is priced at two rates. People shows
    the blend and the `8 + 14` working-day split; Delivery marks the cell and prices it at
    €89.5455/h.
 3. **Totals add up.** Switch units and read any column: the rounded cells sum exactly to the rounded
    total beside them, and a work-package row equals the sum of the rows beneath it. Switch currency
-   to USD and it still holds — the conversion is applied to the rate, before rounding.
-4. **Capacity is cross-project.** Milan Brandt is over capacity in Jun 26 — but only once his other
+   to USD and it still holds, the conversion is applied to the rate, before rounding.
+4. **Capacity is cross-project.** Milan Brandt is over capacity in Jun 26, but only once his other
    project is counted. Delivery flags the cell and names the assignment behind it; People marks him
    oversubscribed in the register. The edit is flagged, never blocked.
 5. **Parents are derived.** Add a child work package beneath a leaf that already has allocations.
@@ -136,7 +136,7 @@ The brief leaves five things open and says one of them is what is being assessed
 > cost, is the decision we are assessing."_
 
 **People publishes a month quote; Delivery multiplies its own effort by it.** Rate records never
-cross the line — no `hourlyCost`, no `validFrom`, no `RateRecord` anywhere in Delivery, and a test
+cross the line, no `hourlyCost`, no `validFrom`, no `RateRecord` anywhere in Delivery, and a test
 in `apps/acceptance` fails the build if that ever stops being true.
 
 It works because an allocation is spread evenly over the month's working days, so the hours in each
@@ -148,7 +148,7 @@ cost = Σ segmentDays × (hours ÷ monthDays) × segmentRate
 ```
 
 A month therefore has _one_ number that fully describes its price, and that number is a pure
-function of the rate timeline and the calendar — both People's, neither Delivery's. So People
+function of the rate timeline and the calendar; both People's, neither Delivery's. So People
 publishes a quote rather than answering a per-cell RPC for each of ~720 cells and every roll-up
 above them. The full argument, including what was rejected, is
 [ADR-0002](docs/project/decisions/0002-rate-cost-boundary.md).
@@ -157,9 +157,9 @@ above them. The full argument, including what was rejected, is
 
 ```text
 apps/
-  shell/            host — navigation, display currency, active user, runtime remote loading
-  people/           remote — the register and rate history; publishes a pricing contract
-  delivery/         remote — the breakdown and staffing grid; publishes a utilisation contract
+  shell/            host, navigation, display currency, active user, runtime remote loading
+  people/           remote, the register and rate history; publishes a pricing contract
+  delivery/         remote, the breakdown and staffing grid; publishes a utilisation contract
   people-api/       owns Employee and RateRecord, and its own volume
   delivery-api/     owns Project, BreakdownItem and Allocation, and its own volume
   acceptance/       test-only; the only workspace allowed to see both domains at once
@@ -167,11 +167,11 @@ apps/
 packages/
   shared-common/    calendar and working-day arithmetic, rounding, the shared vocabulary
   shared-backend/   env, logging, and the DocumentStore persistence port
-  platform/         service registry, event bus, session — what a host hands a remote
+  platform/         service registry, event bus, session, what a host hands a remote
   people-contracts/     what People publishes: a month quote, and its wire schemas
   delivery-contracts/   what Delivery publishes: utilisation, and its wire schemas
-  people-domain/    R1 — effective-dated rates, month splitting, blended rate, capacity
-  delivery-domain/  R2–R5 — units, the breakdown tree, roll-ups, cross-project capacity
+  people-domain/    R1, effective-dated rates, month splitting, blended rate, capacity
+  delivery-domain/  R2–R5, units, the breakdown tree, roll-ups, cross-project capacity
   tsconfig/ eslint-config/ vitest-config/ rspack-config/   shared tooling
 
 infrastructure/docker/   Dockerfile, nginx for the gateway and the apps, compose stack
@@ -187,8 +187,8 @@ apps choose a project, wire an input and paint a table.
 
 The two teams' packages never meet:
 
-- `apps/delivery` and `packages/delivery-*` may import `@repo/people-contracts` — the published
-  contract — and nothing else of People's.
+- `apps/delivery` and `packages/delivery-*` may import `@repo/people-contracts`, the published
+  contract, and nothing else of People's.
 - `apps/people` and `packages/people-*` may import `@repo/delivery-contracts`, and nothing else.
 - `apps/acceptance` is the single exception, and it ships nothing.
 
@@ -199,7 +199,7 @@ with "no `any`", no deep imports, and no dynamic first-party imports.
 
 The shell constructs exactly one `PlatformHost` and hands it to each remote's `register()`. Each
 publishes a contract into its registry and announces changes on its bus, carrying **ids, never
-values** — the consumer re-reads through the contract, so the two apps cannot hold divergent copies
+values**, the consumer re-reads through the contract, so the two apps cannot hold divergent copies
 of anything.
 
 ```
@@ -209,7 +209,7 @@ Delivery ─register(host)──▶  registry: delivery/utilisation ─▶  Peop
 ```
 
 The shell loads **both remotes' headless `./bootstrap` at start-up**, and each `./App` only on
-navigation — which is why People can flag over-capacity from Delivery's numbers before Delivery's
+navigation, which is why People can flag over-capacity from Delivery's numbers before Delivery's
 screen has ever been opened. `registry.get()` returns `undefined` rather than throwing, so every
 consumer is forced by the type to say what it renders when the other team is not there.
 
@@ -235,14 +235,14 @@ There are no snapshot tests of markup and no browser-driver suite; both would be
 ## Notes for the walkthrough
 
 - **Depth is not capped at three levels.** The fixture is three deep and every one of its 53 leaves
-  is at the third — so a hard cap would make R4 unreachable for every cell in it. The only illegal
+  is at the third, so a hard cap would make R4 unreachable for every cell in it. The only illegal
   move is one that would put a work package inside its own subtree.
 - **Writes are last-write-wins.** There is no optimistic concurrency; with one planner per stack it
   buys nothing and would clutter the contract.
 - **Renaming uses `window.prompt`.** The brief forbids a component kit and does not score visual
   polish, so a modal would have been scaffolding.
 - **`@repo/rspack-config` is shared by all three frontends.** That is build tooling, in the same
-  category as `@repo/tsconfig` — it knows one app hosts and two are hosted, and nothing about what
+  category as `@repo/tsconfig`; it knows one app hosts and two are hosted, and nothing about what
   either does.
 - **The shell's own screen is the status page.** It shows which entries were registered, which
   contracts are published, and the switch that breaks them.

@@ -1,6 +1,6 @@
 # Delivery plan
 
-Ordered so that the thing the brief checks first — the reference calculation — is provable before
+Ordered so that the thing the brief checks first, the reference calculation, is provable before
 any React exists, and so the repository builds end-to-end at every phase boundary.
 
 | #   | Phase                | Output                                                | Proves                                                                              |
@@ -21,7 +21,7 @@ any React exists, and so the repository builds end-to-end at every phase boundar
 
 Tests exist where they would be defended, not everywhere:
 
-- **Heaviest** on `packages/*-domain` and `packages/shared-common` — pure functions, no React, no
+- **Heaviest** on `packages/*-domain` and `packages/shared-common`, pure functions, no React, no
   DOM. This is where the brief says it looks hardest.
 - `reference-calculation.test.ts` asserts the five numbers of Figure 4 verbatim against the shipped
   fixture, using the real `emp-001` rate records. It is the canary.

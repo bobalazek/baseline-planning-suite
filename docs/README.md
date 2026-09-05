@@ -17,9 +17,9 @@
 
 ## Reading order for a reviewer
 
-1. [../README.md](../README.md) — run it, then break it.
-2. [project/decisions/0002-rate-cost-boundary.md](./project/decisions/0002-rate-cost-boundary.md) —
+1. [../README.md](../README.md), run it, then break it.
+2. [project/decisions/0002-rate-cost-boundary.md](./project/decisions/0002-rate-cost-boundary.md)
    the decision the brief says it is assessing.
-3. `apps/acceptance/src/__tests__/reference-calculation.test.ts` — the five numbers, from the
+3. `apps/acceptance/src/__tests__/reference-calculation.test.ts`, the five numbers, from the
    shipped fixture, through the real pricing path.
-4. [architecture/contracts.md](./architecture/contracts.md) — the seam between the two teams.
+4. [architecture/contracts.md](./architecture/contracts.md), the seam between the two teams.

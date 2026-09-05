@@ -47,7 +47,7 @@ Arrows point from a package to what it may depend on. Nothing else is allowed, a
 ## Why `platform` has no `@repo` dependencies
 
 It would need both contract packages to type its registry, and both contract packages need it to
-define their keys — a cycle. `ContractKey<TContract>` carries the contract type as a phantom
+define their keys, a cycle. `ContractKey<TContract>` carries the contract type as a phantom
 property instead, so `registry.get(PEOPLE_CONTRACT)` is fully typed while `platform` sits below both
 of them in the graph and knows about neither.
 

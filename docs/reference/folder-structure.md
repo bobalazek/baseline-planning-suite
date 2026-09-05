@@ -23,23 +23,23 @@ single `PlatformHost` and renders `src/app.tsx`.
 
 Remotes. Each exposes exactly two modules and has a third entry for running alone:
 
-| File                 | Role                                                                           |
-| -------------------- | ------------------------------------------------------------------------------ |
-| `src/bootstrap.ts`   | `register(host)` — headless; publishes the contract. Exposed as `./bootstrap`. |
-| `src/App.tsx`        | The UI. Exposed as `./App`; takes `{ host }` as a prop.                        |
-| `src/standalone.tsx` | Builds a host of its own and calls the same two. Not exposed.                  |
-| `src/index.ts`       | The Module Federation async boundary.                                          |
+| File                 | Role                                                                          |
+| -------------------- | ----------------------------------------------------------------------------- |
+| `src/bootstrap.ts`   | `register(host)`, headless; publishes the contract. Exposed as `./bootstrap`. |
+| `src/App.tsx`        | The UI. Exposed as `./App`; takes `{ host }` as a prop.                       |
+| `src/standalone.tsx` | Builds a host of its own and calls the same two. Not exposed.                 |
+| `src/index.ts`       | The Module Federation async boundary.                                         |
 
 Inside, `src/features/<feature>/` holds the client, the hydrated store, the contract implementation
 and the components for that feature. Pure helpers live in `src/utils/*.utils.ts`.
 
 ### `apps/people-api`, `apps/delivery-api`
 
-- `src/env.ts` — the service's configuration, and the only place it reads the environment
-- `src/server.ts` — builds Fastify, the store and the one error hook
-- `src/routes.ts` — the whole HTTP surface in one file
-- `src/features/<feature>/*.handler.ts` — one exported `handle*` per file
-- `src/features/<feature>/*-manager.ts` — what the service can do to its data
+- `src/env.ts`, the service's configuration, and the only place it reads the environment
+- `src/server.ts`, builds Fastify, the store and the one error hook
+- `src/routes.ts`, the whole HTTP surface in one file
+- `src/features/<feature>/*.handler.ts`; one exported `handle*` per file
+- `src/features/<feature>/*-manager.ts`, what the service can do to its data
 
 ### `apps/acceptance`
 
@@ -55,7 +55,7 @@ One `src/index.ts` per package; no nested barrel files. Modules are grouped as
 
 - Organise by feature first.
 - Never re-export another package's types or values; import from the source package.
-- Import from package roots only — never `@repo/*/src/*`.
+- Import from package roots only, never `@repo/*/src/*`.
 - All first-party imports are static and at the top of the file. The only exception is each
   frontend's `src/index.ts`, where Module Federation requires an async boundary.
 - One exported React component per file.

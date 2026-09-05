@@ -1,4 +1,4 @@
-# ADR-0002 — People publishes a pricing quote; Delivery multiplies effort by it
+# ADR-0002; People publishes a pricing quote; Delivery multiplies effort by it
 
 **Status:** accepted · **Relates to:** R1, R2, F7 · _This is the decision §4 of the brief says is
 being assessed._
@@ -7,14 +7,14 @@ being assessed._
 
 > "Delivery prices its grid using rates that People owns. Whether Delivery reads rate records and
 > computes cost itself, or asks People for a computed cost, is the decision we are assessing.
-> Either can be right — make the choice deliberately and defend it."
+> Either can be right, make the choice deliberately and defend it."
 
 Three shapes were considered:
 
 - **A.** People publishes raw `RateRecord[]`; Delivery implements effective-dating, month splitting
   and blending.
 - **B.** People publishes `costOf(employeeId, month, hours) → €`; Delivery never sees a rate.
-- **C.** People publishes a _month quote_ — the priced structure of the month — and Delivery
+- **C.** People publishes a _month quote_, the priced structure of the month, and Delivery
   applies it to its own effort.
 
 ## Decision
@@ -50,16 +50,16 @@ cost = Σ sliceDays × (hours ÷ workingDays) × sliceRate
 ```
 
 A month therefore has a _single_ number that fully describes its price, independent of how much
-effort is in it. That number is a pure function of the rate timeline and the calendar — both of
-which are People's — and of nothing Delivery owns. This is the natural seam, and it decides between
+effort is in it. That number is a pure function of the rate timeline and the calendar; both of
+which are People's, and of nothing Delivery owns. This is the natural seam, and it decides between
 the three options:
 
 - Against **A**: effective-dating, `validFrom` inclusivity and mid-month splitting are rate
   semantics. A team that does not own rate records should not be the second implementation of them
-  — and it would be a second implementation, because People needs the same logic for its own
+  , and it would be a second implementation, because People needs the same logic for its own
   register views. One rule, one owner.
 - Against **B**: a per-cell RPC is the wrong granularity. Pricing the visible grid means one call
-  per cell (~720) plus one per roll-up node, all recomputed on every rate edit — and People would
+  per cell (~720) plus one per roll-up node, all recomputed on every rate edit, and People would
   still have to expose `blendedRate` separately, because R2 requires it to convert a **€** edit back
   into hours. B is chattier _and_ leaks the same number anyway.
 - For **C**: the quote is cached per `(employee, month)` and invalidated by a `rates-changed` event
@@ -69,7 +69,7 @@ the three options:
 
 **What each side ends up owning.** People owns _what an hour of this person costs in this month_.
 Delivery owns _how many hours are in this cell and how they roll up_. Neither can state the other's
-half, and cost is the product — computed where the effort lives.
+half, and cost is the product, computed where the effort lives.
 
 ## Consequences
 

@@ -5,7 +5,7 @@
 ```text
 @repo/shared-common     no @repo/* dependencies; browser-safe
         ↑
-@repo/platform          no @repo/* dependencies either — see architecture/packages.md
+@repo/platform          no @repo/* dependencies either, see architecture/packages.md
         ↑
 @repo/{people,delivery}-contracts
         ↑
@@ -22,7 +22,7 @@ The two teams never meet except at a contract package. Enforced by
 - Import from package roots. Never `@repo/*/src/*`.
 - Never re-export another package's types or values. Import from the source package.
 - All first-party imports are static and at the top of the file. If that produces a cycle, change
-  the shape — extract the shared piece, or invert the direction. Do not hide it behind
+  the shape, extract the shared piece, or invert the direction. Do not hide it behind
   `await import()`.
 - The one exception is each frontend's `src/index.ts`, where Module Federation requires an async
   boundary before shared modules are touched. It is one line, and it carries a comment saying so.
@@ -47,14 +47,14 @@ The two teams never meet except at a contract package. Enforced by
 
 ## Where logic goes
 
-Domain rules live in `packages/*-domain` as pure functions — no React, no DOM, no I/O. Services own
+Domain rules live in `packages/*-domain` as pure functions, no React, no DOM, no I/O. Services own
 transactions, not rules; where an operation must be atomic (R4's reparenting), the service calls the
 same domain function the frontend would. Apps choose, wire and paint.
 
 ## Comments
 
 Explain the decision, not the mechanics. A comment earns its place by saying why a piece of code is
-shaped the way it is — which alternative was rejected, which failure it prevents — not by restating
+shaped the way it is, which alternative was rejected, which failure it prevents, not by restating
 what the line does.
 
 ## Tests
