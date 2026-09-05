@@ -256,3 +256,46 @@ code {
   font-family: var(--baseline-mono);
   font-size: 12px;
 }
+
+/* Both remotes mounted at once — the view that demonstrates a live rate change (F7). */
+.shell-split {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.shell-split__note {
+  margin: 16px 24px 0;
+  max-width: 900px;
+}
+
+.shell-split__pane {
+  border-bottom: 1px solid var(--baseline-border);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.shell-split__title {
+  margin: 0;
+  padding: 8px 24px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--baseline-muted);
+  background: var(--baseline-surface);
+  border-bottom: 1px solid var(--baseline-border);
+  position: sticky;
+  top: 57px;
+  z-index: 5;
+}
+
+.shell-split__pane .people-app {
+  max-height: 60vh;
+  overflow: auto;
+}
+
+.shell-split__pane .people-sidebar {
+  position: static;
+  max-height: none;
+}

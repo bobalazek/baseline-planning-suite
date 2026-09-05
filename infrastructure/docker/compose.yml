@@ -1,0 +1,131 @@
+name: baseline
+
+# Six containers, because that is what the exercise describes: two teams shipping three frontends
+# and two services on their own schedules, behind one gateway.
+#
+#   gateway        the only exposed port — localhost:8080
+#   shell          the host application
+#   people         a remote, independently deployable
+#   delivery       a remote, independently deployable
+#   people-api     owns employees and rate records, and its own volume
+#   delivery-api   owns the plan, and its own volume
+
+x-defaults: &defaults
+  restart: unless-stopped
+  networks: [baseline]
+
+x-build-defaults: &build-defaults
+  context: ../..
+  dockerfile: infrastructure/docker/Dockerfile
+
+services:
+  gateway:
+    <<: *defaults
+    image: nginx:1.27-alpine
+    container_name: baseline-gateway
+    ports:
+      - '${BASELINE_PORT:-8080}:8080'
+    volumes:
+      - ./nginx/gateway.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      shell:
+        condition: service_started
+      people:
+        condition: service_started
+      delivery:
+        condition: service_started
+      people-api:
+        condition: service_healthy
+      delivery-api:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:8080/']
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+
+  shell:
+    <<: *defaults
+    container_name: baseline-shell
+    build:
+      <<: *build-defaults
+      target: frontend
+      args:
+        APP: shell
+    environment:
+      # The only place either remote URL exists. Not in the bundle, not in the image.
+      PEOPLE_REMOTE_ENTRY: ${PEOPLE_REMOTE_ENTRY:-http://localhost:8080/remotes/people/mf-manifest.json}
+      DELIVERY_REMOTE_ENTRY: ${DELIVERY_REMOTE_ENTRY:-http://localhost:8080/remotes/delivery/mf-manifest.json}
+
+  people:
+    <<: *defaults
+    container_name: baseline-people
+    build:
+      <<: *build-defaults
+      target: frontend
+      args:
+        APP: people
+
+  delivery:
+    <<: *defaults
+    container_name: baseline-delivery
+    build:
+      <<: *build-defaults
+      target: frontend
+      args:
+        APP: delivery
+
+  people-api:
+    <<: *defaults
+    container_name: baseline-people-api
+    build:
+      <<: *build-defaults
+      target: service
+      args:
+        APP: people-api
+    environment:
+      PORT: 3001
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      PEOPLE_DATA_PATH: /data/people.json
+      SEED_PATH: /repo/fixtures/baseline-seed.json
+    volumes:
+      - people-data:/data
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3001/health']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 3s
+
+  delivery-api:
+    <<: *defaults
+    container_name: baseline-delivery-api
+    build:
+      <<: *build-defaults
+      target: service
+      args:
+        APP: delivery-api
+    environment:
+      PORT: 3002
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      DELIVERY_DATA_PATH: /data/delivery.json
+      SEED_PATH: /repo/fixtures/baseline-seed.json
+    volumes:
+      - delivery-data:/data
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://localhost:3002/health']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 3s
+
+# Two volumes, not one. Each team's service owns its own store and there is no schema either of
+# them could reach into, because there is no shared schema.
+volumes:
+  people-data:
+  delivery-data:
+
+networks:
+  baseline:
+    driver: bridge

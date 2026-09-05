@@ -1,0 +1,9 @@
+# `docker compose up` from a clean clone serves the suite on http://localhost:8080.
+#
+# The stack itself lives in infrastructure/docker/compose.yml, alongside the Dockerfile and the
+# nginx configuration it needs. This file exists so the one command in the brief works from the
+# repository root.
+name: baseline
+
+include:
+  - infrastructure/docker/compose.yml

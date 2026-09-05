@@ -34,6 +34,9 @@ export function App({ config, host }: Props) {
   }, []);
 
   const active = config.remotes.find((remote) => path.startsWith(remote.path));
+  // Both remotes mounted at once. This is the view that demonstrates F7 honestly: a rate edited in
+  // People has to reach an *open* Delivery cost view, and here it is open while the edit happens.
+  const isCombined = path.startsWith(COMBINED_PATH);
 
   return (
     <div className="shell">
@@ -54,6 +57,9 @@ export function App({ config, host }: Props) {
               failed={states[remote.key]?.status === 'failed'}
             />
           ))}
+          {config.remotes.length > 1 ? (
+            <NavLink path={COMBINED_PATH} label="Side by side" current={path} />
+          ) : null}
         </nav>
 
         <SessionControls
@@ -64,7 +70,25 @@ export function App({ config, host }: Props) {
       </header>
 
       <main className="shell-main">
-        {active ? (
+        {isCombined ? (
+          <div className="shell-split">
+            <p className="shell-hint shell-split__note">
+              Both applications, mounted at once. Change a rate in People and every cost below it
+              recomputes in the same render — no reload, and no shared state: Delivery re-reads
+              through the published contract because the event told it something changed.
+            </p>
+            {config.remotes.map((remote) => (
+              <section key={remote.key} className="shell-split__pane">
+                <h2 className="shell-split__title">{remote.label}</h2>
+                <RemotePanel
+                  remote={remote}
+                  state={states[remote.key] ?? { status: 'loading' }}
+                  host={host}
+                />
+              </section>
+            ))}
+          </div>
+        ) : active ? (
           <RemotePanel
             key={active.key}
             remote={active}
@@ -84,6 +108,8 @@ export function App({ config, host }: Props) {
     </div>
   );
 }
+
+const COMBINED_PATH = '/side-by-side';
 
 function NavLink({
   path,

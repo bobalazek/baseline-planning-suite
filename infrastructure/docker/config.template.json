@@ -1,0 +1,27 @@
+{
+  "remotes": [
+    {
+      "key": "people",
+      "name": "people",
+      "label": "People",
+      "path": "/people",
+      "entry": "${PEOPLE_REMOTE_ENTRY}"
+    },
+    {
+      "key": "delivery",
+      "name": "delivery",
+      "label": "Delivery",
+      "path": "/delivery",
+      "entry": "${DELIVERY_REMOTE_ENTRY}"
+    }
+  ],
+  "currencies": [
+    { "code": "EUR", "symbol": "€", "unitsPerEuro": 1 },
+    { "code": "USD", "symbol": "$", "unitsPerEuro": 1.08 },
+    { "code": "GBP", "symbol": "£", "unitsPerEuro": 0.85 }
+  ],
+  "actors": [
+    { "id": "usr-planner", "name": "Ines Cardoso" },
+    { "id": "usr-lead", "name": "Tomas Vidal" }
+  ]
+}

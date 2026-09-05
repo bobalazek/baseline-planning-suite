@@ -111,7 +111,9 @@ export function createFrontendConfig({ appDirectory, name, port, title, exposes,
     devServer: {
       port,
       host: '0.0.0.0',
-      historyApiFallback: true,
+      // Only the host has client-side routes. A remote serving index.html for an unknown path
+      // would turn the fault-injection URL into a 200 of HTML instead of the 404 it should be.
+      historyApiFallback: !isRemote,
       hot: true,
       static: { directory: resolve(appDirectory, 'public') },
       headers: { 'Access-Control-Allow-Origin': '*' },

@@ -23,14 +23,23 @@ export function register(host: PlatformHost): RemoteRegistration {
     });
   });
 
-  runtimeByHost.set(host, { store, contract });
+  const runtime: DeliveryRuntime = { store, contract };
+
+  runtimeByHost.set(host, runtime);
 
   return {
     ready: store.ready,
     dispose() {
       unsubscribe();
       releaseContract();
-      runtimeByHost.delete(host);
+
+      // Only retract *this* registration. React's StrictMode mounts an effect, tears it down and
+      // mounts it again, and the teardown here is asynchronous — without this guard a stale
+      // disposer arrives after the replacement has registered and deletes it, leaving the app
+      // rendered against a host it was never registered with.
+      if (runtimeByHost.get(host) === runtime) {
+        runtimeByHost.delete(host);
+      }
     },
   };
 }
