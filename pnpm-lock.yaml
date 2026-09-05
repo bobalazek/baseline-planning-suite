@@ -51,6 +51,46 @@ importers:
         specifier: 'catalog:'
         version: 5.9.3
 
+  apps/acceptance:
+    dependencies:
+      '@repo/delivery-contracts':
+        specifier: workspace:*
+        version: link:../../packages/delivery-contracts
+      '@repo/delivery-domain':
+        specifier: workspace:*
+        version: link:../../packages/delivery-domain
+      '@repo/people-contracts':
+        specifier: workspace:*
+        version: link:../../packages/people-contracts
+      '@repo/people-domain':
+        specifier: workspace:*
+        version: link:../../packages/people-domain
+      '@repo/shared-common':
+        specifier: workspace:*
+        version: link:../../packages/shared-common
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
+      '@repo/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+      '@repo/vitest-config':
+        specifier: workspace:*
+        version: link:../../packages/vitest-config
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.19.7
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.5
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.10(@types/node@22.19.7)(@vitest/coverage-v8@4.1.10)(vite@8.2.2(@types/node@22.19.7))
+
   packages/delivery-contracts:
     dependencies:
       '@repo/platform':
