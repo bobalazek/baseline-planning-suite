@@ -29,17 +29,17 @@ services:
       - ./nginx/gateway.conf:/etc/nginx/conf.d/default.conf:ro
     depends_on:
       shell:
-        condition: service_started
+        condition: service_healthy
       people:
-        condition: service_started
+        condition: service_healthy
       delivery:
-        condition: service_started
+        condition: service_healthy
       people-api:
         condition: service_healthy
       delivery-api:
         condition: service_healthy
     healthcheck:
-      test: ['CMD', 'wget', '-qO-', 'http://localhost:8080/']
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:8080/']
       interval: 10s
       timeout: 3s
       retries: 10
@@ -57,6 +57,12 @@ services:
       # The only place either remote URL exists. Not in the bundle, not in the image.
       PEOPLE_REMOTE_ENTRY: ${PEOPLE_REMOTE_ENTRY:-http://localhost:8080/remotes/people/mf-manifest.json}
       DELIVERY_REMOTE_ENTRY: ${DELIVERY_REMOTE_ENTRY:-http://localhost:8080/remotes/delivery/mf-manifest.json}
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:80/index.html']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 2s
 
   people:
     <<: *defaults
@@ -66,6 +72,12 @@ services:
       target: frontend
       args:
         APP: people
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:80/index.html']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 2s
 
   delivery:
     <<: *defaults
@@ -75,6 +87,12 @@ services:
       target: frontend
       args:
         APP: delivery
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:80/index.html']
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 2s
 
   people-api:
     <<: *defaults
