@@ -37,7 +37,7 @@ cross-app data is live even when the other app's screen has never been opened.
 ## Why
 
 * **Dependency injection beats a shared singleton.** The obvious alternative is a
-  `@baseline/platform` module marked `singleton: true` in Module Federation and imported directly by
+  `@repo/platform` module marked `singleton: true` in Module Federation and imported directly by
   both remotes. That makes correctness depend on version negotiation across three independently
   released builds — the classic way federated apps end up with two "singletons". Passing the host in
   removes the failure mode entirely: there is exactly one instance because exactly one object was
@@ -54,7 +54,7 @@ cross-app data is live even when the other app's screen has never been opened.
 
 ## Consequences
 
-* `@baseline/contracts` is a shared *type* package plus registry keys. It has no state, so a
+* `@repo/contracts` is a shared *type* package plus registry keys. It has no state, so a
   duplicated copy across builds is harmless.
 * Contract methods are synchronous over each remote's hydrated projection; `register` returns a
   `ready` promise the shell awaits before revealing the UI.

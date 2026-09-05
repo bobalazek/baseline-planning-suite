@@ -1,0 +1,85 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # format, lint, typecheck, and every test — the same command used locally.
+      - run: pnpm verify
+
+  reference-calculation:
+    name: Reference calculation (Figure 4)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      # Split out so a failure here is unmistakable: the brief says these five numbers are the
+      # first thing checked, and everything else is meaningless if they are wrong.
+      - run: pnpm --filter @repo/acceptance test
+
+  docker:
+    name: docker compose up
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build and start the stack
+        run: docker compose up -d --build --wait --wait-timeout 600
+
+      - name: The suite answers on :8080
+        run: |
+          set -euo pipefail
+          for path in / /config.json /remotes/people/mf-manifest.json \
+                      /remotes/delivery/mf-manifest.json /api/people/snapshot /api/delivery/snapshot; do
+            code=$(curl -so /dev/null -w '%{http_code}' "http://localhost:8080$path")
+            echo "$path -> $code"
+            [ "$code" = "200" ] || exit 1
+          done
+
+      - name: A missing remote entry really 404s, so fault injection is real
+        run: |
+          code=$(curl -so /dev/null -w '%{http_code}' \
+            http://localhost:8080/remotes/people/__fault-injected__/mf-manifest.json)
+          echo "fault entry -> $code"
+          [ "$code" = "404" ]
+
+      - name: No remote URL is baked into the shell bundle
+        run: |
+          if docker compose exec -T shell sh -c \
+            'grep -rl "remotes/people" /usr/share/nginx/html --include="*.js"'; then
+            echo "A remote URL was found in a bundled .js file"; exit 1
+          fi
+          echo "clean: the only file carrying one is config.json"
+
+      - if: always()
+        run: docker compose logs --no-color | tail -100
+
+      - if: always()
+        run: docker compose down -v

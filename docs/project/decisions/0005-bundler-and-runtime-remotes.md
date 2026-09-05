@@ -47,10 +47,16 @@ parameter, so both paths are exercised by one build artefact.
 
 ## Shared modules
 
-`react`, `react-dom` and `react/jsx-runtime` are `singleton: true` with `requiredVersion` pinned to
-the workspace version — React is the one thing that genuinely breaks when duplicated (hooks,
-context). `@baseline/contracts` is shared but not singleton: it is types plus frozen key constants,
-so a duplicate is inert. Nothing stateful is shared, by construction (ADR-0004).
+`react`, `react-dom`, `react-dom/client` and `react/jsx-runtime` are declared `singleton: true`
+with `requiredVersion` read from the installed package, and they are the **only** shared modules.
+React is the one thing that genuinely breaks when duplicated: two copies mean two dispatchers, and
+hooks throw.
+
+Everything else — including `@repo/platform` and both contract packages — is compiled into each
+build. That is deliberate, not an oversight. Sharing is only worth its risk for modules that must be
+*the same instance*, and by construction none of these are: the contracts are types plus frozen key
+constants, and the one stateful object on the page is the `PlatformHost`, which is constructed once
+and passed in (ADR-0004). A duplicated copy of any of them is inert.
 
 ## Consequences
 

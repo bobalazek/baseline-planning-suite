@@ -18,11 +18,15 @@ Two independent HTTP services, one per domain, each with its own store:
 | `delivery-api` | `Project`, `BreakdownItem`, `Allocation` | `/data/delivery.json` on its own volume |
 
 Each service seeds itself from `fixtures/baseline-seed.json` on first boot, taking only the slice it
-owns. Persistence sits behind a `Repository` port; the JSON file is one adapter.
+owns. Persistence sits behind a `DocumentStore` port (`packages/shared-backend`); the JSON file is
+one adapter, and the port needs only a `parse` function, so `zod` does not leak into it.
 
-The services are **stores with a REST surface and no domain logic**. Every rule in §4 of the PRD
-lives in framework-free TypeScript in the frontends, where the brief says it will be read
-("calculation logic that runs without mounting React").
+**The services own transactions, not rules.** Every rule of §3.3 lives in framework-free TypeScript
+in `packages/*-domain`, where the brief says it will be read ("calculation logic that runs without
+mounting React"). Where an operation has to be atomic — R4's allocation reparenting when a child is
+inserted beneath a leaf, and deleting a subtree — the service calls the *same* pure function the
+frontend would (`reparentAllocations`, `validateMove`) inside one store update. That is the
+distinction worth holding: the service owns the write boundary, not a second copy of the rule.
 
 ## Why
 
@@ -35,8 +39,8 @@ lives in framework-free TypeScript in the frontends, where the brief says it wil
    the same plan.
 3. **A file is the right store at fixture scale.** 60 employees, 150 rates, 720 allocations. A JSON
    document read once into memory and written back under a serialising write queue is honest,
-   inspectable during a code walkthrough, and needs no native build in the image. The `Repository`
-   port is where SQLite or Postgres would go, and the seam is one file wide.
+   inspectable during a code walkthrough, and needs no native build in the image. The
+   `DocumentStore` port is where SQLite or Postgres would go, and the seam is one file wide.
 4. **No Node on the host.** Everything runs in the compose stack.
 
 ## Consequences

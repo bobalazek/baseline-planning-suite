@@ -19,7 +19,7 @@ Every script in the root `package.json`.
 | Command | What it does |
 | --- | --- |
 | `pnpm verify` | `format:check`, `lint`, `typecheck`, `test` — what CI runs |
-| `pnpm test` | 205 tests across every package. No React, no browser. |
+| `pnpm test` | 254 tests across every package. No React, no browser. |
 | `pnpm test:coverage` | The same with coverage; the domain packages carry 90–95 % thresholds |
 | `pnpm typecheck` | `tsc --noEmit` everywhere, under `strict` |
 | `pnpm lint` | ESLint, including the `no-explicit-any` rule the brief requires |

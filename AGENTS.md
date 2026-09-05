@@ -33,7 +33,7 @@ Entry point for anyone — human or agent — changing this repository.
 pnpm verify
 ```
 
-`format:check`, `lint`, `typecheck` and all 205 tests. `apps/acceptance` additionally checks rules
+`format:check`, `lint`, `typecheck` and all 254 tests. `apps/acceptance` additionally checks rules
 1–3 and 5 against the source, so breaking a boundary fails the build rather than review.
 
 If a change touches a rule from §3.3 of the brief, the test for it is named after the rule — update

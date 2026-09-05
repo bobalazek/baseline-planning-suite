@@ -54,5 +54,5 @@ of them in the graph and knows about neither.
 ## Why the domain lives in packages, not in the apps
 
 The brief says it looks hardest at "calculation logic that runs without mounting React". Keeping the
-rules in libraries makes that literally true: `pnpm test` runs 205 tests in Node, and the apps are
+rules in libraries makes that literally true: `pnpm test` runs 254 tests in Node, and the apps are
 thin enough that there is nothing in them worth a snapshot test.

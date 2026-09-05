@@ -39,7 +39,7 @@ Edits are written through to the services and survive a reload — and a `docker
 
 ```bash
 pnpm install
-pnpm test        # 205 tests, none of which mount React
+pnpm test        # 254 tests, none of which mount React
 pnpm verify      # format, lint, typecheck, test
 pnpm dev         # all five apps, shell on http://localhost:5001
 ```
@@ -182,7 +182,7 @@ docs/                    the brief, the PRD, and the decisions
 ### Where the domain logic lives
 
 **In `packages/*`, as pure functions, and nowhere else.** Nothing in `people-domain` or
-`delivery-domain` imports React, touches the DOM or performs I/O; the 205 tests run in Node. The
+`delivery-domain` imports React, touches the DOM or performs I/O; the 254 tests run in Node. The
 apps choose a project, wire an input and paint a table.
 
 The two teams' packages never meet:
@@ -219,7 +219,7 @@ consumer is forced by the type to say what it renders when the other team is not
 pnpm test
 ```
 
-205 tests. None mount React; none need a browser.
+254 tests. None mount React; none need a browser.
 
 | Where | What it defends |
 | --- | --- |
