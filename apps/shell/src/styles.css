@@ -1,0 +1,258 @@
+/*
+ * The shell publishes its design tokens on :root so hosted remotes inherit them. Each remote also
+ * declares its own fallbacks, so it looks right when served standalone from its own origin.
+ * Visual polish is explicitly not scored; this is here to make the data legible.
+ */
+:root {
+  --baseline-font: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --baseline-mono: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, monospace;
+
+  --baseline-bg: #f6f7f9;
+  --baseline-surface: #ffffff;
+  --baseline-border: #dfe3e8;
+  --baseline-text: #14181d;
+  --baseline-muted: #5f6b7a;
+  --baseline-accent: #2f6f9f;
+  --baseline-accent-soft: #eaf2f8;
+  --baseline-warning: #a8620a;
+  --baseline-warning-soft: #fdf3e3;
+  --baseline-danger: #a52a2a;
+  --baseline-danger-soft: #fbeded;
+  --baseline-ok: #2f7a4f;
+
+  --baseline-radius: 6px;
+  --baseline-gap: 12px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: var(--baseline-font);
+  font-size: 14px;
+  color: var(--baseline-text);
+  background: var(--baseline-bg);
+}
+
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.shell-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 10px 20px;
+  background: var(--baseline-surface);
+  border-bottom: 1px solid var(--baseline-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.shell-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.shell-brand span {
+  color: var(--baseline-muted);
+  font-size: 12px;
+}
+
+.shell-nav {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+}
+
+.shell-navlink {
+  border: 1px solid transparent;
+  background: none;
+  font: inherit;
+  color: var(--baseline-muted);
+  padding: 6px 12px;
+  border-radius: var(--baseline-radius);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.shell-navlink:hover {
+  background: var(--baseline-bg);
+  color: var(--baseline-text);
+}
+
+.shell-navlink[aria-current='page'] {
+  background: var(--baseline-accent-soft);
+  border-color: var(--baseline-accent);
+  color: var(--baseline-accent);
+  font-weight: 600;
+}
+
+.shell-navlink__warning {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--baseline-danger);
+}
+
+.shell-session {
+  display: flex;
+  gap: 16px;
+}
+
+.shell-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--baseline-muted);
+}
+
+.shell-field select,
+.shell-field input {
+  font: inherit;
+  font-size: 13px;
+  color: var(--baseline-text);
+  padding: 4px 6px;
+  border: 1px solid var(--baseline-border);
+  border-radius: var(--baseline-radius);
+  background: var(--baseline-surface);
+}
+
+.shell-main {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.shell-panel {
+  margin: 24px;
+  padding: 20px;
+  background: var(--baseline-surface);
+  border: 1px solid var(--baseline-border);
+  border-radius: var(--baseline-radius);
+  max-width: 720px;
+}
+
+.shell-panel--failed {
+  border-color: var(--baseline-danger);
+  background: var(--baseline-danger-soft);
+}
+
+.shell-panel h2 {
+  margin-top: 0;
+  font-size: 16px;
+}
+
+.shell-panel pre {
+  font-family: var(--baseline-mono);
+  font-size: 12px;
+  white-space: pre-wrap;
+  background: rgb(0 0 0 / 4%);
+  padding: 8px;
+  border-radius: var(--baseline-radius);
+  margin-bottom: 0;
+}
+
+.shell-status {
+  padding: 24px;
+  display: grid;
+  gap: 28px;
+  max-width: 960px;
+}
+
+.shell-status section h2 {
+  font-size: 15px;
+  margin: 0 0 6px;
+}
+
+.shell-hint {
+  color: var(--baseline-muted);
+  font-size: 12px;
+  margin: 0 0 10px;
+}
+
+.shell-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--baseline-surface);
+  border: 1px solid var(--baseline-border);
+  border-radius: var(--baseline-radius);
+}
+
+.shell-table th,
+.shell-table td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--baseline-border);
+  vertical-align: top;
+}
+
+.shell-table tr:last-child td {
+  border-bottom: none;
+}
+
+.shell-badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.shell-badge--ready {
+  background: #e6f3ec;
+  color: var(--baseline-ok);
+}
+
+.shell-badge--loading {
+  background: var(--baseline-accent-soft);
+  color: var(--baseline-accent);
+}
+
+.shell-badge--failed {
+  background: var(--baseline-danger-soft);
+  color: var(--baseline-danger);
+}
+
+.shell-entry {
+  font-family: var(--baseline-mono);
+  font-size: 11px;
+  color: var(--baseline-muted);
+  word-break: break-all;
+}
+
+.shell-switch {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 12px;
+  color: var(--baseline-muted);
+  cursor: pointer;
+}
+
+.shell-list,
+.shell-steps {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.shell-list li,
+.shell-steps li {
+  margin-bottom: 4px;
+}
+
+code {
+  font-family: var(--baseline-mono);
+  font-size: 12px;
+}

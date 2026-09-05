@@ -1,0 +1,31 @@
+{
+  "name": "@repo/shell",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "NODE_ENV=production rspack build",
+    "clean": "rm -rf dist",
+    "dev": "rspack serve",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@module-federation/enhanced": "catalog:",
+    "@repo/platform": "workspace:*",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/rspack-config": "workspace:*",
+    "@repo/tsconfig": "workspace:*",
+    "@rspack/cli": "catalog:",
+    "@rspack/core": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  }
+}

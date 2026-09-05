@@ -1,0 +1,301 @@
+/*
+ * People's own styles. Every token falls back to a local default, so the app looks right on its own
+ * origin and inherits the shell's palette when hosted. Nothing here is shared with Delivery.
+ */
+.people-app {
+  --people-surface: var(--baseline-surface, #fff);
+  --people-bg: var(--baseline-bg, #f6f7f9);
+  --people-border: var(--baseline-border, #dfe3e8);
+  --people-text: var(--baseline-text, #14181d);
+  --people-muted: var(--baseline-muted, #5f6b7a);
+  --people-accent: var(--baseline-accent, #2f6f9f);
+  --people-accent-soft: var(--baseline-accent-soft, #eaf2f8);
+  --people-danger: var(--baseline-danger, #a52a2a);
+  --people-danger-soft: var(--baseline-danger-soft, #fbeded);
+  --people-warning: var(--baseline-warning, #a8620a);
+  --people-warning-soft: var(--baseline-warning-soft, #fdf3e3);
+  --people-radius: var(--baseline-radius, 6px);
+
+  font-family: var(--baseline-font, ui-sans-serif, system-ui, sans-serif);
+  color: var(--people-text);
+  background: var(--people-bg);
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  min-height: 100%;
+  flex: 1;
+}
+
+.people-app--failed {
+  display: block;
+  padding: 24px;
+}
+
+.people-sidebar {
+  border-right: 1px solid var(--people-border);
+  background: var(--people-surface);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: calc(100vh - 57px);
+  position: sticky;
+  top: 57px;
+}
+
+.people-search input {
+  width: 100%;
+  font: inherit;
+  padding: 7px 10px;
+  border: 1px solid var(--people-border);
+  border-radius: var(--people-radius);
+}
+
+.people-listing {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.people-listing__item {
+  width: 100%;
+  text-align: left;
+  border: 1px solid transparent;
+  background: none;
+  font: inherit;
+  padding: 7px 9px;
+  border-radius: var(--people-radius);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.people-listing__item:hover {
+  background: var(--people-bg);
+}
+
+.people-listing__item[aria-current='true'] {
+  background: var(--people-accent-soft);
+  border-color: var(--people-accent);
+}
+
+.people-listing__name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.people-listing__meta {
+  font-size: 12px;
+  color: var(--people-muted);
+}
+
+.people-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--people-warning);
+}
+
+.people-main {
+  padding: 20px 24px;
+  min-width: 0;
+}
+
+.people-empty {
+  max-width: 560px;
+}
+
+.people-detail {
+  display: grid;
+  gap: 18px;
+  max-width: 860px;
+}
+
+.people-detail__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.people-detail__header h2 {
+  margin: 0;
+  font-size: 19px;
+}
+
+.people-id {
+  color: var(--people-muted);
+  font-size: 12px;
+}
+
+.people-card {
+  background: var(--people-surface);
+  border: 1px solid var(--people-border);
+  border-radius: var(--people-radius);
+  padding: 14px 16px;
+}
+
+.people-card--muted {
+  background: var(--people-bg);
+}
+
+.people-card h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.people-flag {
+  background: var(--people-warning-soft);
+  color: var(--people-warning);
+  border-radius: 999px;
+  padding: 1px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.people-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 0;
+}
+
+.people-facts dt {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--people-muted);
+}
+
+.people-facts dd {
+  margin: 2px 0 0;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+}
+
+.people-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+
+.people-table th,
+.people-table td {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--people-border);
+  vertical-align: middle;
+}
+
+.people-table th {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--people-muted);
+}
+
+.people-table tr:last-child td {
+  border-bottom: none;
+}
+
+.people-num {
+  text-align: right;
+}
+
+.people-row--over {
+  background: var(--people-warning-soft);
+}
+
+.people-sub {
+  display: block;
+  font-size: 11px;
+  color: var(--people-muted);
+}
+
+.people-hint {
+  color: var(--people-muted);
+  font-size: 12px;
+  margin: 10px 0 0;
+}
+
+.people-error {
+  color: var(--people-danger);
+  background: var(--people-danger-soft);
+  border-radius: var(--people-radius);
+  padding: 8px 10px;
+  font-size: 13px;
+  margin: 10px 0 0;
+}
+
+.people-newrate {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--people-border);
+}
+
+.people-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 11px;
+  color: var(--people-muted);
+}
+
+.people-field input,
+.people-table input {
+  font: inherit;
+  font-size: 13px;
+  padding: 4px 6px;
+  border: 1px solid var(--people-border);
+  border-radius: var(--people-radius);
+  background: var(--people-surface);
+  color: var(--people-text);
+}
+
+.people-table input[type='number'] {
+  width: 92px;
+  text-align: right;
+}
+
+.people-button {
+  font: inherit;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: var(--people-radius);
+  border: 1px solid var(--people-accent);
+  background: var(--people-accent);
+  color: #fff;
+  cursor: pointer;
+}
+
+.people-button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.people-button--danger {
+  background: none;
+  color: var(--people-danger);
+  border-color: var(--people-border);
+}
+
+.people-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

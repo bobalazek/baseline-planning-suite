@@ -1,0 +1,27 @@
+{
+  "remotes": [
+    {
+      "key": "people",
+      "name": "people",
+      "label": "People",
+      "path": "/people",
+      "entry": "http://localhost:5002/mf-manifest.json"
+    },
+    {
+      "key": "delivery",
+      "name": "delivery",
+      "label": "Delivery",
+      "path": "/delivery",
+      "entry": "http://localhost:5003/mf-manifest.json"
+    }
+  ],
+  "currencies": [
+    { "code": "EUR", "symbol": "€", "unitsPerEuro": 1 },
+    { "code": "USD", "symbol": "$", "unitsPerEuro": 1.08 },
+    { "code": "GBP", "symbol": "£", "unitsPerEuro": 0.85 }
+  ],
+  "actors": [
+    { "id": "usr-planner", "name": "Ines Cardoso" },
+    { "id": "usr-lead", "name": "Tomas Vidal" }
+  ]
+}

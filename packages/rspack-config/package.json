@@ -1,0 +1,13 @@
+{
+  "name": "@repo/rspack-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "dependencies": {
+    "@module-federation/enhanced": "catalog:",
+    "@rspack/core": "catalog:"
+  }
+}

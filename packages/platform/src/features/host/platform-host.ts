@@ -33,6 +33,14 @@ export interface RemoteRegistration {
 /** The single entry point every remote exposes. Hosting is a parameter, not a build flag. */
 export type RemoteBootstrap = (host: PlatformHost) => RemoteRegistration;
 
+/**
+ * Props for a remote's `./App`. The host is passed in rather than read from module scope, so the
+ * component a shell renders and the registration a shell made are provably the same host.
+ */
+export interface RemoteAppProps {
+  readonly host: PlatformHost;
+}
+
 export interface PlatformHostOptions {
   readonly session?: Session;
   readonly onWarning?: (message: string) => void;
