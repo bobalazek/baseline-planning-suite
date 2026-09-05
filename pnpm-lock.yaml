@@ -127,6 +127,61 @@ importers:
         specifier: 'catalog:'
         version: 4.1.10(@types/node@22.19.7)(@vitest/coverage-v8@4.1.10)(vite@8.2.2(@types/node@22.19.7)(esbuild@0.27.7)(jiti@2.4.2)(tsx@4.19.4))
 
+  apps/delivery:
+    dependencies:
+      '@repo/delivery-contracts':
+        specifier: workspace:*
+        version: link:../../packages/delivery-contracts
+      '@repo/delivery-domain':
+        specifier: workspace:*
+        version: link:../../packages/delivery-domain
+      '@repo/people-contracts':
+        specifier: workspace:*
+        version: link:../../packages/people-contracts
+      '@repo/platform':
+        specifier: workspace:*
+        version: link:../../packages/platform
+      '@repo/shared-common':
+        specifier: workspace:*
+        version: link:../../packages/shared-common
+      react:
+        specifier: 'catalog:'
+        version: 19.2.7
+      react-dom:
+        specifier: 'catalog:'
+        version: 19.2.7(react@19.2.7)
+      zod:
+        specifier: 'catalog:'
+        version: 4.4.3
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
+      '@repo/rspack-config':
+        specifier: workspace:*
+        version: link:../../packages/rspack-config
+      '@repo/tsconfig':
+        specifier: workspace:*
+        version: link:../../packages/tsconfig
+      '@rspack/cli':
+        specifier: 'catalog:'
+        version: 2.2.2(@rspack/core@2.2.2(@module-federation/runtime-tools@2.9.0))
+      '@rspack/core':
+        specifier: 'catalog:'
+        version: 2.2.2(@module-federation/runtime-tools@2.9.0)
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.2.18
+      '@types/react-dom':
+        specifier: 'catalog:'
+        version: 19.2.7(@types/react@19.2.18)
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.5(jiti@2.4.2)
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+
   apps/delivery-api:
     dependencies:
       '@repo/delivery-contracts':

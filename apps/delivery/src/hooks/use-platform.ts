@@ -1,10 +1,10 @@
 import type { ContractKey, PlatformHost, Session } from '@repo/platform';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 
-import type { PeopleStore, RegisterSnapshot } from '../features/register/people-store';
+import type { DeliveryStore, PlanSnapshot } from '../features/plan/delivery-store';
 
-/** The register as one immutable object; a new one appears whenever anything changes. */
-export function usePeopleSnapshot(store: PeopleStore): RegisterSnapshot {
+/** The plan as one immutable object; a new one appears whenever anything changes. */
+export function useDeliverySnapshot(store: DeliveryStore): PlanSnapshot {
   return useSyncExternalStore(
     (onChange) => store.subscribe(() => onChange()),
     () => store.snapshot(),

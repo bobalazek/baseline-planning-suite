@@ -1,10 +1,9 @@
-import type { PlatformHost, RemoteAppProps } from '@repo/platform';
-import { lazy, Suspense, useMemo, type ComponentType } from 'react';
+import type { PlatformHost } from '@repo/platform';
 
 import type { RemoteDescriptor } from '../../config/runtime-config';
-import { loadRemoteApp } from '../../federation/remote-loader';
 import { RemoteErrorBoundary } from './remote-error-boundary';
 import type { RemoteState } from './use-remote-bootstraps';
+import { useRemoteApp } from './use-remote-app';
 
 interface Props {
   readonly remote: RemoteDescriptor;
@@ -20,12 +19,13 @@ interface Props {
  * silently.
  */
 export function RemotePanel({ remote, state, host }: Props) {
-  const App = useMemo<ComponentType<RemoteAppProps>>(
-    () => lazy(() => loadRemoteApp(remote)),
-    [remote]
-  );
+  const app = useRemoteApp(remote, state.status === 'ready');
 
-  if (state.status === 'loading') {
+  if (state.status === 'failed') {
+    return <FailurePanel remote={remote} message={state.message} />;
+  }
+
+  if (state.status === 'loading' || app.status === 'loading') {
     return (
       <div className="shell-panel shell-panel--loading">
         <p>Loading {remote.label}…</p>
@@ -33,25 +33,29 @@ export function RemotePanel({ remote, state, host }: Props) {
     );
   }
 
-  if (state.status === 'failed') {
-    return (
-      <div className="shell-panel shell-panel--failed" role="alert">
-        <h2>{remote.label} could not be loaded</h2>
-        <p>
-          The shell is still running. Navigation, the display currency and the other application are
-          unaffected; anything that depends on {remote.label}&rsquo;s data will say so where the
-          number would have been.
-        </p>
-        <pre>{state.message}</pre>
-      </div>
-    );
+  if (app.status === 'failed') {
+    return <FailurePanel remote={remote} message={app.message} />;
   }
+
+  const { Component } = app;
 
   return (
     <RemoteErrorBoundary label={remote.label}>
-      <Suspense fallback={<div className="shell-panel shell-panel--loading">Loading…</div>}>
-        <App host={host} />
-      </Suspense>
+      <Component host={host} />
     </RemoteErrorBoundary>
+  );
+}
+
+function FailurePanel({ remote, message }: { remote: RemoteDescriptor; message: string }) {
+  return (
+    <div className="shell-panel shell-panel--failed" role="alert">
+      <h2>{remote.label} could not be loaded</h2>
+      <p>
+        The shell is still running. Navigation, the display currency and the other application are
+        unaffected; anything that depends on {remote.label}&rsquo;s data will say so where the number
+        would have been.
+      </p>
+      <pre>{message}</pre>
+    </div>
   );
 }

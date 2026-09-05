@@ -1,0 +1,34 @@
+{
+  "name": "@repo/delivery",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "NODE_ENV=production rspack build",
+    "clean": "rm -rf dist",
+    "dev": "rspack serve",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@repo/delivery-contracts": "workspace:*",
+    "@repo/delivery-domain": "workspace:*",
+    "@repo/people-contracts": "workspace:*",
+    "@repo/platform": "workspace:*",
+    "@repo/shared-common": "workspace:*",
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "workspace:*",
+    "@repo/rspack-config": "workspace:*",
+    "@repo/tsconfig": "workspace:*",
+    "@rspack/cli": "catalog:",
+    "@rspack/core": "catalog:",
+    "@types/react": "catalog:",
+    "@types/react-dom": "catalog:",
+    "eslint": "catalog:",
+    "typescript": "catalog:"
+  }
+}

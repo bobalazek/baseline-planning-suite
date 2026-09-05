@@ -17,12 +17,14 @@ import type { PeopleStore } from '../register/people-store';
  */
 export function createPeopleContract(store: PeopleStore): PeopleContract {
   let quotes = new Map<string, MonthQuote>();
-  let cachedRevision = store.revision();
+  let cachedRevision = store.snapshot().revision;
 
   const invalidateIfStale = (): void => {
-    if (store.revision() !== cachedRevision) {
+    const { revision } = store.snapshot();
+
+    if (revision !== cachedRevision) {
       quotes = new Map();
-      cachedRevision = store.revision();
+      cachedRevision = revision;
     }
   };
 

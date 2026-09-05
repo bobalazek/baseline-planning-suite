@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { runtimeFor } from './bootstrap';
 import { EmployeeDetail } from './features/register/employee-detail';
 import { EmployeeList } from './features/register/employee-list';
-import { useEventRevision, usePeopleRevision, useSession } from './hooks/use-platform';
+import { useEventRevision, usePeopleSnapshot, useSession } from './hooks/use-platform';
 import './styles.css';
 
 /**
@@ -24,7 +24,7 @@ export default function App({ host }: RemoteAppProps) {
 
   const session = useSession(host);
   const deliveryRevision = useEventRevision(host, DELIVERY_ALLOCATIONS_CHANGED);
-  const revision = usePeopleRevision(runtime?.store ?? EMPTY_STORE);
+  const register = usePeopleSnapshot(runtime?.store ?? EMPTY_STORE);
 
   if (!runtime) {
     return (
@@ -38,9 +38,7 @@ export default function App({ host }: RemoteAppProps) {
     );
   }
 
-  void revision;
-
-  const employees = searchEmployees(runtime.store.employees(), query);
+  const employees = searchEmployees(register.employees, query);
   const selected = selectedId ? runtime.store.findEmployee(selectedId) : undefined;
 
   return (
@@ -83,8 +81,13 @@ export default function App({ host }: RemoteAppProps) {
   );
 }
 
-/** Keeps the hook order stable on the one render where registration is missing. */
+/**
+ * Keeps the hook order stable on the one render where a host rendered `./App` without calling
+ * `register` first. It is an empty register, not a mock: nothing reads through it.
+ */
+const EMPTY_REGISTER = { revision: 0, employees: [] };
+
 const EMPTY_STORE = {
-  revision: () => 0,
+  snapshot: () => EMPTY_REGISTER,
   subscribe: () => () => undefined,
-} as unknown as Parameters<typeof usePeopleRevision>[0];
+} as unknown as Parameters<typeof usePeopleSnapshot>[0];

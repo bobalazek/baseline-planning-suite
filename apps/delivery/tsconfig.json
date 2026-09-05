@@ -1,0 +1,8 @@
+{
+  "extends": "@repo/tsconfig/react.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": ["src", "rspack.config.mjs"],
+  "exclude": ["node_modules", "dist"]
+}

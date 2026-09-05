@@ -16,8 +16,19 @@ import type { PeopleClient } from './people-client';
  * optimistically: a rate is the input to every cost in the suite, and briefly showing a plan priced
  * at a rate the server rejected is worse than a moment's latency.
  */
+/**
+ * An immutable view of the register. A new object appears on every change and the same one is
+ * returned in between — the contract `useSyncExternalStore` wants, so no revision counter has to be
+ * smuggled into a dependency array.
+ */
+export interface RegisterSnapshot {
+  readonly revision: number;
+  readonly employees: readonly Employee[];
+}
+
 export interface PeopleStore {
   readonly ready: Promise<void>;
+  snapshot(): RegisterSnapshot;
   employees(): readonly Employee[];
   findEmployee(employeeId: EmployeeId): Employee | undefined;
   rateRecordsOf(employeeId: EmployeeId): readonly RateRecord[];
@@ -27,15 +38,13 @@ export interface PeopleStore {
   createRateRecord(input: CreateRateRecordInput): Promise<void>;
   updateRateRecord(rateRecordId: RateRecordId, input: UpdateRateRecordInput): Promise<void>;
   deleteRateRecord(rateRecordId: RateRecordId): Promise<void>;
-  /** Increments on every change. Cheap identity for `useSyncExternalStore`. */
-  revision(): number;
 }
 
 export function createPeopleStore(client: PeopleClient): PeopleStore {
   let employees: readonly Employee[] = [];
   let rateRecords: readonly RateRecord[] = [];
   let timelines = new Map<EmployeeId, RateTimeline>();
-  let revision = 0;
+  let snapshot: RegisterSnapshot = { revision: 0, employees: [] };
 
   const listeners = new Set<(changed: readonly EmployeeId[]) => void>();
 
@@ -55,7 +64,7 @@ export function createPeopleStore(client: PeopleClient): PeopleStore {
         buildRateTimeline(byEmployee.get(employee.id) ?? []),
       ])
     );
-    revision += 1;
+    snapshot = { revision: snapshot.revision + 1, employees };
   };
 
   const hydrate = async (): Promise<void> => {
@@ -80,12 +89,11 @@ export function createPeopleStore(client: PeopleClient): PeopleStore {
   return {
     ready: hydrate(),
 
+    snapshot: () => snapshot,
     employees: () => employees,
     findEmployee: (employeeId) => employees.find((employee) => employee.id === employeeId),
-    rateRecordsOf: (employeeId) =>
-      timelines.get(employeeId)?.records ?? [],
+    rateRecordsOf: (employeeId) => timelines.get(employeeId)?.records ?? [],
     timelineOf: (employeeId) => timelines.get(employeeId) ?? buildRateTimeline([]),
-    revision: () => revision,
 
     subscribe(listener) {
       listeners.add(listener);
