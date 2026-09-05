@@ -70,7 +70,7 @@ export function flatten(tree: BreakdownTree): BreakdownNode[] {
   return tree.roots.flatMap(walk);
 }
 
-/** Whether `candidateParentId` sits inside the subtree of `itemId` — a move that would cycle. */
+/** Whether `candidateParentId` sits inside the subtree of `itemId`, a move that would cycle. */
 export function isDescendantOf(
   tree: BreakdownTree,
   candidateParentId: BreakdownItemId,
@@ -82,15 +82,11 @@ export function isDescendantOf(
 }
 
 /**
- * The shipped fixture is three levels deep, and the brief describes it that way — but depth is
- * **not** capped here, deliberately.
+ * Depth is deliberately not capped, though the fixture is three levels deep.
  *
- * R4 is about inserting a child beneath a leaf that already carries allocations. Every one of the
- * fixture's 53 leaves sits at the third level, and 51 of them carry allocations. A hard cap of
- * three would therefore make R4 unreachable for every cell in the dataset, which cannot be what a
- * rule the brief spells out is meant to do. Depth is a property of the plan, not an invariant.
- *
- * A cap would be one comparison in `validateMove` if a client ever wanted one.
+ * R4 covers inserting a child beneath a leaf that carries allocations, and all 53 fixture leaves
+ * sit at the third level (51 of them with allocations). A hard cap of three would make R4
+ * unreachable for every cell in the dataset. A cap would be one comparison in `validateMove`.
  */
 export type BreakdownEditProblem =
   | { readonly kind: 'unknown-item'; readonly itemId: BreakdownItemId }
@@ -134,12 +130,12 @@ export function describeBreakdownProblem(problem: BreakdownEditProblem): string 
 }
 
 /**
- * R4 — what happens to a leaf's own allocations when a child is inserted beneath it.
+ * R4, what happens to a leaf's own allocations when a child is inserted beneath it.
  *
  * The brief offers two acceptable resolutions and forbids a third: move the allocations onto the
  * new child, or refuse the insertion with a message. Silent loss is not allowed. This repo moves
- * them, so that adding structure to a plan never costs the planner numbers they already entered —
- * and this function is the whole of that behaviour, in one testable place.
+ * them, so adding structure to a plan never costs the planner numbers they already entered, and
+ * this function is the whole of that behaviour, in one testable place.
  */
 export function reparentAllocations(
   allocations: readonly Allocation[],

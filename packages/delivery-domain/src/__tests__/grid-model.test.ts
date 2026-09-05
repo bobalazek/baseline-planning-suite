@@ -179,7 +179,7 @@ describe('buildGrid — totals add up (R3)', () => {
 
   it('prints a derived cell as the sum of the cells beneath it, even when that differs from the rounded exact value', () => {
     // 0.805 + 0.705 is exactly 1.51, but the two cells print as 0.81 and 0.71. The parent prints
-    // 1.52 — what the reader can add up on screen — rather than 1.51, which would make the column
+    // 1.52, what the reader can add up on screen, rather than 1.51, which would make the column
     // visibly fail to add. This is the trade-off documented in
     // docs/project/decisions/0006-display-rounding.md: two-dimensional apportionment cannot make
     // every aggregate equal its own rounded exact value *and* reconcile in both directions.
@@ -220,7 +220,7 @@ describe('buildGrid — flags', () => {
 
   it('flags over capacity on the person"s cell and propagates it to the parent (R5)', () => {
     const grid = gridFor('personMonths');
-    // emp-001 carries 1.0 in May on wbs-2 — exactly capacity, not over.
+    // emp-001 carries 1.0 in May on wbs-2, exactly capacity, not over.
     expect(row(grid, 'assignment:wbs-2:emp-001').cells[1]?.overCapacity).toBe(false);
   });
 

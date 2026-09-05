@@ -101,7 +101,7 @@ describe('fixtures/baseline-seed.json', () => {
       monthsBetween(seed.gridHorizon.from as never, seed.gridHorizon.to as never)
     ).toHaveLength(12);
 
-    // alloc-001 is March 2026 — outside meta.gridHorizon, inside prj-1's own span. The grid is
+    // alloc-001 is March 2026, outside meta.gridHorizon, inside prj-1's own span. The grid is
     // driven by the project, which is the only way the reference calculation is reachable in the UI.
     const referenceCell = seed.allocations.find((allocation) => allocation.id === 'alloc-001');
 

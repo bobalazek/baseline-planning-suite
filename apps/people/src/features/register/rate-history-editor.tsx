@@ -2,7 +2,7 @@ import type { DisplayCurrency } from '@repo/platform';
 import { toIsoDate, type Employee, type IsoDate, type RateRecordId } from '@repo/shared-common';
 import { useState } from 'react';
 
-import { formatMoney } from '../../utils/format.utils';
+import { formatDate, formatMoney } from '../../utils/format.utils';
 import type { PeopleStore } from './people-store';
 
 interface Props {
@@ -14,9 +14,9 @@ interface Props {
 /**
  * Rate history: addable, correctable and removable, including retroactively (F4).
  *
- * A rate runs from its `validFrom` until the next one begins, so the "until" column is derived from
- * the neighbour rather than stored — which is exactly why two records may not claim the same day,
- * and why the service refuses that with a message this form shows verbatim.
+ * A rate runs from its `validFrom` until the next one begins, so the end date is derived from the
+ * neighbour rather than stored. That is why two records may not claim the same day, and why the
+ * service refuses that with a message this form shows verbatim.
  */
 export function RateHistoryEditor({ store, employee, currency }: Props) {
   const records = store.rateRecordsOf(employee.id);
@@ -45,16 +45,15 @@ export function RateHistoryEditor({ store, employee, currency }: Props) {
       <table className="people-table">
         <thead>
           <tr>
-            <th>From</th>
-            <th>Until</th>
-            <th className="people-num">Hourly cost</th>
+            <th>Effective from</th>
+            <th className="people-num">Hourly cost (€)</th>
             <th />
           </tr>
         </thead>
         <tbody>
           {records.length === 0 ? (
             <tr>
-              <td colSpan={4} className="people-hint">
+              <td colSpan={3} className="people-hint">
                 No rate on record. Work in any month costs zero until one starts, and those cells
                 are marked in Delivery.
               </td>
@@ -66,7 +65,7 @@ export function RateHistoryEditor({ store, employee, currency }: Props) {
 
             return (
               <tr key={record.id}>
-                <td>
+                <td className="people-period">
                   <input
                     type="date"
                     defaultValue={record.validFrom}
@@ -81,8 +80,10 @@ export function RateHistoryEditor({ store, employee, currency }: Props) {
                       }
                     }}
                   />
+                  <span className="people-period__until">
+                    {next ? `until ${formatDate(dayBefore(next.validFrom))}` : 'no end date'}
+                  </span>
                 </td>
-                <td className="people-sub">{next ? dayBefore(next.validFrom) : 'open-ended'}</td>
                 <td className="people-num">
                   <input
                     type="number"
@@ -98,7 +99,11 @@ export function RateHistoryEditor({ store, employee, currency }: Props) {
                       }
                     }}
                   />
-                  <span className="people-sub">{formatMoney(record.hourlyCost, currency)}/h</span>
+                  {currency.code === 'EUR' ? null : (
+                    <span className="people-sub">
+                      ≈ {formatMoney(record.hourlyCost, currency)}/h
+                    </span>
+                  )}
                 </td>
                 <td>
                   <button
@@ -174,8 +179,10 @@ export function RateHistoryEditor({ store, employee, currency }: Props) {
       ) : null}
 
       <p className="people-hint">
-        A rate applies from its start date — inclusive — until the next one begins. Editing the past
-        is allowed and reprices every affected month in Delivery immediately.
+        A rate applies from its start date, inclusive, until the next one begins, so the end shown
+        under each date is derived rather than stored: there is no second field that could disagree
+        with the next record. To move it, change the next row&rsquo;s start date. Rates are held in
+        euro; editing the past is allowed and reprices every affected month in Delivery immediately.
       </p>
     </section>
   );

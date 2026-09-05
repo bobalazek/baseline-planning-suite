@@ -4,7 +4,7 @@ import type { IsoDate, MonthKey } from '../calendar/month';
  * The five entities of §3.2 of the brief, and the branded ids that keep them from being mixed up.
  *
  * These live in `shared-common` because both teams have to agree on what an `EmployeeId` is in
- * order to talk at all — but note what is *not* here: no `hourlyCost` on anything Delivery reads,
+ * order to talk at all, but note what is *not* here: no `hourlyCost` on anything Delivery reads,
  * and no `amount` on anything People reads. Each side owns its own entities; this module owns the
  * vocabulary.
  */
@@ -33,7 +33,7 @@ export interface Employee {
 
 /**
  * Owned by People. A rate applies from `validFrom` until the next record for the same employee
- * begins; the last one has no end. There is deliberately no `validTo` field — an end date is a
+ * begins; the last one has no end. There is deliberately no `validTo` field, an end date is a
  * derived fact, and storing it is how two records end up disagreeing about the same day.
  */
 export interface RateRecord {
@@ -60,7 +60,7 @@ export interface BreakdownItem {
 }
 
 /**
- * Owned by Delivery. `amount` is in **person-months** — the single canonical unit
+ * Owned by Delivery. `amount` is in **person-months**, the single canonical unit
  * (see docs/project/decisions/0001-canonical-unit.md).
  *
  * `updatedAt` and `updatedBy` are not bookkeeping: R5 requires naming "the most recently edited

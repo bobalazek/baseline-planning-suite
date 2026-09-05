@@ -12,17 +12,16 @@ import {
 /**
  * Cross-project capacity (R5).
  *
- * "Capacity for a month is 100% of that person's person-month, and allocation is summed across
- * every project — including ones not currently open." So this index is built from *all*
- * allocations, never from the project the planner happens to be looking at. Getting that wrong is
- * the single easiest way to ship a plan that looks fine and is not.
+ * Built from *all* allocations, never from the project currently on screen: R5 sums across every
+ * project "including ones not currently open", and scoping this to the open project is the easiest
+ * way to ship a plan that looks fine and is not.
  *
- * Because the canonical unit is the person-month, capacity is the constant 1 and the comparison
- * needs nothing at all from People.
+ * Capacity is the constant 1 because the canonical unit is the person-month, so the comparison
+ * needs nothing from People.
  */
 export interface UtilisationIndex {
   readonly byEmployee: ReadonlyMap<EmployeeId, ReadonlyMap<MonthKey, MonthUtilisation>>;
-  /** The most recently edited allocation contributing to a person-month — R5's "who caused it". */
+  /** The most recently edited allocation contributing to a person-month, R5's "who caused it". */
   readonly culpritByCell: ReadonlyMap<string, Allocation>;
 }
 

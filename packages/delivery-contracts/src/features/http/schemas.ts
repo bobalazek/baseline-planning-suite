@@ -61,7 +61,7 @@ export const allocationSchema: z.ZodType<Allocation, unknown> = z.object({
   breakdownItemId: breakdownItemIdSchema,
   employeeId: employeeIdSchema,
   month: monthKeySchema,
-  /** Person-months — the canonical unit. Never hours, never euro. */
+  /** Person-months, the canonical unit. Never hours, never euro. */
   amount: z.number().nonnegative(),
   updatedAt: z.string().min(1),
   updatedBy: z.string().min(1),

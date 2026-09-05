@@ -11,7 +11,7 @@ export const baseNodeTestConfig: TestConfig = {
   hookTimeout: 10000,
 };
 
-// 50% is a smoke-test floor, not a quality bar — it catches "this package shipped zero tests".
+// 50% is a smoke-test floor, not a quality bar; it catches "this package shipped zero tests".
 // The packages that carry the domain rules set their own, much higher, thresholds.
 export const defaultCoverageConfig = {
   provider: 'v8' as const,

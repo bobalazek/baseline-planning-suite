@@ -14,8 +14,8 @@ interface Props {
  * Create, rename, move and delete on one work package (F5).
  *
  * Move is a select rather than drag-and-drop: the brief forbids a tree package, and a list of legal
- * parents is both easier to get right and reachable from a keyboard. Illegal targets — the item
- * itself and anything inside it — are filtered out before they can be chosen.
+ * parents is both easier to get right and reachable from a keyboard. Illegal targets, the item
+ * itself and anything inside it, are filtered out before they can be chosen.
  */
 export function BreakdownActions({
   item,

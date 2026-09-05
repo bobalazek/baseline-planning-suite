@@ -2,7 +2,7 @@ import type { DisplayCurrency } from '@repo/platform';
 import { roundTo } from '@repo/shared-common';
 
 /**
- * Cost is computed in euro — the currency the rate records are in — and converted once, here, at
+ * Cost is computed in euro, the currency the rate records are in, and converted once, here, at
  * the point of display. Nothing is ever stored in a display currency.
  */
 export function formatMoney(amountInEuro: number, currency: DisplayCurrency, decimals = 2): string {

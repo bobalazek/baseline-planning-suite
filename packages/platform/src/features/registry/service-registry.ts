@@ -3,7 +3,7 @@ import { majorVersionOf, type ContractKey } from './contract-key';
 export type Unsubscribe = () => void;
 
 /**
- * Where the two teams meet. One app *provides* a contract, the other *gets* it — and `get` returns
+ * Where the two teams meet. One app *provides* a contract, the other *gets* it, and `get` returns
  * `undefined` rather than throwing, because "the other remote did not load" is a normal state of
  * this system, not an exception (F9). Every consumer is forced by the type to say what it renders
  * in that case.

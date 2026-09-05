@@ -29,7 +29,7 @@ export function toCellPricing(quote: MonthQuote, personMonthHours: number): Cell
  * Convert the stored person-months into the unit the grid is currently showing (R2).
  *
  * Returns `null` when the conversion needs something Delivery does not have. Hours and cost both
- * need People; person-months and % of capacity never do — which is why the grid stays useful when
+ * need People; person-months and % of capacity never do, which is why the grid stays useful when
  * the People remote fails to load (F9), instead of going blank.
  */
 export function toDisplayValue(
@@ -55,7 +55,7 @@ export function toDisplayValue(
  * Convert a value the planner typed back into the canonical person-months (R2).
  *
  * The euro case is the interesting one: "editing a cell in € in a month that contains a rate change
- * divides the amount entered by that cell's blended rate for the month — giving hours, which
+ * divides the amount entered by that cell's blended rate for the month, giving hours, which
  * convert to the canonical unit". A month with no rate at all has a blended rate of zero, so a euro
  * amount cannot be inverted; that returns `null` and the caller refuses the edit rather than
  * inventing effort.

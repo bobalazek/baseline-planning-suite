@@ -14,14 +14,13 @@ const LOADING: RemoteAppState = { status: 'loading' };
 /**
  * Load a remote's UI on navigation.
  *
- * Deliberately not `React.lazy`: `lazy` caches its promise for the life of the component it
- * creates, including a rejection, so a remote that failed once could never recover without a page
- * reload — exactly the thing the fault-injection switch exists to let a reviewer undo. Loading
- * explicitly also routes an App that fails to load through the same panel as a bootstrap that
- * failed, rather than through a Suspense boundary that says nothing useful.
+ * Deliberately not `React.lazy`, which caches its promise including a rejection: a remote that
+ * failed once could then never recover without a page reload, which is exactly what the fault
+ * switch needs to be able to undo. Loading explicitly also routes an App that fails to load through
+ * the same panel as a failed bootstrap.
  *
- * The result carries the key it belongs to, so switching remotes reads as "loading" during render
- * rather than needing a reset written back into state from inside the effect.
+ * The result carries the key it belongs to, so switching remotes reads as loading during render
+ * rather than needing a reset written back into state from the effect.
  */
 export function useRemoteApp(remote: RemoteDescriptor, enabled: boolean): RemoteAppState {
   const [loaded, setLoaded] = useState<{ key: string; state: RemoteAppState } | null>(null);

@@ -20,7 +20,7 @@ import {
 /**
  * Load the shipped fixture and narrow it into domain types.
  *
- * The seed has no `updatedAt` on its allocations — R5 needs one to name the most recently edited
+ * The seed has no `updatedAt` on its allocations, R5 needs one to name the most recently edited
  * assignment, so every seeded row is stamped with the same instant. That makes "who caused the
  * overrun" undefined-by-timestamp until somebody edits something, which is honest: nobody did.
  */

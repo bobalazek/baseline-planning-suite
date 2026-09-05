@@ -79,16 +79,13 @@ export interface Grid {
 /**
  * Build the staffing grid.
  *
- * **How R3 is satisfied in both directions.** A leaf's per-person cells are the only values rounded
- * from exact numbers: `distributeRounded` adjusts them so they sum precisely to the row's rounded
- * total. Everything above that — work-package rows, column totals, the grand total — is the sum of
- * values already on screen. So a parent cell equals the sum of the child cells printed beneath it,
- * a row total equals the sum of the cells printed beside it, and both hold exactly rather than
- * within a cent. That is also the literal reading of R4: parents are *derived* from their children.
+ * R3 holds in both directions because leaf cells are the only values rounded from exact numbers:
+ * `distributeRounded` makes them sum to the row's rounded total, and every aggregate above is a sum
+ * of values already on screen. So a parent cell equals the child cells printed beneath it and a row
+ * total equals the cells printed beside it, exactly rather than within a cent.
  *
- * The alternative — rounding every aggregate independently from its own exact value — makes each
- * number individually defensible and lets a column visibly fail to add up. Two-dimensional
- * apportionment cannot have both; this repo picks the one the reader can verify with their eyes.
+ * Rounding each aggregate independently instead would let a column visibly fail to add up.
+ * Two-dimensional apportionment cannot have both; see decisions/0006-display-rounding.md.
  */
 export function buildGrid(input: GridInput): Grid {
   const decimals = UNIT_DECIMALS[input.unit];
@@ -272,7 +269,7 @@ function assigneesOf(
   );
 }
 
-/** A sum where one unknown makes the whole unknown — a partial total would be a lie. */
+/** A sum where one unknown makes the whole unknown, a partial total would be a lie. */
 function addOrNull(values: readonly (number | null)[]): number | null {
   return values.some((value) => value === null) ? null : sum(values as number[]);
 }

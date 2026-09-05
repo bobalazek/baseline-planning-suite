@@ -20,7 +20,7 @@ export function buildRateTimeline(records: readonly RateRecord[]): RateTimeline 
   };
 }
 
-/** The rate in force on a date, or `null` before the first record — those days cost zero (R1). */
+/** The rate in force on a date, or `null` before the first record, those days cost zero (R1). */
 export function rateOn(timeline: RateTimeline, date: IsoDate): number | null {
   let effective: number | null = null;
 
@@ -47,8 +47,8 @@ export type RateEditProblem =
 /**
  * Whether a proposed set of records for one employee is a legal timeline.
  *
- * Two records sharing a `validFrom` is the one state the domain genuinely cannot answer — both
- * claim the same day and R1 gives no tie-break — so it is rejected rather than silently resolved.
+ * Two records sharing a `validFrom` is the one state the domain genuinely cannot answer; both
+ * claim the same day and R1 gives no tie-break, so it is rejected rather than silently resolved.
  * Everything else the brief asks for is allowed, including a retroactive rate that changes what
  * last quarter cost.
  */

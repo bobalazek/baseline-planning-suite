@@ -3,13 +3,11 @@ import type { RemoteDescriptor } from '../config/runtime-config';
 /**
  * A deliberate way to break a remote (F9).
  *
- * "If a remote fails to load, the shell stays alive and says so in place of that panel. Give us a
- * way to trigger it." This does not mock a failure or throw on purpose: it points the remote's
- * entry at a URL that does not exist, so Module Federation's real loader really fails, and the
- * shell's real recovery path is what the reviewer sees.
+ * Nothing is mocked and nothing throws on purpose: the remote's entry is pointed at a URL that does
+ * not exist, so the real Module Federation loader fails and the real recovery path is what you see.
  *
- * Broken remotes are held in `sessionStorage`, so a reload keeps the fault and the degraded state
- * can be inspected properly — including whether the *other* app copes with a missing contract.
+ * Faults live in sessionStorage so a reload keeps them, which is what makes the degraded state
+ * inspectable, including whether the other app copes with a missing contract.
  */
 const STORAGE_KEY = 'baseline.brokenRemotes';
 

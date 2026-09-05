@@ -10,7 +10,7 @@ import {
   type YearMonth,
 } from './month';
 
-/** Day of week for a date, 0 = Sunday. Sakamoto's method — integer arithmetic, no `Date`. */
+/** Day of week for a date, 0 = Sunday. Sakamoto's method, integer arithmetic, no `Date`. */
 export function dayOfWeek({ year, month, day }: YearMonth & { day: number }): number {
   const monthOffsets = [0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4] as const;
   const shiftedYear = month < 3 ? year - 1 : year;
@@ -52,7 +52,7 @@ export function workingDaysInDayRange(month: MonthKey, fromDay: number, toDay: n
 }
 
 /**
- * Working days in a month strictly before a date, and from that date onward — the two halves R1
+ * Working days in a month strictly before a date, and from that date onward, the two halves R1
  * splits a month into at a rate change. `validFrom` is inclusive, so the boundary day itself lands
  * in `from`. A boundary outside the month puts every working day on one side, which is what makes
  * this safe to call for a rate that started years ago.

@@ -14,7 +14,7 @@ import { describe, expect, it } from 'vitest';
 import { composeSuite } from '../fixtures/compose-suite';
 
 /**
- * §3.3 Figure 4 of the brief — the reference calculation.
+ * §3.3 Figure 4 of the brief, the reference calculation.
  *
  *   "If your build does not produce these five numbers, stop and fix that before anything else."
  *

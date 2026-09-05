@@ -2,7 +2,7 @@ import type { Allocation, BreakdownItemId, EmployeeId, MonthKey } from '@repo/sh
 
 /**
  * Lookup for the grid: which people appear on a work package, and what one of them has in one
- * month. Built once per render pass rather than scanned per cell — a 90-node tree over a
+ * month. Built once per render pass rather than scanned per cell, a 90-node tree over a
  * twelve-month horizon asks this question several thousand times.
  */
 export interface AllocationIndex {

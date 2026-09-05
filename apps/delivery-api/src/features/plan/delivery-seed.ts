@@ -4,7 +4,7 @@ import { deliverySnapshotSchema, type DeliverySnapshot } from '@repo/delivery-co
 
 /**
  * Seed Delivery's store from the shipped fixture, taking only the three collections Delivery owns.
- * The service never reads `employees` or `rateRecords` — it could not price a plan if it wanted to.
+ * The service never reads `employees` or `rateRecords`; it could not price a plan if it wanted to.
  *
  * The fixture's allocations carry no timestamp. R5 has to name "the most recently edited allocation
  * contributing to that person-month", so every seeded row is stamped with the same instant: nobody

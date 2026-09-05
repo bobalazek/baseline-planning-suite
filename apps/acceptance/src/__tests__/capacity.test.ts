@@ -14,7 +14,7 @@ import { projectHorizon } from '../fixtures/project-horizon';
 
 /**
  * R5 over the shipped fixture. The brief's own Figure 5 names the case: "M. Brandt is over capacity
- * in Jun 26 once his other projects are counted." He is emp-003, and he is — but only when the sum
+ * in Jun 26 once his other projects are counted." He is emp-003, and he is, but only when the sum
  * crosses project boundaries.
  */
 describe('Capacity is cross-project (R5)', () => {

@@ -12,7 +12,7 @@ interface Props {
  * Put somebody on a leaf work package.
  *
  * The list of people comes from People's published contract, so this control disappears when People
- * is unavailable — Delivery has no register of its own and will not invent one.
+ * is unavailable; Delivery has no register of its own and will not invent one.
  */
 export function AddAssignment({ itemId, candidates, busy, onAdd }: Props) {
   const [employeeId, setEmployeeId] = useState('');

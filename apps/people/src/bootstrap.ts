@@ -36,7 +36,7 @@ export function register(host: PlatformHost): RemoteRegistration {
       releaseContract();
 
       // Only retract *this* registration. React's StrictMode mounts an effect, tears it down and
-      // mounts it again, and the teardown here is asynchronous — without this guard a stale
+      // mounts it again, and the teardown here is asynchronous, without this guard a stale
       // disposer arrives after the replacement has registered and deletes it, leaving the app
       // rendered against a host it was never registered with.
       if (runtimeByHost.get(host) === runtime) {

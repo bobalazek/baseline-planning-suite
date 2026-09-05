@@ -8,7 +8,7 @@ interface Props {
 
 /**
  * Projects overlap and share people. The grid shows one at a time, but capacity is always summed
- * across all of them — which is why a person can be flagged here for load the planner cannot see.
+ * across all of them, which is why a person can be flagged here for load the planner cannot see.
  */
 export function ProjectPicker({ projects, selectedId, onSelect }: Props) {
   return (

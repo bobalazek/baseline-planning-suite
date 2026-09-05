@@ -23,7 +23,7 @@ export interface PlanChange {
 
 /**
  * An immutable view of the whole plan. A new object is produced on every change and the same one is
- * returned in between, which is exactly the contract `useSyncExternalStore` wants — so React
+ * returned in between, which is exactly the contract `useSyncExternalStore` wants, so React
  * re-renders on a real change and nothing needs a hand-rolled revision counter as a dependency.
  */
 export interface PlanSnapshot {
@@ -35,7 +35,7 @@ export interface PlanSnapshot {
 }
 
 /**
- * Delivery's hydrated projection of the whole plan — every project, not just the one on screen.
+ * Delivery's hydrated projection of the whole plan, every project, not just the one on screen.
  *
  * That is not laziness: R5 says capacity is summed across every project "including ones not
  * currently open", so a projection scoped to the visible project would give the wrong answer by

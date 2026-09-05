@@ -204,7 +204,7 @@ describe('POST /breakdown-items (F5, R4)', () => {
 
   it('does not cap depth, so R4 stays reachable for the fixture"s level-three leaves', async () => {
     // wbs-012 is already the third level. If depth were capped at three, R4 could never fire for
-    // any allocation in this fixture — every leaf that carries one is at that level.
+    // any allocation in this fixture, every leaf that carries one is at that level.
     const child = (
       await server.inject({
         method: 'POST',

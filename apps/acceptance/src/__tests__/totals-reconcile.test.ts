@@ -14,8 +14,8 @@ import { projectHorizon } from '../fixtures/project-horizon';
 /**
  * R3 over the whole shipped fixture: 4 projects × 4 units, every row, every month.
  *
- * These assertions are about what a reader can verify on screen — a total equals the cells beside
- * it, a parent equals the cells beneath it — which is the trade-off ADR-0006 makes explicit.
+ * These assertions are about what a reader can verify on screen, a total equals the cells beside
+ * it, a parent equals the cells beneath it, which is the trade-off ADR-0006 makes explicit.
  */
 describe('Totals add up across the whole fixture (R3)', () => {
   const suite = composeSuite();

@@ -9,7 +9,7 @@ import { register } from './bootstrap';
  * Delivery running on its own origin.
  *
  * It builds a `PlatformHost` and calls the same `register` the shell calls, then renders the same
- * `App`. There is no "standalone" flag anywhere in application code — hosting is a parameter, and
+ * `App`. There is no "standalone" flag anywhere in application code; hosting is a parameter, and
  * both paths come out of one build.
  *
  * What is missing standalone is People's contract, so the grid offers person-months and % of

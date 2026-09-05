@@ -5,7 +5,7 @@ import { workingDaysInMonth, type MonthKey, type WeeklyHours } from '@repo/share
  *
  *     weeklyHours × workingDays(month) ÷ 5
  *
- * It varies by person and by month and is never a constant — 40 h/week is 176 h in March 2026 and
+ * It varies by person and by month and is never a constant, 40 h/week is 176 h in March 2026 and
  * 168 h in April 2026. Delivery has to ask for this rather than assume a flat 160, which is why it
  * is on the published contract.
  */

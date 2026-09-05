@@ -7,8 +7,8 @@ import type { MonthQuote } from './month-quote';
  * What the People team publishes to the rest of the suite.
  *
  * Note what is absent: `RateRecord`, `hourlyCost`, `validFrom`. Rate records are People's, and they
- * do not cross this line. What crosses is a **price** — one blended euro-per-hour figure per person
- * per month — plus the person's contracted capacity for that month.
+ * do not cross this line. What crosses is a **price**; one blended euro-per-hour figure per person
+ * per month, plus the person's contracted capacity for that month.
  *
  * Every method is synchronous. It is served from a projection People has already hydrated, because
  * the consumer is a grid painting several hundred cells and cannot afford a promise per cell.
@@ -20,7 +20,7 @@ export interface PeopleContract {
   findEmployee(employeeId: EmployeeId): Employee | undefined;
 
   /**
-   * `weeklyHours × workingDays(month) ÷ 5`. Varies by person *and* by month — it is never a
+   * `weeklyHours × workingDays(month) ÷ 5`. Varies by person *and* by month; it is never a
    * constant, which is exactly why Delivery has to ask instead of assuming 160.
    */
   personMonthHours(employeeId: EmployeeId, month: MonthKey): number;

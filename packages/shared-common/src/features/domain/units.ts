@@ -1,6 +1,6 @@
 /**
  * The four units the staffing grid reads and edits in (R2), and the fixed display precision of
- * each. One of them — `personMonths` — is what gets stored; the other three are conversions
+ * each. One of them, `personMonths`, is what gets stored; the other three are conversions
  * applied at the edge of the grid and never persisted.
  */
 export const DISPLAY_UNITS = ['personMonths', 'hours', 'percent', 'cost'] as const;
@@ -30,7 +30,7 @@ export const CAPACITY_PERSON_MONTHS = 1;
 
 /**
  * Floating-point allowance when comparing a rolled-up total against its parts. The brief is
- * explicit that this is "a floating-point allowance, not a rounding budget" — it exists so that
+ * explicit that this is "a floating-point allowance, not a rounding budget"; it exists so that
  * summing 720 doubles in a different order does not fail an equality check, and it is never used
  * to excuse a value that is actually wrong.
  */

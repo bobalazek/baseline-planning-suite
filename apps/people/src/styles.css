@@ -299,3 +299,36 @@
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+
+/*
+ * A rate's end is derived from the next record's start (R1 stores no end date), so it is a caption
+ * under the start date rather than a column of its own. As a column it had nothing to align to and
+ * read as a row of values staggered between the rows they belonged to.
+ */
+.people-period__until {
+  display: block;
+  font-size: 11px;
+  color: var(--people-muted);
+  margin-top: 3px;
+  white-space: nowrap;
+}
+
+/* Keep the input and its converted value on one line so the cell reads as one control. */
+.people-table td.people-num {
+  white-space: nowrap;
+}
+
+.people-table td.people-num .people-sub {
+  display: inline;
+  margin-left: 6px;
+}
+
+/* Rows are two lines tall now; align every cell to the input, not to the row's centre. */
+.people-table tbody td {
+  vertical-align: top;
+}
+
+.people-table tbody td > input,
+.people-table tbody td > button {
+  margin-top: 1px;
+}

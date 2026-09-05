@@ -21,7 +21,7 @@ interface SourceFile {
   readonly contents: string;
   /** Comments and string literals blanked out, so prose cannot trip a code rule. */
   readonly code: string;
-  /** Comments blanked out, string literals kept — module specifiers live in strings. */
+  /** Comments blanked out, string literals kept, module specifiers live in strings. */
   readonly codeWithStrings: string;
 }
 

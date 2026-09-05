@@ -6,19 +6,8 @@ import type { Employee, EmployeeId, RateRecord, RateRecordId } from '@repo/share
 import type { PeopleClient } from './people-client';
 
 /**
- * People's hydrated projection of its own service.
- *
- * Everything the published contract answers is served from here, synchronously. The alternative —
- * a promise per lookup — is unusable on the consuming side, where a grid asks for a price several
- * hundred times in one render.
- *
- * A mutation writes through the service first and re-reads afterwards. Nothing is applied
- * optimistically: a rate is the input to every cost in the suite, and briefly showing a plan priced
- * at a rate the server rejected is worse than a moment's latency.
- */
-/**
  * An immutable view of the register. A new object appears on every change and the same one is
- * returned in between — the contract `useSyncExternalStore` wants, so no revision counter has to be
+ * returned in between, the contract `useSyncExternalStore` wants, so no revision counter has to be
  * smuggled into a dependency array.
  */
 export interface RegisterSnapshot {
@@ -26,6 +15,14 @@ export interface RegisterSnapshot {
   readonly employees: readonly Employee[];
 }
 
+/**
+ * People's hydrated projection of its own service. The published contract is served from here
+ * synchronously; a promise per lookup would be unusable on the consuming side, where a grid asks
+ * for a price hundreds of times in one render.
+ *
+ * Mutations write through and re-read. Nothing is optimistic: a rate feeds every cost in the suite,
+ * and briefly showing a plan priced at a rate the server rejected is worse than a little latency.
+ */
 export interface PeopleStore {
   readonly ready: Promise<void>;
   snapshot(): RegisterSnapshot;

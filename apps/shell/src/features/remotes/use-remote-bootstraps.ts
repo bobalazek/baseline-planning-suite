@@ -14,15 +14,11 @@ export type RemoteStates = Readonly<Record<string, RemoteState>>;
 const LOADING: RemoteState = { status: 'loading' };
 
 /**
- * Bring up both remotes' published contracts, independently.
- *
- * Each is loaded on its own promise and tracked in its own entry: one failing says nothing about
- * the other, and the shell itself never depends on either succeeding. That is the whole of the
- * isolation requirement (F9) — there is no try/catch scattered through the UI, because "that remote
- * is not here" is a state the shell always knew how to render.
+ * Bring up both remotes' published contracts independently: one failing says nothing about the
+ * other, and the shell never depends on either succeeding (F9).
  *
  * Results are stamped with the attempt they belong to, so toggling a fault or changing the config
- * reads as "loading" during render instead of writing a reset back into state from the effect.
+ * reads as loading during render instead of writing a reset back into state from the effect.
  */
 export function useRemoteBootstraps(
   remotes: readonly RemoteDescriptor[],

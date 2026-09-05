@@ -11,18 +11,13 @@ import { type RateTimeline } from './rate-timeline';
 /**
  * Price one month for one person (R1).
  *
- * The month is cut into segments at every rate change that lands inside it. Because effort is
- * spread evenly over working days, the hours in a segment are `segmentDays × (hours ÷ monthDays)`,
- * so the whole month collapses to a single working-day-weighted rate:
+ * The month is cut at every rate change inside it. Effort spreads evenly over working days, so the
+ * hours in a segment are `segmentDays × (hours ÷ monthDays)` and the month collapses to one
+ * working-day-weighted rate: `cost = hours × blendedRate`. That identity is why the published
+ * contract is a quote rather than a per-cell call (see decisions/0002-rate-cost-boundary.md).
  *
- *     cost = hours × Σ(segmentDays × segmentRate) ÷ monthDays
- *          = hours × blendedRate
- *
- * That identity is what makes the published contract a quote rather than a per-cell RPC — see
- * docs/project/decisions/0002-rate-cost-boundary.md.
- *
- * Days before the employee's first rate record are carried as an unpriced segment: they cost zero
- * and they make the cell show a marker, rather than quietly pricing at whatever came next.
+ * Days before the first rate record become an unpriced segment: they cost zero and mark the cell,
+ * rather than quietly pricing at whatever came next.
  */
 export function quoteMonth(
   employeeId: EmployeeId,

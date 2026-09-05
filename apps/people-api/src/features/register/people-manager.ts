@@ -11,7 +11,7 @@ import type { RateRecord, RateRecordId } from '@repo/shared-common';
  *
  * The rules enforced here are the ones that must hold no matter who is asking: an employee that
  * exists, a rate record that exists, and at most one rate per person per day. The pricing rules
- * (R1) are deliberately *not* here — they are pure functions in `@repo/people-domain`, tested
+ * (R1) are deliberately *not* here; they are pure functions in `@repo/people-domain`, tested
  * without a server, and used by whoever needs a price.
  */
 export interface PeopleManager {

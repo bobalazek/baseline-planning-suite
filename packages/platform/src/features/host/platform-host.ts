@@ -10,7 +10,7 @@ import {
 
 /**
  * Everything a remote is given by whoever is hosting it. There is exactly one of these per page,
- * because exactly one is constructed — by the shell when hosted, by the remote's own standalone
+ * because exactly one is constructed, by the shell when hosted, by the remote's own standalone
  * entry when not. Nothing here is a module-level singleton, so nothing here can be duplicated by
  * Module Federation resolving two copies of a shared package.
  */

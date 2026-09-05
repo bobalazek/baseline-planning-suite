@@ -5,7 +5,7 @@ import type { FastifyRequest } from 'fastify';
 
 import type { PeopleManager } from '../register/people-manager';
 
-/** Corrections, including retroactive ones — R1 explicitly allows editing the past (F4). */
+/** Corrections, including retroactive ones, R1 explicitly allows editing the past (F4). */
 export function handleUpdateRateRecord(manager: PeopleManager) {
   return async (
     request: FastifyRequest<{ Params: { rateRecordId: string } }>

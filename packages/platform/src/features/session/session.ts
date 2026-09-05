@@ -1,7 +1,7 @@
 import type { Unsubscribe } from '../registry/service-registry';
 
 /**
- * Display currency and active user — both owned by the shell, both pushed into the remotes at
+ * Display currency and active user; both owned by the shell, both pushed into the remotes at
  * runtime (F2). Nothing is *stored* in a display currency: cost is computed in euro, the canonical
  * currency of the rate records, and converted once at the point of formatting.
  */

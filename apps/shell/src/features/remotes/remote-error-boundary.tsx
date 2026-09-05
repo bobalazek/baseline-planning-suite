@@ -11,7 +11,7 @@ interface State {
 
 /**
  * Catches a remote that loaded but then threw while rendering. Load failures are handled before
- * this point; this covers the other half of "the shell stays alive" (F9) — a remote whose UI blows
+ * this point; this covers the other half of "the shell stays alive" (F9), a remote whose UI blows
  * up must not take the navigation and the session controls with it.
  */
 export class RemoteErrorBoundary extends Component<Props, State> {

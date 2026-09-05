@@ -22,7 +22,7 @@ interface Props {
  * allocation contributing to that person-month."
  *
  * The overrun may come from a project the planner cannot see, so naming the assignment is the only
- * thing that makes the message actionable — which is why this lists the work package and project of
+ * thing that makes the message actionable, which is why this lists the work package and project of
  * the culprit rather than just the fact of the overrun. The edit is never blocked.
  */
 export function CapacityWarnings({

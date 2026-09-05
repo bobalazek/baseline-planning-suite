@@ -4,13 +4,9 @@ import { dirname, join } from 'node:path';
 /**
  * The persistence port. A service depends on this interface, never on a file.
  *
- * `read` is synchronous over an in-memory copy because the read path is a snapshot endpoint that
- * every page load hits; `update` is asynchronous and serialised, because a write has to reach the
- * disk before it is acknowledged (edits must survive a reload).
- *
- * Swapping the JSON file for SQLite or Postgres means writing one more implementation of this
- * interface — see docs/project/decisions/0003-data-layer-and-persistence.md for why a file is the
- * right store at fixture scale.
+ * `read` is synchronous over an in-memory copy because every page load hits the snapshot endpoint;
+ * `update` is async and serialised because a write must reach disk before it is acknowledged.
+ * Swapping the JSON file for SQLite means one more implementation of this interface.
  */
 export interface DocumentStore<TDocument> {
   read(): TDocument;

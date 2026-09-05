@@ -19,7 +19,7 @@ import type { Allocation, AllocationId, BreakdownItem, BreakdownItemId } from '@
  * Two operations have to be atomic, so they live behind one endpoint rather than being composed by
  * the client out of several requests: inserting a child beneath a leaf that already carries
  * allocations (R4), and deleting a subtree. Both call the same pure functions from
- * `@repo/delivery-domain` that the frontend uses — the service does not own a second copy of the
+ * `@repo/delivery-domain` that the frontend uses, the service does not own a second copy of the
  * rule, only the transaction.
  */
 export interface DeliveryManager {
@@ -114,7 +114,7 @@ export function createDeliveryManager(store: DocumentStore<DeliverySnapshot>): D
     },
 
     /**
-     * R4 — inserting a child beneath a leaf that carries allocations moves those allocations onto
+     * R4, inserting a child beneath a leaf that carries allocations moves those allocations onto
      * the new child. Both writes happen in one store update, so the plan is never briefly missing
      * them, and nothing is ever silently lost.
      */

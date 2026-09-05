@@ -2,7 +2,7 @@ import { defineContract, defineEvent } from '@repo/platform';
 import type { EmployeeId, MonthKey } from '@repo/shared-common';
 
 /**
- * How much of one person's month is already spoken for, **across every project** — including
+ * How much of one person's month is already spoken for, **across every project**, including
  * projects the viewer does not have open, which is the entire point of R5. Capacity only means
  * something when every project is counted together.
  *
@@ -14,7 +14,7 @@ export interface MonthUtilisation {
   readonly personMonths: number;
   /** Person-months beyond capacity. Zero when within capacity; never negative. */
   readonly overCapacityBy: number;
-  /** How many projects contribute — People shows this to explain a number the planner can't see. */
+  /** How many projects contribute; People shows this to explain a number the planner can't see. */
   readonly projectCount: number;
 }
 

@@ -39,7 +39,7 @@ try {
     </StrictMode>
   );
 } catch (error) {
-  // The shell cannot start without its runtime configuration — that is the one dependency it has.
+  // The shell cannot start without its runtime configuration; that is the one dependency it has.
   root.render(
     <div className="shell-panel shell-panel--failed" role="alert">
       <h2>The shell could not read its configuration</h2>

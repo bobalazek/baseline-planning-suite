@@ -7,7 +7,7 @@ import { loadSeed, type Seed } from './load-seed';
 
 /**
  * Compose the two domains the way the running suite composes them: People answers `quoteMonth` and
- * `personMonthHours`, Delivery consumes the answers through `CellPricing`. Nothing is stubbed —
+ * `personMonthHours`, Delivery consumes the answers through `CellPricing`. Nothing is stubbed:
  * this is the real pricing path, minus the HTTP and the React.
  */
 export interface Suite {

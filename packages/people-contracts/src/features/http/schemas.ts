@@ -4,13 +4,11 @@ import { z } from 'zod';
 /**
  * The wire contract of `people-api`.
  *
- * The schemas produce the **domain types**, branded ids and all — there is no parallel DTO shape to
- * keep in step. Parsing is therefore the moment a `string` becomes an `EmployeeId`, and the only
- * moment: nothing downstream can mint one by accident.
+ * The schemas produce the domain types, branded ids included, so there is no parallel DTO shape to
+ * keep in step and parsing is the only moment a string becomes an `EmployeeId`.
  *
- * The client parses too, not just the server. The projection behind People's published contract is
- * what Delivery prices a plan from, so a malformed rate record has to fail loudly at the boundary
- * rather than turn into a wrong number in a cost cell.
+ * The client parses too. Delivery prices a plan from this projection, so a malformed rate record
+ * has to fail at the boundary rather than become a wrong number in a cost cell.
  */
 const employeeIdSchema = z
   .string()

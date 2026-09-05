@@ -3,7 +3,7 @@
  *
  * All arithmetic here is integer arithmetic on year/month/day triples. Nothing in this module
  * constructs a `Date` from a local-time string, so nothing here can be shifted by the host's
- * timezone — a planning grid that moves a rate change by a day depending on where the browser
+ * timezone, a planning grid that moves a rate change by a day depending on where the browser
  * happens to be is the classic version of this bug.
  */
 export type MonthKey = string & { readonly __brand: 'MonthKey' };

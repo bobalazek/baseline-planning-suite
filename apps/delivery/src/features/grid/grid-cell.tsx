@@ -13,7 +13,7 @@ interface Props {
 /**
  * One cell of the staffing grid.
  *
- * Only leaf cells are editable — a parent's effort comes from its children (R4). An edit is
+ * Only leaf cells are editable, a parent's effort comes from its children (R4). An edit is
  * committed on blur or Enter and abandoned on Escape, and the input starts from the *displayed*
  * value, so what the planner sees is what they are correcting.
  *
@@ -49,7 +49,7 @@ export function GridCell({ cell, decimals, value, overCapacityNote, onCommit }: 
   if (value === null) {
     return (
       <td className={`${classes.join(' ')} grid-cell--unknown`} title="Pricing is unavailable">
-        —
+        ,{' '}
       </td>
     );
   }

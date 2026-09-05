@@ -39,7 +39,7 @@ interface Props {
 /**
  * People × months, every leaf cell editable (F6).
  *
- * The grid model — rows, roll-ups and the rounding that makes totals add up — is built by
+ * The grid model, rows, roll-ups and the rounding that makes totals add up, is built by
  * `@repo/delivery-domain` and tested without a DOM. This component only paints it.
  *
  * Costs arrive already expressed in the display currency (the conversion happens at the rate), so

@@ -6,7 +6,7 @@ import type { EmployeeId, MonthKey } from '@repo/shared-common';
  * "this month is split across two rate periods" and mark unpriced cells, without ever learning
  * what anybody earns.
  *
- * See docs/project/decisions/0002-rate-cost-boundary.md — this is where the boundary actually is.
+ * See docs/project/decisions/0002-rate-cost-boundary.md; this is where the boundary actually is.
  */
 export interface QuoteSegment {
   readonly workingDays: number;

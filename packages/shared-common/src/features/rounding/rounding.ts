@@ -19,17 +19,14 @@ export function roundTo(value: number, decimals: number): number {
 }
 
 /**
- * Round a list of exact values so that the rounded parts sum **exactly** to the rounded whole
- * (R3) — largest-remainder apportionment.
+ * Largest-remainder apportionment: round a list of values so the parts sum exactly to the rounded
+ * whole (R3).
  *
- * Rounding each cell independently and rounding their sum are different operations, and the
- * difference is what a reviewer sees when a column of 2 dp figures adds up to a penny more than
- * the total printed underneath it. Here the whole is rounded once and the cells are made to agree
- * with it: every cell is floored, and the leftover units are handed out one at a time to the cells
- * with the largest discarded fraction — or taken back from the smallest, when the whole rounds
- * down.
- *
- * Returned values differ from independent rounding by at most one unit in the last place.
+ * Rounding each cell independently and rounding their sum are different operations, which is how a
+ * column of 2dp figures ends up a penny off the total beneath it. Here the whole is rounded once
+ * and the cells are made to agree: each is floored, then leftover units go to the largest discarded
+ * fractions (or are taken back from the smallest, when the whole rounds down). No cell moves by
+ * more than one unit in the last place.
  */
 export function distributeRounded(values: readonly number[], decimals: number): number[] {
   if (values.length === 0) {
