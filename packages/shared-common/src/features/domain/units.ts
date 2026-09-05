@@ -25,10 +25,6 @@ export const UNIT_LABELS: Readonly<Record<DisplayUnit, string>> = {
   cost: '€',
 };
 
-export function isDisplayUnit(value: string): value is DisplayUnit {
-  return (DISPLAY_UNITS as readonly string[]).includes(value);
-}
-
 /** A person-month is 100% of capacity, by definition (R2/R5). */
 export const CAPACITY_PERSON_MONTHS = 1;
 

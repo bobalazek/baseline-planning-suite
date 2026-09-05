@@ -84,6 +84,20 @@ jobs:
           fi
           echo "clean: the only file carrying one is config.json"
 
+      - name: Rebuilding one service does not 502 the gateway
+        run: |
+          set -euo pipefail
+          # nginx caches an upstream resolved directly in proxy_pass for the life of the process.
+          # Recreating a backend gives it a new IP and the gateway would 502 for ever; the gateway
+          # config names upstreams through a variable so they are re-resolved instead.
+          docker compose up -d --force-recreate people-api delivery-api
+          sleep 15
+          for path in /api/people/snapshot /api/delivery/snapshot; do
+            code=$(curl -so /dev/null -w '%{http_code}' "http://localhost:8080$path")
+            echo "after recreate: $path -> $code"
+            [ "$code" = "200" ] || exit 1
+          done
+
       - if: always()
         run: docker compose logs --no-color | tail -100
 

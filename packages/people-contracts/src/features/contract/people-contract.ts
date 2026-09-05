@@ -44,8 +44,3 @@ export const PEOPLE_CONTRACT = defineContract<PeopleContract>(
 export const PEOPLE_RATES_CHANGED = defineEvent<{ readonly employeeIds: readonly EmployeeId[] }>(
   'people/rates-changed'
 );
-
-/** Published when the register itself changes — a name, a role, contracted hours. */
-export const PEOPLE_EMPLOYEES_CHANGED = defineEvent<{
-  readonly employeeIds: readonly EmployeeId[];
-}>('people/employees-changed');

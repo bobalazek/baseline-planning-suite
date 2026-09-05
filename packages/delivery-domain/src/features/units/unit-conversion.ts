@@ -1,5 +1,5 @@
 import type { MonthQuote } from '@repo/people-contracts';
-import type { DisplayUnit } from '@repo/shared-common';
+import { CANONICAL_UNIT, type DisplayUnit } from '@repo/shared-common';
 
 /**
  * Everything Delivery needs from People in order to show one cell in a unit other than the
@@ -38,7 +38,9 @@ export function toDisplayValue(
   pricing: CellPricing | null
 ): number | null {
   switch (unit) {
-    case 'personMonths':
+    // The stored unit. Naming it here rather than writing the string keeps the one decision of
+    // ADR-0001 visible at the only place where a conversion is the identity.
+    case CANONICAL_UNIT:
       return personMonths;
     case 'percent':
       return personMonths * 100;
@@ -64,7 +66,7 @@ export function fromDisplayValue(
   pricing: CellPricing | null
 ): number | null {
   switch (unit) {
-    case 'personMonths':
+    case CANONICAL_UNIT:
       return entered;
     case 'percent':
       return entered / 100;
