@@ -26,7 +26,7 @@ RUN pnpm --filter "@repo/${APP}" build
 # Static frontend. The image contains only the compiled app; the remote URLs it
 # talks to are not in it (see the shell's entrypoint below).
 # ---------------------------------------------------------------------------
-FROM nginx:alpine AS frontend
+FROM nginx:1.27-alpine AS frontend
 ARG APP
 COPY --from=build /repo/apps/${APP}/dist /usr/share/nginx/html
 COPY infrastructure/docker/nginx/app.conf /etc/nginx/conf.d/default.conf
