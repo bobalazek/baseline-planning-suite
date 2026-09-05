@@ -152,11 +152,12 @@ project, including ones not currently open. When that sum exceeds capacity:
 
 | ID | Decision | Choice | ADR |
 | --- | --- | --- | --- |
-| D1 | Canonical unit | **Person-months** | [ADR-0001](adr/0001-canonical-unit.md) |
-| D2 | Rate → cost boundary | **People publishes a pricing quote; Delivery multiplies effort by it** | [ADR-0002](adr/0002-rate-cost-boundary.md) |
-| D3 | Data layer & persistence | **Two domain APIs, each with its own file-backed store behind a repository port** | [ADR-0003](adr/0003-data-layer-and-persistence.md) |
-| D4 | Transport between remotes | **Shell-owned service registry + event bus, injected at runtime** | [ADR-0004](adr/0004-transport-between-remotes.md) |
-| D5 | Bundler & runtime remotes | **Rspack + Module Federation 2, remotes registered from `/config.json`** | [ADR-0005](adr/0005-bundler-and-runtime-remotes.md) |
+| D1 | Canonical unit | **Person-months** | [ADR-0001](decisions/0001-canonical-unit.md) |
+| D2 | Rate → cost boundary | **People publishes a pricing quote; Delivery multiplies effort by it** | [ADR-0002](decisions/0002-rate-cost-boundary.md) |
+| D3 | Data layer & persistence | **Two domain APIs, each with its own file-backed store behind a repository port** | [ADR-0003](decisions/0003-data-layer-and-persistence.md) |
+| D4 | Transport between remotes | **Shell-owned service registry + event bus, injected at runtime** | [ADR-0004](decisions/0004-transport-between-remotes.md) |
+| D5 | Bundler & runtime remotes | **Rspack + Module Federation 2, remotes registered from `/config.json`** | [ADR-0005](decisions/0005-bundler-and-runtime-remotes.md) |
+| D6 | Display rounding | **Leaf cells are the only rounded values; every aggregate is derived** | [ADR-0006](decisions/0006-display-rounding.md) |
 
 ## 8. Out of scope (explicitly not scored)
 

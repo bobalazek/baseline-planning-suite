@@ -85,6 +85,40 @@ importers:
         specifier: 'catalog:'
         version: 4.1.10(@types/node@22.19.7)(@vitest/coverage-v8@4.1.10)(vite@8.2.2(@types/node@22.19.7))
 
+  packages/delivery-domain:
+    dependencies:
+      '@repo/delivery-contracts':
+        specifier: workspace:*
+        version: link:../delivery-contracts
+      '@repo/people-contracts':
+        specifier: workspace:*
+        version: link:../people-contracts
+      '@repo/shared-common':
+        specifier: workspace:*
+        version: link:../shared-common
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@repo/vitest-config':
+        specifier: workspace:*
+        version: link:../vitest-config
+      '@vitest/coverage-v8':
+        specifier: 'catalog:'
+        version: 4.1.10(vitest@4.1.10)
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.5
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.10(@types/node@22.19.7)(@vitest/coverage-v8@4.1.10)(vite@8.2.2(@types/node@22.19.7))
+
   packages/eslint-config:
     dependencies:
       '@eslint/js':
@@ -117,6 +151,37 @@ importers:
       zod:
         specifier: 'catalog:'
         version: 4.4.3
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@repo/vitest-config':
+        specifier: workspace:*
+        version: link:../vitest-config
+      '@vitest/coverage-v8':
+        specifier: 'catalog:'
+        version: 4.1.10(vitest@4.1.10)
+      eslint:
+        specifier: 'catalog:'
+        version: 9.39.5
+      typescript:
+        specifier: 'catalog:'
+        version: 5.9.3
+      vitest:
+        specifier: 'catalog:'
+        version: 4.1.10(@types/node@22.19.7)(@vitest/coverage-v8@4.1.10)(vite@8.2.2(@types/node@22.19.7))
+
+  packages/people-domain:
+    dependencies:
+      '@repo/people-contracts':
+        specifier: workspace:*
+        version: link:../people-contracts
+      '@repo/shared-common':
+        specifier: workspace:*
+        version: link:../shared-common
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
