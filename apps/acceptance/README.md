@@ -10,10 +10,10 @@ and runs against the shipped fixture with no mocks and no React.
 
 Nothing here is built or shipped. `pnpm --filter @repo/acceptance test`.
 
-| File | Proves |
-| --- | --- |
+| File                            | Proves                                                         |
+| ------------------------------- | -------------------------------------------------------------- |
 | `reference-calculation.test.ts` | Figure 4, all nine numbers, from `fixtures/baseline-seed.json` |
-| `fixture-integrity.test.ts` | The fixture is the one the brief describes |
-| `totals-reconcile.test.ts` | R3 over every project, every unit, every row |
-| `capacity.test.ts` | R5 over the whole fixture |
-| `boundaries.test.ts` | The architecture claims in the ADRs are true of the source |
+| `fixture-integrity.test.ts`     | The fixture is the one the brief describes                     |
+| `totals-reconcile.test.ts`      | R3 over every project, every unit, every row                   |
+| `capacity.test.ts`              | R5 over the whole fixture                                      |
+| `boundaries.test.ts`            | The architecture claims in the ADRs are true of the source     |

@@ -22,9 +22,9 @@ describe('employeeSchema', () => {
 
   it('accepts every contracted week the domain allows, and nothing else', () => {
     for (const weeklyHours of [40, 32, 20]) {
-      expect(
-        employeeSchema.safeParse({ id: 'e', name: 'n', role: 'r', weeklyHours }).success
-      ).toBe(true);
+      expect(employeeSchema.safeParse({ id: 'e', name: 'n', role: 'r', weeklyHours }).success).toBe(
+        true
+      );
     }
 
     expect(
@@ -33,9 +33,9 @@ describe('employeeSchema', () => {
   });
 
   it('rejects an empty id or name', () => {
-    expect(employeeSchema.safeParse({ id: '', name: 'n', role: 'r', weeklyHours: 40 }).success).toBe(
-      false
-    );
+    expect(
+      employeeSchema.safeParse({ id: '', name: 'n', role: 'r', weeklyHours: 40 }).success
+    ).toBe(false);
   });
 });
 

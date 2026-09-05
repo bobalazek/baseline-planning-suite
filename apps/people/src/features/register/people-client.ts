@@ -66,7 +66,10 @@ export class PeopleRequestError extends Error {
   }
 }
 
-async function request(url: string, init: { method?: string; body?: unknown } = {}): Promise<unknown> {
+async function request(
+  url: string,
+  init: { method?: string; body?: unknown } = {}
+): Promise<unknown> {
   const response = await fetch(url, {
     method: init.method ?? 'GET',
     cache: 'no-store',

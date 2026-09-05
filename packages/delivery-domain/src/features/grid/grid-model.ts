@@ -11,10 +11,7 @@ import {
   type MonthKey,
 } from '@repo/shared-common';
 
-import {
-  buildAllocationIndex,
-  type AllocationIndex,
-} from '../allocations/allocation-index';
+import { buildAllocationIndex, type AllocationIndex } from '../allocations/allocation-index';
 import { flatten, isLeaf, type BreakdownTree } from '../breakdown/breakdown-tree';
 import { utilisationAt, type UtilisationIndex } from '../capacity/utilisation';
 import { toDisplayValue, type CellPricing } from '../units/unit-conversion';
@@ -104,7 +101,9 @@ export function buildGrid(input: GridInput): Grid {
 
     if (isLeaf(node)) {
       for (const employeeId of assigneesOf(index, node.item.id, input.employeeName)) {
-        childRows.push(buildAssignmentRow(node.item.id, node.depth + 1, employeeId, index, input, decimals));
+        childRows.push(
+          buildAssignmentRow(node.item.id, node.depth + 1, employeeId, index, input, decimals)
+        );
       }
     }
 
@@ -136,7 +135,9 @@ export function buildGrid(input: GridInput): Grid {
       )
     ),
     grandTotal: addOrNull(
-      withDerived.filter((row) => row.kind === 'breakdown' && row.depth === 0).map((row) => row.total)
+      withDerived
+        .filter((row) => row.kind === 'breakdown' && row.depth === 0)
+        .map((row) => row.total)
     ),
   };
 }
@@ -154,7 +155,11 @@ function buildAssignmentRow(
   );
 
   const exactValues = input.months.map((month, monthIndex) =>
-    toDisplayValue(personMonthsByMonth[monthIndex] as number, input.unit, input.pricing(employeeId, month))
+    toDisplayValue(
+      personMonthsByMonth[monthIndex] as number,
+      input.unit,
+      input.pricing(employeeId, month)
+    )
   );
 
   const computable = exactValues.every((value) => value !== null);
@@ -235,7 +240,11 @@ function deriveBreakdownRows(rows: readonly GridRow[], input: GridInput): GridRo
 }
 
 /** Rows that sit immediately beneath `parentIndex`: the next depth down, before the depth rises. */
-function directChildrenOf(rows: readonly GridRow[], parentIndex: number, parentDepth: number): GridRow[] {
+function directChildrenOf(
+  rows: readonly GridRow[],
+  parentIndex: number,
+  parentDepth: number
+): GridRow[] {
   const children: GridRow[] = [];
 
   for (let index = parentIndex + 1; index < rows.length; index += 1) {
@@ -258,7 +267,9 @@ function assigneesOf(
   itemId: BreakdownItemId,
   employeeName: (employeeId: EmployeeId) => string
 ): EmployeeId[] {
-  return [...index.employeesOn(itemId)].sort((a, b) => employeeName(a).localeCompare(employeeName(b)));
+  return [...index.employeesOn(itemId)].sort((a, b) =>
+    employeeName(a).localeCompare(employeeName(b))
+  );
 }
 
 /** A sum where one unknown makes the whole unknown — a partial total would be a lie. */

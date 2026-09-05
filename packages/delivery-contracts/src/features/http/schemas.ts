@@ -15,10 +15,22 @@ import { z } from 'zod';
  * The wire contract of `delivery-api`. Like People's, it produces the domain types directly, so
  * parsing is where a `string` becomes a `BreakdownItemId` and nowhere else.
  */
-const projectIdSchema = z.string().min(1).transform((value) => value as ProjectId);
-const breakdownItemIdSchema = z.string().min(1).transform((value) => value as BreakdownItemId);
-const allocationIdSchema = z.string().min(1).transform((value) => value as AllocationId);
-const employeeIdSchema = z.string().min(1).transform((value) => value as EmployeeId);
+const projectIdSchema = z
+  .string()
+  .min(1)
+  .transform((value) => value as ProjectId);
+const breakdownItemIdSchema = z
+  .string()
+  .min(1)
+  .transform((value) => value as BreakdownItemId);
+const allocationIdSchema = z
+  .string()
+  .min(1)
+  .transform((value) => value as AllocationId);
+const employeeIdSchema = z
+  .string()
+  .min(1)
+  .transform((value) => value as EmployeeId);
 
 export const monthKeySchema = z
   .string()

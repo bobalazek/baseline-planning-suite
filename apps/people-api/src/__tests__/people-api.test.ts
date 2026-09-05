@@ -9,7 +9,9 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type { Env } from '../env';
 import { buildServer } from '../server';
 
-const SEED_PATH = fileURLToPath(new URL('../../../../fixtures/baseline-seed.json', import.meta.url));
+const SEED_PATH = fileURLToPath(
+  new URL('../../../../fixtures/baseline-seed.json', import.meta.url)
+);
 
 let env: Env;
 let server: Awaited<ReturnType<typeof buildServer>>['server'];
@@ -168,9 +170,9 @@ describe('PATCH /rate-records/:id (F4)', () => {
 
 describe('DELETE /rate-records/:id (F4)', () => {
   it('removes the rate', async () => {
-    expect((await server.inject({ method: 'DELETE', url: '/rate-records/rate-002' })).statusCode).toBe(
-      204
-    );
+    expect(
+      (await server.inject({ method: 'DELETE', url: '/rate-records/rate-002' })).statusCode
+    ).toBe(204);
 
     const snapshot = peopleSnapshotSchema.parse(
       (await server.inject({ method: 'GET', url: '/snapshot' })).json()
@@ -182,9 +184,9 @@ describe('DELETE /rate-records/:id (F4)', () => {
   it('404s twice — deletion is not idempotent by accident', async () => {
     await server.inject({ method: 'DELETE', url: '/rate-records/rate-002' });
 
-    expect((await server.inject({ method: 'DELETE', url: '/rate-records/rate-002' })).statusCode).toBe(
-      404
-    );
+    expect(
+      (await server.inject({ method: 'DELETE', url: '/rate-records/rate-002' })).statusCode
+    ).toBe(404);
   });
 });
 

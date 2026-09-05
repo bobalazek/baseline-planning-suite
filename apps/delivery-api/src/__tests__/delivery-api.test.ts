@@ -9,7 +9,9 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import type { Env } from '../env';
 import { buildServer } from '../server';
 
-const SEED_PATH = fileURLToPath(new URL('../../../../fixtures/baseline-seed.json', import.meta.url));
+const SEED_PATH = fileURLToPath(
+  new URL('../../../../fixtures/baseline-seed.json', import.meta.url)
+);
 
 let env: Env;
 let server: Awaited<ReturnType<typeof buildServer>>['server'];
@@ -290,7 +292,9 @@ describe('DELETE /breakdown-items/:id (F5)', () => {
     );
 
     expect(doomedAllocations.length).toBeGreaterThan(0);
-    expect((await server.inject({ method: 'DELETE', url: '/breakdown-items/wbs-004' })).statusCode).toBe(204);
+    expect(
+      (await server.inject({ method: 'DELETE', url: '/breakdown-items/wbs-004' })).statusCode
+    ).toBe(204);
 
     const after = await snapshot();
 

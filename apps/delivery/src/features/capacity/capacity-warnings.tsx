@@ -1,9 +1,4 @@
-import {
-  culpritFor,
-  utilisationAt,
-  type Grid,
-  type UtilisationIndex,
-} from '@repo/delivery-domain';
+import { culpritFor, utilisationAt, type Grid, type UtilisationIndex } from '@repo/delivery-domain';
 import type {
   BreakdownItem,
   BreakdownItemId,

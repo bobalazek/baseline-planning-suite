@@ -21,16 +21,16 @@ docker compose up
 Then open **<http://localhost:8080>**. Nothing else is needed — no Node on the host, no seeding
 step, no environment file. The first build takes a few minutes; after that it is seconds.
 
-| URL | What it is |
-| --- | --- |
-| <http://localhost:8080> | The shell: overview, status, and the fault switch |
-| <http://localhost:8080/people> | People, hosted in the shell |
-| <http://localhost:8080/delivery> | Delivery, hosted in the shell |
-| <http://localhost:8080/side-by-side> | Both at once — where a live rate change is visible |
-| <http://localhost:8080/remotes/people/> | People **standalone**, from the same build |
-| <http://localhost:8080/remotes/delivery/> | Delivery **standalone**, from the same build |
-| <http://localhost:8080/api/people/snapshot> | What People's service owns |
-| <http://localhost:8080/api/delivery/snapshot> | What Delivery's service owns |
+| URL                                           | What it is                                         |
+| --------------------------------------------- | -------------------------------------------------- |
+| <http://localhost:8080>                       | The shell: overview, status, and the fault switch  |
+| <http://localhost:8080/people>                | People, hosted in the shell                        |
+| <http://localhost:8080/delivery>              | Delivery, hosted in the shell                      |
+| <http://localhost:8080/side-by-side>          | Both at once — where a live rate change is visible |
+| <http://localhost:8080/remotes/people/>       | People **standalone**, from the same build         |
+| <http://localhost:8080/remotes/delivery/>     | Delivery **standalone**, from the same build       |
+| <http://localhost:8080/api/people/snapshot>   | What People's service owns                         |
+| <http://localhost:8080/api/delivery/snapshot> | What Delivery's service owns                       |
 
 Edits are written through to the services and survive a reload — and a `docker compose restart`.
 `docker compose down -v` drops the two volumes and re-seeds from the fixture.
@@ -56,24 +56,24 @@ pnpm --filter @repo/acceptance test
 A. Okafor, 40 h/week, rates €80.00/h from 2025-01-01 and €95.00/h from 2026-03-12, one leaf cell of
 0.50 person-months in March 2026:
 
-| | |
-| --- | --- |
-| March 2026 working days | **22** |
-| Working days before 12 Mar / from 12 Mar on | **8** / **14** |
-| One person-month | 40 × 22 ÷ 5 = **176.00 h** |
-| This allocation in hours | **88.00 h** |
-| Hours per working day | **4.00 h** |
-| Cost | 8 × 4 × 80 + 14 × 4 × 95 = **€7,880.00** |
-| Same cell in % of capacity | **50.0 %** |
-| Implied blended rate | **€89.5455/h** |
+|                                             |                                          |
+| ------------------------------------------- | ---------------------------------------- |
+| March 2026 working days                     | **22**                                   |
+| Working days before 12 Mar / from 12 Mar on | **8** / **14**                           |
+| One person-month                            | 40 × 22 ÷ 5 = **176.00 h**               |
+| This allocation in hours                    | **88.00 h**                              |
+| Hours per working day                       | **4.00 h**                               |
+| Cost                                        | 8 × 4 × 80 + 14 × 4 × 95 = **€7,880.00** |
+| Same cell in % of capacity                  | **50.0 %**                               |
+| Implied blended rate                        | **€89.5455/h**                           |
 
 To see it on screen: **Delivery → project "Ledger Consolidation" → March 2026**. The cell is
-A. Okafor on *Ledger migration › Discovery › Design*. Switch units with the PM / Hours / % / €
+A. Okafor on _Ledger migration › Discovery › Design_. Switch units with the PM / Hours / % / €
 toggle; the four readings of that one cell are the four rows above.
 
 ## How to break a remote on purpose
 
-The shell's **Overview** page has a switch per remote: *Point at a URL that 404s*. It does not mock
+The shell's **Overview** page has a switch per remote: _Point at a URL that 404s_. It does not mock
 a failure — it re-registers that remote with an entry URL that does not exist, so Module
 Federation's real loader really fails and the shell's real recovery path is what you see. The same
 thing is a query parameter:
@@ -86,12 +86,12 @@ http://localhost:8080/?break=people,delivery
 The fault is kept in `sessionStorage`, so it survives a reload and the degraded state can be
 inspected properly. What to look at:
 
-* **Break People, open Delivery.** The grid still works in person-months and % of capacity; the
+- **Break People, open Delivery.** The grid still works in person-months and % of capacity; the
   Hours and € toggles are disabled and say why; every cost reads `—`. Delivery holds no rates and
   does not pretend to.
-* **Break Delivery, open People.** The register and the rate editor are untouched; the utilisation
+- **Break Delivery, open People.** The register and the rate editor are untouched; the utilisation
   panel says it is unavailable rather than implying the person is free.
-* **Break both.** The shell keeps its navigation, currency selector and status page, and says so in
+- **Break both.** The shell keeps its navigation, currency selector and status page, and says so in
   place of each panel.
 
 A remote that fails to render (rather than to load) is caught by an error boundary and reported the
@@ -100,7 +100,7 @@ same way.
 ## What to try
 
 1. **A rate change reaches an open cost view with no reload.** Open **Side by side** — both
-   applications mounted at once. Put Delivery on *Ledger Consolidation* in **€**, then change Adaeze
+   applications mounted at once. Put Delivery on _Ledger Consolidation_ in **€**, then change Adaeze
    Okafor's 2026-03-12 rate from 95 to 150 in People above it. Her March 2026 cell goes from
    €7,880.00 to €10,960.00 as you tab out of the field, along with every total above it, and the
    page never reloads. (Propagation is in-page, over the shell's bus — a second browser tab is a
@@ -121,19 +121,19 @@ same way.
 
 The brief leaves five things open and says one of them is what is being assessed. Each is an ADR:
 
-| | Decision | Why, in one line |
-| --- | --- | --- |
-| [0001](docs/project/decisions/0001-canonical-unit.md) | The canonical unit is the **person-month** | Capacity is defined in it, so R5's check needs nothing from People |
-| [0002](docs/project/decisions/0002-rate-cost-boundary.md) | **People publishes a price, not a rate** | Even spreading makes a month cost `hours × blendedRate`, so one number describes it |
-| [0003](docs/project/decisions/0003-data-layer-and-persistence.md) | **Two services, two stores** | Ownership becomes physical, not conventional |
-| [0004](docs/project/decisions/0004-transport-between-remotes.md) | **The shell owns the platform and injects it** | One instance because one object was constructed, not because a version negotiated |
-| [0005](docs/project/decisions/0005-bundler-and-runtime-remotes.md) | **Rspack + MF2, remotes registered at runtime** | The same image runs anywhere; the fault switch is a real 404 |
-| [0006](docs/project/decisions/0006-display-rounding.md) | **Leaf cells round, aggregates derive** | Every relationship a reader can check with their eyes is exact |
+|                                                                    | Decision                                        | Why, in one line                                                                    |
+| ------------------------------------------------------------------ | ----------------------------------------------- | ----------------------------------------------------------------------------------- |
+| [0001](docs/project/decisions/0001-canonical-unit.md)              | The canonical unit is the **person-month**      | Capacity is defined in it, so R5's check needs nothing from People                  |
+| [0002](docs/project/decisions/0002-rate-cost-boundary.md)          | **People publishes a price, not a rate**        | Even spreading makes a month cost `hours × blendedRate`, so one number describes it |
+| [0003](docs/project/decisions/0003-data-layer-and-persistence.md)  | **Two services, two stores**                    | Ownership becomes physical, not conventional                                        |
+| [0004](docs/project/decisions/0004-transport-between-remotes.md)   | **The shell owns the platform and injects it**  | One instance because one object was constructed, not because a version negotiated   |
+| [0005](docs/project/decisions/0005-bundler-and-runtime-remotes.md) | **Rspack + MF2, remotes registered at runtime** | The same image runs anywhere; the fault switch is a real 404                        |
+| [0006](docs/project/decisions/0006-display-rounding.md)            | **Leaf cells round, aggregates derive**         | Every relationship a reader can check with their eyes is exact                      |
 
 ### The one the brief asks about
 
-> *"Whether Delivery reads rate records and computes cost itself, or asks People for a computed
-> cost, is the decision we are assessing."*
+> _"Whether Delivery reads rate records and computes cost itself, or asks People for a computed
+> cost, is the decision we are assessing."_
 
 **People publishes a month quote; Delivery multiplies its own effort by it.** Rate records never
 cross the line — no `hourlyCost`, no `validFrom`, no `RateRecord` anywhere in Delivery, and a test
@@ -147,7 +147,7 @@ cost = Σ segmentDays × (hours ÷ monthDays) × segmentRate
      = hours × blendedRate
 ```
 
-A month therefore has *one* number that fully describes its price, and that number is a pure
+A month therefore has _one_ number that fully describes its price, and that number is a pure
 function of the rate timeline and the calendar — both People's, neither Delivery's. So People
 publishes a quote rather than answering a per-cell RPC for each of ~720 cells and every roll-up
 above them. The full argument, including what was rejected, is
@@ -187,10 +187,10 @@ apps choose a project, wire an input and paint a table.
 
 The two teams' packages never meet:
 
-* `apps/delivery` and `packages/delivery-*` may import `@repo/people-contracts` — the published
+- `apps/delivery` and `packages/delivery-*` may import `@repo/people-contracts` — the published
   contract — and nothing else of People's.
-* `apps/people` and `packages/people-*` may import `@repo/delivery-contracts`, and nothing else.
-* `apps/acceptance` is the single exception, and it ships nothing.
+- `apps/people` and `packages/people-*` may import `@repo/delivery-contracts`, and nothing else.
+- `apps/acceptance` is the single exception, and it ships nothing.
 
 `apps/acceptance/src/__tests__/boundaries.test.ts` enforces all of that against the source, along
 with "no `any`", no deep imports, and no dynamic first-party imports.
@@ -221,28 +221,28 @@ pnpm test
 
 254 tests. None mount React; none need a browser.
 
-| Where | What it defends |
-| --- | --- |
-| `packages/shared-common` | Working days, month splitting, largest-remainder rounding (R1, R3) |
-| `packages/people-domain` | Effective dating, mid-month splits, blended rate, person-months (R1, R2) |
-| `packages/delivery-domain` | Unit conversion and round-tripping, the tree, roll-ups, capacity (R2–R5) |
-| `packages/platform` | The registry and bus, including what happens when a contract is missing |
-| `apps/*-api` | Every route, through `server.inject()`, against the real fixture |
-| `apps/acceptance` | Figure 4 end to end, the fixture's own counts, R3 and R5 over all four projects, and the architecture claims above |
+| Where                      | What it defends                                                                                                    |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `packages/shared-common`   | Working days, month splitting, largest-remainder rounding (R1, R3)                                                 |
+| `packages/people-domain`   | Effective dating, mid-month splits, blended rate, person-months (R1, R2)                                           |
+| `packages/delivery-domain` | Unit conversion and round-tripping, the tree, roll-ups, capacity (R2–R5)                                           |
+| `packages/platform`        | The registry and bus, including what happens when a contract is missing                                            |
+| `apps/*-api`               | Every route, through `server.inject()`, against the real fixture                                                   |
+| `apps/acceptance`          | Figure 4 end to end, the fixture's own counts, R3 and R5 over all four projects, and the architecture claims above |
 
 There are no snapshot tests of markup and no browser-driver suite; both would be scaffolding.
 
 ## Notes for the walkthrough
 
-* **Depth is not capped at three levels.** The fixture is three deep and every one of its 53 leaves
+- **Depth is not capped at three levels.** The fixture is three deep and every one of its 53 leaves
   is at the third — so a hard cap would make R4 unreachable for every cell in it. The only illegal
   move is one that would put a work package inside its own subtree.
-* **Writes are last-write-wins.** There is no optimistic concurrency; with one planner per stack it
+- **Writes are last-write-wins.** There is no optimistic concurrency; with one planner per stack it
   buys nothing and would clutter the contract.
-* **Renaming uses `window.prompt`.** The brief forbids a component kit and does not score visual
+- **Renaming uses `window.prompt`.** The brief forbids a component kit and does not score visual
   polish, so a modal would have been scaffolding.
-* **`@repo/rspack-config` is shared by all three frontends.** That is build tooling, in the same
+- **`@repo/rspack-config` is shared by all three frontends.** That is build tooling, in the same
   category as `@repo/tsconfig` — it knows one app hosts and two are hosted, and nothing about what
   either does.
-* **The shell's own screen is the status page.** It shows which entries were registered, which
+- **The shell's own screen is the status page.** It shows which entries were registered, which
   contracts are published, and the switch that breaks them.

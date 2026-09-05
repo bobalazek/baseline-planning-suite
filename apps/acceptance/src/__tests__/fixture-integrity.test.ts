@@ -97,7 +97,9 @@ describe('fixtures/baseline-seed.json', () => {
   });
 
   it('spans a twelve-month suite horizon, and the reference cell sits just before it', () => {
-    expect(monthsBetween(seed.gridHorizon.from as never, seed.gridHorizon.to as never)).toHaveLength(12);
+    expect(
+      monthsBetween(seed.gridHorizon.from as never, seed.gridHorizon.to as never)
+    ).toHaveLength(12);
 
     // alloc-001 is March 2026 — outside meta.gridHorizon, inside prj-1's own span. The grid is
     // driven by the project, which is the only way the reference calculation is reachable in the UI.

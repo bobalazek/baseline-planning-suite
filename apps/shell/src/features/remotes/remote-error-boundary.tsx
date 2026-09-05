@@ -22,7 +22,11 @@ export class RemoteErrorBoundary extends Component<Props, State> {
   }
 
   override componentDidCatch(error: unknown, info: ErrorInfo): void {
-    console.error(`[shell] ${this.props.label} crashed while rendering`, error, info.componentStack);
+    console.error(
+      `[shell] ${this.props.label} crashed while rendering`,
+      error,
+      info.componentStack
+    );
   }
 
   override render(): ReactNode {

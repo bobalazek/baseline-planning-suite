@@ -49,8 +49,12 @@ describe('breakdownItemSchema', () => {
     ).toBeNull();
 
     expect(
-      breakdownItemSchema.parse({ id: 'wbs-2', projectId: 'prj-1', parentId: 'wbs-1', name: 'Child' })
-        .parentId
+      breakdownItemSchema.parse({
+        id: 'wbs-2',
+        projectId: 'prj-1',
+        parentId: 'wbs-1',
+        name: 'Child',
+      }).parentId
     ).toBe('wbs-1');
   });
 
@@ -101,7 +105,8 @@ describe('edit payloads', () => {
 describe('deliverySnapshotSchema', () => {
   it('accepts an empty plan', () => {
     expect(
-      deliverySnapshotSchema.parse({ projects: [], breakdownItems: [], allocations: [] }).allocations
+      deliverySnapshotSchema.parse({ projects: [], breakdownItems: [], allocations: [] })
+        .allocations
     ).toEqual([]);
   });
 });

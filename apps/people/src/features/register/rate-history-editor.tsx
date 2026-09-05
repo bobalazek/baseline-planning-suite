@@ -105,7 +105,9 @@ export function RateHistoryEditor({ store, employee, currency }: Props) {
                     type="button"
                     className="people-button people-button--danger"
                     disabled={busy}
-                    onClick={() => void run(() => store.deleteRateRecord(record.id as RateRecordId))}
+                    onClick={() =>
+                      void run(() => store.deleteRateRecord(record.id as RateRecordId))
+                    }
                   >
                     Remove
                   </button>

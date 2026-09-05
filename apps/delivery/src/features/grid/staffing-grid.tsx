@@ -88,7 +88,11 @@ export function StaffingGrid({
                 key={row.id}
                 className={row.kind === 'breakdown' ? 'grid-row--package' : 'grid-row--person'}
               >
-                <th scope="row" className="grid-label-col" style={{ paddingLeft: 8 + row.depth * 16 }}>
+                <th
+                  scope="row"
+                  className="grid-label-col"
+                  style={{ paddingLeft: 8 + row.depth * 16 }}
+                >
                   <span className="grid-label">
                     {row.label}
                     {row.kind === 'breakdown' ? (

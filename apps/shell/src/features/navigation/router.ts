@@ -22,7 +22,11 @@ export function navigate(path: string): void {
 }
 
 export function useCurrentPath(): string {
-  return useSyncExternalStore(subscribe, () => window.location.pathname, () => '/');
+  return useSyncExternalStore(
+    subscribe,
+    () => window.location.pathname,
+    () => '/'
+  );
 }
 
 function subscribe(listener: () => void): () => void {

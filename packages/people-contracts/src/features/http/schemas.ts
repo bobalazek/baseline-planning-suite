@@ -12,8 +12,14 @@ import { z } from 'zod';
  * what Delivery prices a plan from, so a malformed rate record has to fail loudly at the boundary
  * rather than turn into a wrong number in a cost cell.
  */
-const employeeIdSchema = z.string().min(1).transform((value) => value as EmployeeId);
-const rateRecordIdSchema = z.string().min(1).transform((value) => value as RateRecordId);
+const employeeIdSchema = z
+  .string()
+  .min(1)
+  .transform((value) => value as EmployeeId);
+const rateRecordIdSchema = z
+  .string()
+  .min(1)
+  .transform((value) => value as RateRecordId);
 
 export const isoDateSchema = z
   .string()

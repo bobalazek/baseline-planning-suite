@@ -59,10 +59,9 @@ describe('Totals add up across the whole fixture (R3)', () => {
       for (const row of grid.rows) {
         const cells = row.cells.map((cell) => cell.display as number);
 
-        expect(
-          roundTo(sum(cells), 6),
-          `${name} / ${row.label} (${unit})`
-        ).toBe(roundTo(row.total as number, 6));
+        expect(roundTo(sum(cells), 6), `${name} / ${row.label} (${unit})`).toBe(
+          roundTo(row.total as number, 6)
+        );
       }
     }
   });

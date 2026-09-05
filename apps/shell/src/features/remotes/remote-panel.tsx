@@ -52,8 +52,8 @@ function FailurePanel({ remote, message }: { remote: RemoteDescriptor; message: 
       <h2>{remote.label} could not be loaded</h2>
       <p>
         The shell is still running. Navigation, the display currency and the other application are
-        unaffected; anything that depends on {remote.label}&rsquo;s data will say so where the number
-        would have been.
+        unaffected; anything that depends on {remote.label}&rsquo;s data will say so where the
+        number would have been.
       </p>
       <pre>{message}</pre>
     </div>

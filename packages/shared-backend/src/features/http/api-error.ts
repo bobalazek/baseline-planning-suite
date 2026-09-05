@@ -31,6 +31,8 @@ export interface ApiErrorBody {
 
 export function toApiErrorBody(error: ApiError): ApiErrorBody {
   return {
-    error: error.details ? { message: error.message, details: error.details } : { message: error.message },
+    error: error.details
+      ? { message: error.message, details: error.details }
+      : { message: error.message },
   };
 }

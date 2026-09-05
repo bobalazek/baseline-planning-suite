@@ -12,7 +12,12 @@ import {
 export const PROJECT = 'prj-1' as ProjectId;
 export const OTHER_PROJECT = 'prj-2' as ProjectId;
 
-export function item(id: string, parentId: string | null, name: string, projectId = PROJECT): BreakdownItem {
+export function item(
+  id: string,
+  parentId: string | null,
+  name: string,
+  projectId = PROJECT
+): BreakdownItem {
   return {
     id: id as BreakdownItemId,
     projectId,

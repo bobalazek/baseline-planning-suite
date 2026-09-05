@@ -23,12 +23,12 @@ single `PlatformHost` and renders `src/app.tsx`.
 
 Remotes. Each exposes exactly two modules and has a third entry for running alone:
 
-| File | Role |
-| --- | --- |
-| `src/bootstrap.ts` | `register(host)` — headless; publishes the contract. Exposed as `./bootstrap`. |
-| `src/App.tsx` | The UI. Exposed as `./App`; takes `{ host }` as a prop. |
-| `src/standalone.tsx` | Builds a host of its own and calls the same two. Not exposed. |
-| `src/index.ts` | The Module Federation async boundary. |
+| File                 | Role                                                                           |
+| -------------------- | ------------------------------------------------------------------------------ |
+| `src/bootstrap.ts`   | `register(host)` — headless; publishes the contract. Exposed as `./bootstrap`. |
+| `src/App.tsx`        | The UI. Exposed as `./App`; takes `{ host }` as a prop.                        |
+| `src/standalone.tsx` | Builds a host of its own and calls the same two. Not exposed.                  |
+| `src/index.ts`       | The Module Federation async boundary.                                          |
 
 Inside, `src/features/<feature>/` holds the client, the hydrated store, the contract implementation
 and the components for that feature. Pure helpers live in `src/utils/*.utils.ts`.

@@ -7,7 +7,13 @@ import {
 } from '@repo/shared-common';
 import { describe, expect, it } from 'vitest';
 
-import { buildRateTimeline, describeRateProblem, firstRateDate, rateOn, validateRateRecords } from '../index';
+import {
+  buildRateTimeline,
+  describeRateProblem,
+  firstRateDate,
+  rateOn,
+  validateRateRecords,
+} from '../index';
 
 const OKAFOR = 'emp-001' as EmployeeId;
 

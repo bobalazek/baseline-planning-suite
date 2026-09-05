@@ -1,7 +1,4 @@
-import {
-  DELIVERY_CONTRACT_VERSION,
-  type DeliveryContract,
-} from '@repo/delivery-contracts';
+import { DELIVERY_CONTRACT_VERSION, type DeliveryContract } from '@repo/delivery-contracts';
 import { oversubscribedEmployeeIds, utilisationAt, utilisationFor } from '@repo/delivery-domain';
 
 import type { DeliveryStore } from '../plan/delivery-store';

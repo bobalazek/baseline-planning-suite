@@ -15,13 +15,13 @@ interface PeopleContract {
 interface MonthQuote {
   workingDays: number;
   segments: readonly { workingDays: number; priced: boolean }[];
-  blendedRate: number;          // euro per hour, working-day weighted
-  unpricedWorkingDays: number;  // > 0 ⇒ mark the cell (R1)
+  blendedRate: number; // euro per hour, working-day weighted
+  unpricedWorkingDays: number; // > 0 ⇒ mark the cell (R1)
 }
 ```
 
-**What does not cross.** `RateRecord`, `hourlyCost`, `validFrom`. A quote's segments carry *how many
-working days* and *whether they were priced at all* — never at what. Delivery can render "this month
+**What does not cross.** `RateRecord`, `hourlyCost`, `validFrom`. A quote's segments carry _how many
+working days_ and _whether they were priced at all_ — never at what. Delivery can render "this month
 is split across two rate periods" and mark unpriced cells without ever learning what anybody earns.
 `boundaries.test.ts` greps Delivery's source for those three identifiers and fails if any appears.
 
@@ -36,8 +36,8 @@ interface DeliveryContract {
 
 interface MonthUtilisation {
   month: MonthKey;
-  personMonths: number;    // summed across EVERY project
-  overCapacityBy: number;  // person-months beyond capacity; never negative
+  personMonths: number; // summed across EVERY project
+  overCapacityBy: number; // person-months beyond capacity; never negative
   projectCount: number;
 }
 ```
@@ -50,11 +50,11 @@ how loaded somebody is, not what they are loaded with.
 Both channels carry **ids, never values**. A consumer re-reads through the contract, so the two apps
 can never hold divergent copies of each other's state.
 
-| Channel | Payload | Consumed by |
-| --- | --- | --- |
-| `people/rates-changed` | `{ employeeIds }` | Delivery — drops its memoised quotes and recosts (F7) |
-| `people/employees-changed` | `{ employeeIds }` | Delivery — names and contracted hours |
-| `delivery/allocations-changed` | `{ employeeIds, months }` | People — re-reads utilisation (F8) |
+| Channel                        | Payload                   | Consumed by                                           |
+| ------------------------------ | ------------------------- | ----------------------------------------------------- |
+| `people/rates-changed`         | `{ employeeIds }`         | Delivery — drops its memoised quotes and recosts (F7) |
+| `people/employees-changed`     | `{ employeeIds }`         | Delivery — names and contracted hours                 |
+| `delivery/allocations-changed` | `{ employeeIds, months }` | People — re-reads utilisation (F8)                    |
 
 ## Absence is a normal state
 
@@ -62,10 +62,10 @@ can never hold divergent copies of each other's state.
 type. A remote can fail to load, and one runs standalone with no counterpart at all. The type forces
 every consumer to say what it renders instead:
 
-| Missing | What happens |
-| --- | --- |
-| People | Delivery's grid keeps person-months and % of capacity; Hours and € are disabled and say why; names fall back to ids |
-| Delivery | People's register and rate editor are untouched; the utilisation panel reports it is unavailable |
+| Missing  | What happens                                                                                                        |
+| -------- | ------------------------------------------------------------------------------------------------------------------- |
+| People   | Delivery's grid keeps person-months and % of capacity; Hours and € are disabled and say why; names fall back to ids |
+| Delivery | People's register and rate editor are untouched; the utilisation panel reports it is unavailable                    |
 
 ## Versioning
 

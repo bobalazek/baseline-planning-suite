@@ -1,7 +1,12 @@
 import { toMonthKey, type Employee, type EmployeeId } from '@repo/shared-common';
 import { describe, expect, it } from 'vitest';
 
-import { hoursPerWorkingDay, personMonthHours, searchEmployees, sortEmployeesByName } from '../index';
+import {
+  hoursPerWorkingDay,
+  personMonthHours,
+  searchEmployees,
+  sortEmployeesByName,
+} from '../index';
 
 describe('personMonthHours (R2)', () => {
   it('is 176.00 h for 40 h/week in March 2026 — the reference figure', () => {

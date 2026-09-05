@@ -1,5 +1,10 @@
 import type { MonthQuote, QuoteSegment } from '@repo/people-contracts';
-import { splitMonthAt, workingDaysInMonth, type EmployeeId, type MonthKey } from '@repo/shared-common';
+import {
+  splitMonthAt,
+  workingDaysInMonth,
+  type EmployeeId,
+  type MonthKey,
+} from '@repo/shared-common';
 
 import { type RateTimeline } from './rate-timeline';
 
@@ -27,7 +32,14 @@ export function quoteMonth(
   const workingDays = workingDaysInMonth(month);
 
   if (workingDays === 0) {
-    return { employeeId, month, workingDays: 0, segments: [], blendedRate: 0, unpricedWorkingDays: 0 };
+    return {
+      employeeId,
+      month,
+      workingDays: 0,
+      segments: [],
+      blendedRate: 0,
+      unpricedWorkingDays: 0,
+    };
   }
 
   // For each record, how many of the month's working days fall strictly before it starts. Records

@@ -84,7 +84,9 @@ describe('Capacity is cross-project (R5)', () => {
   });
 
   it('flags the overrun in the Delivery grid, in the project the planner has open', () => {
-    const project = suite.seed.projects.find((candidate) => candidate.id === ('prj-1' as ProjectId));
+    const project = suite.seed.projects.find(
+      (candidate) => candidate.id === ('prj-1' as ProjectId)
+    );
 
     const grid = buildGrid({
       tree: buildBreakdownTree(suite.seed.breakdownItems, project!.id),

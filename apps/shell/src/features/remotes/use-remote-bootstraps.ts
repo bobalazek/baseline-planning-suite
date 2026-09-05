@@ -81,9 +81,7 @@ export function useRemoteBootstraps(
 
   const states = record.attempt === attempt ? record.states : {};
 
-  return Object.fromEntries(
-    remotes.map((remote) => [remote.key, states[remote.key] ?? LOADING])
-  );
+  return Object.fromEntries(remotes.map((remote) => [remote.key, states[remote.key] ?? LOADING]));
 }
 
 function merge(

@@ -52,10 +52,7 @@ export interface DeliveryStore {
   subscribe(listener: (change: PlanChange) => void): Unsubscribe;
   upsertAllocation(input: UpsertAllocationInput): Promise<void>;
   createBreakdownItem(input: CreateBreakdownItemInput): Promise<BreakdownItem>;
-  updateBreakdownItem(
-    itemId: BreakdownItemId,
-    input: UpdateBreakdownItemInput
-  ): Promise<void>;
+  updateBreakdownItem(itemId: BreakdownItemId, input: UpdateBreakdownItemInput): Promise<void>;
   deleteBreakdownItem(itemId: BreakdownItemId): Promise<void>;
 }
 

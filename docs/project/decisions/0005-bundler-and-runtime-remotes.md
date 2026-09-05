@@ -7,11 +7,11 @@
 
 **Rspack 2** with `ModuleFederationPlugin` from `@module-federation/enhanced/rspack`.
 
-* Shell builds with **no remotes in its configuration**. At boot it fetches `/config.json`, then
+- Shell builds with **no remotes in its configuration**. At boot it fetches `/config.json`, then
   calls `registerRemotes()` from `@module-federation/enhanced/runtime` and `loadRemote()`.
-* `config.json` is written by the shell container's entrypoint from environment variables. Changing
+- `config.json` is written by the shell container's entrypoint from environment variables. Changing
   where People is served requires an env var and a restart, never a rebuild.
-* Every app sets `publicPath: 'auto'` so a remote's chunks resolve relative to wherever its
+- Every app sets `publicPath: 'auto'` so a remote's chunks resolve relative to wherever its
   `remoteEntry` was fetched from.
 
 ## Why Rspack
@@ -28,18 +28,18 @@ Rspack-specific.
 Putting `remotes: { people: 'people@http://…/remoteEntry.js' }` in the shell's config bakes a
 deployment topology into a bundle. `registerRemotes` takes the same descriptor as data, so:
 
-* the identical shell image runs in compose, staging and production;
-* the fault-injection switch (F9) works by pointing an entry at a URL that 404s — a real load
+- the identical shell image runs in compose, staging and production;
+- the fault-injection switch (F9) works by pointing an entry at a URL that 404s — a real load
   failure, not a mocked one.
 
 ## Standalone and hosted from one build
 
 Each remote's Rspack config declares two entry points into the same compiled code:
 
-| Entry | Output | Used by |
-| --- | --- | --- |
-| `remoteEntry` (via `exposes`) | `./bootstrap`, `./App` | the shell |
-| `standalone` | `standalone.js` + `index.html` | direct browsing of the remote's own origin |
+| Entry                         | Output                         | Used by                                    |
+| ----------------------------- | ------------------------------ | ------------------------------------------ |
+| `remoteEntry` (via `exposes`) | `./bootstrap`, `./App`         | the shell                                  |
+| `standalone`                  | `standalone.js` + `index.html` | direct browsing of the remote's own origin |
 
 The standalone entry constructs a `PlatformHost` (ADR-0004), calls the same `register`, and mounts
 the same `App`. There is no `if (standalone)` anywhere in application code — hosting is a
@@ -54,12 +54,12 @@ hooks throw.
 
 Everything else — including `@repo/platform` and both contract packages — is compiled into each
 build. That is deliberate, not an oversight. Sharing is only worth its risk for modules that must be
-*the same instance*, and by construction none of these are: the contracts are types plus frozen key
+_the same instance_, and by construction none of these are: the contracts are types plus frozen key
 constants, and the one stateful object on the page is the `PlatformHost`, which is constructed once
 and passed in (ADR-0004). A duplicated copy of any of them is inert.
 
 ## Consequences
 
-* The shell shows a per-panel failure state when `loadRemote` rejects, and keeps its own chrome.
-* `mf-manifest.json` is emitted by each remote and is what the shell registers, so the shell learns
+- The shell shows a per-panel failure state when `loadRemote` rejects, and keeps its own chrome.
+- `mf-manifest.json` is emitted by each remote and is what the shell registers, so the shell learns
   a remote's shared-dependency requirements at runtime instead of assuming them.

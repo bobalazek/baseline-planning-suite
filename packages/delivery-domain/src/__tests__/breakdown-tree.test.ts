@@ -106,7 +106,9 @@ describe('validateMove (F5)', () => {
 
   it('answers descendant questions used by drag targets', () => {
     expect(isDescendantOf(TREE, 'wbs-3' as BreakdownItemId, 'wbs-1' as BreakdownItemId)).toBe(true);
-    expect(isDescendantOf(TREE, 'wbs-5' as BreakdownItemId, 'wbs-1' as BreakdownItemId)).toBe(false);
+    expect(isDescendantOf(TREE, 'wbs-5' as BreakdownItemId, 'wbs-1' as BreakdownItemId)).toBe(
+      false
+    );
   });
 });
 
@@ -118,7 +120,11 @@ describe('reparentAllocations (R4)', () => {
   ];
 
   it('moves a leaf"s own allocations onto the newly inserted child — never silent loss', () => {
-    const moved = reparentAllocations(allocations, 'wbs-3' as BreakdownItemId, 'wbs-new' as BreakdownItemId);
+    const moved = reparentAllocations(
+      allocations,
+      'wbs-3' as BreakdownItemId,
+      'wbs-new' as BreakdownItemId
+    );
 
     expect(moved).toHaveLength(2);
     expect(moved.every((entry) => entry.breakdownItemId === 'wbs-new')).toBe(true);
@@ -126,13 +132,19 @@ describe('reparentAllocations (R4)', () => {
   });
 
   it('leaves other work packages alone', () => {
-    const moved = reparentAllocations(allocations, 'wbs-3' as BreakdownItemId, 'wbs-new' as BreakdownItemId);
+    const moved = reparentAllocations(
+      allocations,
+      'wbs-3' as BreakdownItemId,
+      'wbs-new' as BreakdownItemId
+    );
 
     expect(moved.map((entry) => entry.employeeId)).not.toContain('wbs-4');
     expect(allocations[2]?.breakdownItemId).toBe('wbs-4');
   });
 
   it('is a no-op for a leaf with nothing on it', () => {
-    expect(reparentAllocations(allocations, 'wbs-5' as BreakdownItemId, 'wbs-new' as BreakdownItemId)).toEqual([]);
+    expect(
+      reparentAllocations(allocations, 'wbs-5' as BreakdownItemId, 'wbs-new' as BreakdownItemId)
+    ).toEqual([]);
   });
 });

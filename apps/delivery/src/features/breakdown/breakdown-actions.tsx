@@ -51,7 +51,9 @@ export function BreakdownActions({
         value={item.parentId ?? ''}
         disabled={busy}
         title="Move under another work package"
-        onChange={(event) => onMove(item.id, (event.target.value || null) as BreakdownItemId | null)}
+        onChange={(event) =>
+          onMove(item.id, (event.target.value || null) as BreakdownItemId | null)
+        }
       >
         <option value="">— top level —</option>
         {moveTargets.map((target) => (

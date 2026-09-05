@@ -4,17 +4,17 @@
 
 ## Context
 
-Edits must survive a reload. The brief leaves *how each service gets its data and where it lives*,
-and *which store*, to us. The organising idea of the exercise is that People and Delivery are owned
+Edits must survive a reload. The brief leaves _how each service gets its data and where it lives_,
+and _which store_, to us. The organising idea of the exercise is that People and Delivery are owned
 by different teams shipping on different schedules.
 
 ## Decision
 
 Two independent HTTP services, one per domain, each with its own store:
 
-| Service | Owns | Store |
-| --- | --- | --- |
-| `people-api` | `Employee`, `RateRecord` | `/data/people.json` on its own volume |
+| Service        | Owns                                     | Store                                   |
+| -------------- | ---------------------------------------- | --------------------------------------- |
+| `people-api`   | `Employee`, `RateRecord`                 | `/data/people.json` on its own volume   |
 | `delivery-api` | `Project`, `BreakdownItem`, `Allocation` | `/data/delivery.json` on its own volume |
 
 Each service seeds itself from `fixtures/baseline-seed.json` on first boot, taking only the slice it
@@ -24,7 +24,7 @@ one adapter, and the port needs only a `parse` function, so `zod` does not leak 
 **The services own transactions, not rules.** Every rule of §3.3 lives in framework-free TypeScript
 in `packages/*-domain`, where the brief says it will be read ("calculation logic that runs without
 mounting React"). Where an operation has to be atomic — R4's allocation reparenting when a child is
-inserted beneath a leaf, and deleting a subtree — the service calls the *same* pure function the
+inserted beneath a leaf, and deleting a subtree — the service calls the _same_ pure function the
 frontend would (`reparentAllocations`, `validateMove`) inside one store update. That is the
 distinction worth holding: the service owns the write boundary, not a second copy of the rule.
 
@@ -45,16 +45,16 @@ distinction worth holding: the service owns the write boundary, not a second cop
 
 ## Consequences
 
-* Six containers: `gateway`, `shell`, `people`, `delivery`, `people-api`, `delivery-api`. The three
+- Six containers: `gateway`, `shell`, `people`, `delivery`, `people-api`, `delivery-api`. The three
   frontends are separate nginx containers precisely because they are separately deployable.
-* Writes are last-write-wins. There is no optimistic concurrency; with a single planner per stack it
+- Writes are last-write-wins. There is no optimistic concurrency; with a single planner per stack it
   buys nothing and would clutter the contract. Called out here rather than discovered later.
-* The frontends hold a hydrated in-memory projection of their own service and serve the published
+- The frontends hold a hydrated in-memory projection of their own service and serve the published
   contracts synchronously from it. Rendering 720 grid cells cannot afford a promise per cell.
 
 ## Alternatives rejected
 
-* **Browser-only (IndexedDB per remote).** Fewer moving parts; "where the data lives" answers as
+- **Browser-only (IndexedDB per remote).** Fewer moving parts; "where the data lives" answers as
   "this browser". Rejected on (2).
-* **One shared API.** Simplest infrastructure, and the one thing the exercise is testing that it
+- **One shared API.** Simplest infrastructure, and the one thing the exercise is testing that it
   would quietly destroy.

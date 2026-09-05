@@ -15,7 +15,8 @@ export function searchEmployees(
   }
 
   return employees.filter(
-    (employee) => normalise(employee.name).includes(needle) || normalise(employee.role).includes(needle)
+    (employee) =>
+      normalise(employee.name).includes(needle) || normalise(employee.role).includes(needle)
   );
 }
 

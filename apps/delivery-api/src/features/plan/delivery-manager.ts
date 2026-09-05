@@ -11,12 +11,7 @@ import {
   validateMove,
 } from '@repo/delivery-domain';
 import { ApiError, type DocumentStore } from '@repo/shared-backend';
-import type {
-  Allocation,
-  AllocationId,
-  BreakdownItem,
-  BreakdownItemId,
-} from '@repo/shared-common';
+import type { Allocation, AllocationId, BreakdownItem, BreakdownItemId } from '@repo/shared-common';
 
 /**
  * Everything the service can do to the plan.
@@ -32,7 +27,10 @@ export interface DeliveryManager {
   /** Returns `null` when the edit cleared the cell. */
   upsertAllocation(input: UpsertAllocationInput): Promise<Allocation | null>;
   createBreakdownItem(input: CreateBreakdownItemInput): Promise<BreakdownItem>;
-  updateBreakdownItem(itemId: BreakdownItemId, input: UpdateBreakdownItemInput): Promise<BreakdownItem>;
+  updateBreakdownItem(
+    itemId: BreakdownItemId,
+    input: UpdateBreakdownItemInput
+  ): Promise<BreakdownItem>;
   deleteBreakdownItem(itemId: BreakdownItemId): Promise<void>;
 }
 
@@ -86,9 +84,7 @@ export function createDeliveryManager(store: DocumentStore<DeliverySnapshot>): D
         if (existing) {
           await store.update((snapshot) => ({
             ...snapshot,
-            allocations: snapshot.allocations.filter(
-              (allocation) => allocation.id !== existing.id
-            ),
+            allocations: snapshot.allocations.filter((allocation) => allocation.id !== existing.id),
           }));
         }
 
@@ -151,9 +147,7 @@ export function createDeliveryManager(store: DocumentStore<DeliverySnapshot>): D
         ...snapshot,
         breakdownItems: [...snapshot.breakdownItems, created],
         allocations: snapshot.allocations.map((allocation) =>
-          movedIds.has(allocation.id)
-            ? { ...allocation, breakdownItemId: created.id }
-            : allocation
+          movedIds.has(allocation.id) ? { ...allocation, breakdownItemId: created.id } : allocation
         ),
       }));
 

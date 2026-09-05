@@ -53,7 +53,10 @@ describe('buildUtilisationIndex (R5)', () => {
   it('needs nothing from People — capacity is 1 person-month by definition', () => {
     const index = buildUtilisationIndex([allocation('wbs-1', 'emp-003', '2026-04', 1.5)], ITEMS);
 
-    expect(utilisationAt(index, 'emp-003' as EmployeeId, APRIL)?.overCapacityBy).toBeCloseTo(0.5, 10);
+    expect(utilisationAt(index, 'emp-003' as EmployeeId, APRIL)?.overCapacityBy).toBeCloseTo(
+      0.5,
+      10
+    );
   });
 
   it('reports months in ascending order and stays sparse', () => {
@@ -65,7 +68,10 @@ describe('buildUtilisationIndex (R5)', () => {
       ITEMS
     );
 
-    expect(utilisationFor(index, OKAFOR).map((entry) => entry.month)).toEqual(['2026-04', '2026-06']);
+    expect(utilisationFor(index, OKAFOR).map((entry) => entry.month)).toEqual([
+      '2026-04',
+      '2026-06',
+    ]);
   });
 
   it('returns nothing for somebody with no load at all', () => {
@@ -91,7 +97,9 @@ describe('culpritFor (R5: "the most recently edited allocation")', () => {
     const older = allocation('wbs-1', 'emp-001', '2026-04', 0.6, '2026-02-01T09:00:00.000Z');
     const newer = allocation('wbs-9', 'emp-001', '2026-04', 0.6, '2026-02-01T10:00:00.000Z');
 
-    expect(culpritFor(buildUtilisationIndex([newer, older], ITEMS), OKAFOR, APRIL)?.id).toBe(newer.id);
+    expect(culpritFor(buildUtilisationIndex([newer, older], ITEMS), OKAFOR, APRIL)?.id).toBe(
+      newer.id
+    );
   });
 
   it('breaks a same-timestamp tie deterministically', () => {
@@ -99,7 +107,9 @@ describe('culpritFor (R5: "the most recently edited allocation")', () => {
     const second = allocation('wbs-9', 'emp-001', '2026-04', 0.6, '2026-02-01T09:00:00.000Z');
     const expected = first.id > second.id ? first.id : second.id;
 
-    expect(culpritFor(buildUtilisationIndex([first, second], ITEMS), OKAFOR, APRIL)?.id).toBe(expected);
+    expect(culpritFor(buildUtilisationIndex([first, second], ITEMS), OKAFOR, APRIL)?.id).toBe(
+      expected
+    );
   });
 
   it('is undefined for a cell nobody has touched', () => {

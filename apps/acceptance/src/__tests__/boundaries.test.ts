@@ -13,13 +13,7 @@ const REPO_ROOT = fileURLToPath(new URL('../../../..', import.meta.url)).replace
 const SOURCE_ROOTS = ['apps', 'packages'];
 // `@mf-types` is emitted by the Module Federation DTS plugin from the remotes' exposes. It is a
 // build artefact, not authored source, and it is generated with `any` in its fallback branches.
-const IGNORED_DIRECTORIES = new Set([
-  'node_modules',
-  'dist',
-  '.turbo',
-  'coverage',
-  '@mf-types',
-]);
+const IGNORED_DIRECTORIES = new Set(['node_modules', 'dist', '.turbo', 'coverage', '@mf-types']);
 
 interface SourceFile {
   readonly path: string;
@@ -189,7 +183,9 @@ describe('ADR-0002 — rate records never leave People', () => {
   });
 
   it('does the pricing arithmetic in People, not Delivery', () => {
-    const peopleDomain = matching((file) => file.relativePath.startsWith('/packages/people-domain/'));
+    const peopleDomain = matching((file) =>
+      file.relativePath.startsWith('/packages/people-domain/')
+    );
 
     expect(reportWithStrings(peopleDomain, /blendedRate/).length).toBeGreaterThan(0);
   });
@@ -212,7 +208,9 @@ describe('ADR-0004 — the two teams meet only at a published contract', () => {
   });
 
   it('never lets People import Delivery"s domain or app internals', () => {
-    expect(reportWithStrings(peopleSide, /@repo\/delivery-domain|@repo\/delivery['"/]/)).toEqual([]);
+    expect(reportWithStrings(peopleSide, /@repo\/delivery-domain|@repo\/delivery['"/]/)).toEqual(
+      []
+    );
   });
 
   it('does let each side import the other"s published contract', () => {

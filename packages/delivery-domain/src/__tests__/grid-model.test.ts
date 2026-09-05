@@ -38,7 +38,12 @@ const ALLOCATIONS = [
 
 /** Deliberately different per person and per month, as the real contract is. */
 const PRICING: Record<string, CellPricing> = {
-  'emp-001': { personMonthHours: 176, blendedRate: 89.5455, unpriced: false, splitAcrossRates: true },
+  'emp-001': {
+    personMonthHours: 176,
+    blendedRate: 89.5455,
+    unpriced: false,
+    splitAcrossRates: true,
+  },
   'emp-002': { personMonthHours: 140.8, blendedRate: 70, unpriced: false, splitAcrossRates: false },
   'emp-003': { personMonthHours: 88, blendedRate: 55.5, unpriced: true, splitAcrossRates: false },
 };
@@ -156,7 +161,9 @@ describe('buildGrid — totals add up (R3)', () => {
         expect(roundTo(total as number, 6)).toBe(roundTo(fromRoots, 6));
       });
 
-      expect(roundTo(grid.grandTotal as number, 6)).toBe(roundTo(sum(grid.monthTotals as number[]), 6));
+      expect(roundTo(grid.grandTotal as number, 6)).toBe(
+        roundTo(sum(grid.monthTotals as number[]), 6)
+      );
     }
   });
 
@@ -190,9 +197,9 @@ describe('buildGrid — totals add up (R3)', () => {
   it('never drifts from the exact value by more than the floating-point tolerance', () => {
     for (const unit of units) {
       for (const entry of gridFor(unit).rows) {
-        expect(Math.abs((entry.total as number) - (entry.totalExact as number))).toBeLessThanOrEqual(
-          RECONCILIATION_TOLERANCE
-        );
+        expect(
+          Math.abs((entry.total as number) - (entry.totalExact as number))
+        ).toBeLessThanOrEqual(RECONCILIATION_TOLERANCE);
       }
     }
   });

@@ -1,5 +1,10 @@
 import { loadRemote, registerRemotes } from '@module-federation/enhanced/runtime';
-import type { PlatformHost, RemoteAppProps, RemoteBootstrap, RemoteRegistration } from '@repo/platform';
+import type {
+  PlatformHost,
+  RemoteAppProps,
+  RemoteBootstrap,
+  RemoteRegistration,
+} from '@repo/platform';
 import type { ComponentType } from 'react';
 
 import type { RemoteDescriptor } from '../config/runtime-config';

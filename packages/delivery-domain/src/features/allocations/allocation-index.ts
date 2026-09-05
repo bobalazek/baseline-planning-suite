@@ -21,7 +21,10 @@ export function buildAllocationIndex(allocations: readonly Allocation[]): Alloca
   const employeesByItem = new Map<BreakdownItemId, Set<EmployeeId>>();
 
   for (const allocation of allocations) {
-    byCell.set(cellKey(allocation.breakdownItemId, allocation.employeeId, allocation.month), allocation);
+    byCell.set(
+      cellKey(allocation.breakdownItemId, allocation.employeeId, allocation.month),
+      allocation
+    );
 
     const onItem = byItem.get(allocation.breakdownItemId) ?? [];
 

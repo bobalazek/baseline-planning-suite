@@ -23,7 +23,20 @@ export function formatNumber(value: number, decimals: number): string {
 
 export function formatMonth(month: string): string {
   const [year, monthNumber] = month.split('-');
-  const names = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const names = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
 
   return `${names[Number(monthNumber) - 1] ?? month} ${year?.slice(2) ?? ''}`;
 }
