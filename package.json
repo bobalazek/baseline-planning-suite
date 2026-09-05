@@ -5,7 +5,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "build": "turbo build",
-    "clean": "rm -rf node_modules apps/*/node_modules packages/*/node_modules apps/*/dist packages/*/dist .turbo apps/*/.turbo packages/*/.turbo coverage apps/*/coverage packages/*/coverage",
+    "clean": "rm -rf node_modules apps/*/node_modules packages/*/node_modules apps/*/dist packages/*/dist apps/*/@mf-types .turbo apps/*/.turbo packages/*/.turbo coverage apps/*/coverage packages/*/coverage $(find . -name '*.tsbuildinfo' -not -path './node_modules/*')",
     "dev": "turbo dev",
     "docker:build": "docker compose build",
     "docker:down": "docker compose down",
