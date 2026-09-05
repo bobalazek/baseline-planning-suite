@@ -8,8 +8,10 @@ pnpm dev            # shell 5001, People 5002, Delivery 5003, services 3001/3002
 ```
 
 The dev servers proxy `/api/people` and `/api/delivery` to the local services, so the frontends use
-the same relative paths they use behind the gateway in Docker. There is no environment file and no
-CORS anywhere.
+the same relative paths they use behind the gateway in Docker, and there is no environment file to
+fill in. The dev servers do send `Access-Control-Allow-Origin: *`, because in development the shell
+(5001) loads the remotes from their own ports; behind the gateway everything is one origin and no
+CORS is involved.
 
 Prefer the container stack when you want the real topology:
 

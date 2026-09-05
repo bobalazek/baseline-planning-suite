@@ -25,7 +25,10 @@ Entry point for anyone — human or agent — changing this repository.
 6. One `src/index.ts` per package; one exported React component per file.
 7. **Never re-export another package's types or values.**
 8. Remote URLs are never written into a bundle. They arrive from `/config.json` at runtime.
-9. `process.env` is read only in `packages/shared-backend/src/env.ts` and each service's `src/env.ts`.
+9. **`process.env` is read in exactly one place at runtime:**
+   `packages/shared-backend/src/features/env/env.ts`. Each service declares its configuration as a
+   schema in its own `src/env.ts` and hands it to `loadEnv`; neither reads the environment itself.
+   The single exception is `packages/rspack-config`, which reads `NODE_ENV` at build time.
 
 ## Before finishing a change
 

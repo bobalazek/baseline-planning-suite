@@ -12,7 +12,7 @@ import type { RateRecord, RateRecordId } from '@repo/shared-common';
  *
  * The base path is relative: the browser always talks to one origin, and the gateway routes
  * `/api/people` to this team's service. That holds whether the app is hosted inside the shell or
- * browsed standalone, so there is no origin to configure and no CORS to arrange.
+ * browsed standalone, so there is no API origin to configure anywhere.
  *
  * Responses are parsed, not cast. This projection is what Delivery prices a plan from; a malformed
  * rate record has to fail here rather than become a wrong number in a cost cell.
