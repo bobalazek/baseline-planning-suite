@@ -1,10 +1,10 @@
 node_modules/
 dist/
+.turbo/
+coverage/
 *.tsbuildinfo
 .DS_Store
-data/
-*.local
-coverage/
 
-# The task brief itself is not part of the deliverable.
-innoscripta_task.pdf
+# Local API stores. Seeded from fixtures/ on first boot; never committed.
+infrastructure/docker/data/
+*.local

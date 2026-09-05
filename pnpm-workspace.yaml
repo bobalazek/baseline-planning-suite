@@ -1,4 +1,24 @@
 packages:
-  - 'packages/*'
-  - 'apps/*'
-  - 'services/*'
+  - apps/*
+  - packages/*
+
+catalog:
+  '@module-federation/enhanced': 2.9.0
+  '@rspack/cli': 2.2.2
+  '@rspack/core': 2.2.2
+  '@types/node': 22.19.7
+  '@types/react': ^19.2.17
+  '@types/react-dom': ^19.2.3
+  '@vitest/coverage-v8': 4.1.10
+  eslint: ^9.39.5
+  fastify: 5.8.5
+  html-rspack-plugin: 6.5.0
+  pino: 10.3.1
+  pino-pretty: 13.1.3
+  react: 19.2.7
+  react-dom: 19.2.7
+  tsup: 8.5.1
+  tsx: 4.19.4
+  typescript: 5.9.3
+  vitest: 4.1.10
+  zod: 4.4.3

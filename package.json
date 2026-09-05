@@ -1,28 +1,37 @@
 {
   "name": "baseline-planning-suite",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@10.12.1",
-  "engines": {
-    "node": ">=22"
-  },
+  "license": "UNLICENSED",
   "scripts": {
-    "build:packages": "pnpm --filter './packages/*' build",
-    "build:services": "pnpm --filter './services/*' build",
-    "build:apps": "pnpm --filter './apps/*' build",
-    "build": "pnpm build:packages && pnpm build:services && pnpm build:apps",
-    "typecheck": "pnpm -r typecheck",
-    "test": "pnpm build:packages && pnpm -r test",
-    "lint": "eslint .",
-    "format": "prettier --write .",
-    "dev": "pnpm --parallel --filter './apps/*' dev"
+    "build": "turbo build",
+    "clean": "rm -rf node_modules apps/*/node_modules packages/*/node_modules apps/*/dist packages/*/dist .turbo apps/*/.turbo packages/*/.turbo coverage apps/*/coverage packages/*/coverage",
+    "dev": "turbo dev",
+    "docker:build": "docker compose build",
+    "docker:down": "docker compose down",
+    "docker:logs": "docker compose logs -f",
+    "docker:reset": "docker compose down -v",
+    "docker:up": "docker compose up",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,yml,yaml,css,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mjs,cjs,json,yml,yaml,css,md}\"",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "test:coverage": "turbo test:coverage",
+    "typecheck": "turbo typecheck",
+    "verify": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm test"
   },
   "devDependencies": {
-    "@eslint/js": "9.40.0",
-    "eslint": "9.40.0",
-    "prettier": "3.7.4",
-    "typescript": "7.0.2",
-    "typescript-eslint": "9.0.1",
-    "vitest": "5.0.0"
+    "@repo/eslint-config": "workspace:*",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "^3.9.5",
+    "prettier-plugin-packagejson": "^3.0.2",
+    "turbo": "^2.10.5",
+    "typescript": "catalog:"
+  },
+  "packageManager": "pnpm@10.12.1",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=10.0.0"
   }
 }
