@@ -5,7 +5,9 @@
 #   target: frontend  →  nginx serving one app's dist   (shell, people, delivery)
 #   target: service   →  node running one API           (people-api, delivery-api)
 
-FROM node:22-alpine AS base
+# Debian slim rather than Alpine: the workspace has no native dependencies to gain from musl, and
+# glibc avoids the class of surprise that only shows up in a container.
+FROM node:22-slim AS base
 ENV PNPM_HOME=/pnpm
 ENV PATH="$PNPM_HOME:$PATH"
 RUN corepack enable
@@ -24,7 +26,7 @@ RUN pnpm --filter "@repo/${APP}" build
 # Static frontend. The image contains only the compiled app; the remote URLs it
 # talks to are not in it (see the shell's entrypoint below).
 # ---------------------------------------------------------------------------
-FROM nginx:1.27-alpine AS frontend
+FROM nginx:alpine AS frontend
 ARG APP
 COPY --from=build /repo/apps/${APP}/dist /usr/share/nginx/html
 COPY infrastructure/docker/nginx/app.conf /etc/nginx/conf.d/default.conf
